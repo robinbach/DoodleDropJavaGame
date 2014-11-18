@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import doodledrop.db.Top10Scores.PlayerScore;
-
 public class ScoreBoard
 {
   //JDBC driver name and database URL
@@ -100,32 +98,6 @@ public class ScoreBoard
       }catch(SQLException se){
          se.printStackTrace();
       }
-    }
-  }
-  
-  public static void main(String[] args) {
-    
-    for (Integer i = 0; i < 5; i++){
-      try {
-        createPlayer("player"+i);
-      } catch( UserExistException e ) {
-        System.out.println(e.getMessage());
-      }
-    }
-    
-    Player testPlayer = getPlayerInfo("player0");
-    System.out.println(testPlayer.toString());
-    setWin(testPlayer);
-    setLose(testPlayer);
-    Player testPlayer2 = getPlayerInfo("player0");
-    System.out.println(testPlayer2);
-    for (int i = 10; i < 50; i+= 5){
-      storeScore(testPlayer, i);
-    }
-    System.out.println("get top 10: ");
-    Top10Scores top10 = getTop10();
-    for (PlayerScore player : top10.list){
-      System.out.println(player.toString());
     }
   }
 }

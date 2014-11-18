@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Top10Scores extends QueryResult {
   public ArrayList<PlayerScore> list = new ArrayList<>();
+  
   public void getResult(ResultSet rs) throws SQLException{
     while(rs.next()){
       list.add(new PlayerScore(rs.getString("name"), rs.getInt("score")));
