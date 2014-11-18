@@ -33,6 +33,37 @@ public class ServerSock
     }
   }
   
+  
+  public boolean sendByte(byte outByte)
+  {
+    boolean isSuccess = false;
+    try
+    {
+      outData.writeByte(outByte);
+      isSuccess = true;
+    }
+    catch(IOException exception)
+    {
+      System.out.println("Can not send Byte");
+    }
+    return isSuccess;
+  }
+  
+  
+  public byte recvByte()
+  {
+    byte recByte = 0; 
+    try
+    {
+      recByte= inData.readByte();
+    }
+    catch(IOException exception)
+    {
+      System.out.println("Server can't receive byte");
+    }
+    return recByte;
+  }
+  
   public String recvString()
   {
     Vector<Byte> byteVec = new Vector<Byte>();
@@ -59,6 +90,8 @@ public class ServerSock
     }
     return resultString;
   }
+  
+  
   
   public boolean sendString( String str)
   {
