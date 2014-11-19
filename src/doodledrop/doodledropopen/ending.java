@@ -24,9 +24,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
-
-
-
 public class ending extends JFrame {
 
 	private static JPanel imagepanel;
@@ -51,7 +48,7 @@ public class ending extends JFrame {
 		
 		try{
 		titleimagelabel = new JLabel(new 
-			ImageIcon(getClass().getClassLoader().getResource("image/images/ending.jpg")));
+			ImageIcon(getClass().getClassLoader().getResource("image/ending.jpg")));
 		}
 		catch (InvalidPathException e) 
 		  {
@@ -59,8 +56,8 @@ public class ending extends JFrame {
 			//e.printStackTrace();
 			System.out.println("Image path exception");
 		  }
-		  
-		imagepanel.add(titleimagelabel,BorderLayout.CENTER);
+
+    imagepanel.add(titleimagelabel,BorderLayout.CENTER);
 		tryagainbutton = new JButton("TRY AGAIN");
 		scoredatabutton = new JButton("SCORES");
 		settingbutton = new JButton("SETTING");
@@ -107,13 +104,13 @@ public class ending extends JFrame {
 			}
 			else if (event.getSource().equals(exitbutton))
 			{
-				int confirm = JOptionPane.showConfirmDialog(main.win,
+				int confirm = JOptionPane.showConfirmDialog(main.runEnding.gameEnding,
 					  "Are you sure you want to exit?",
                       "Confirmation",
                       JOptionPane.YES_NO_OPTION);
 				if (confirm == 0)
 				{
-					main.win.dispose();
+					main.runEnding.gameEnding.dispose();
 				}
 			}
 		}
@@ -143,7 +140,7 @@ public class ending extends JFrame {
 		
 		public SettingDialog(String title)
 		{
-			super(main.win,title,true);
+			super(main.runEnding.gameEnding,title,true);
 			
 			setLayout(new GridLayout(6,1));
 			
@@ -210,7 +207,7 @@ public class ending extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 				if (event.getSource().equals(okbutton)){
-					int confirm = JOptionPane.showConfirmDialog(main.win,
+					int confirm = JOptionPane.showConfirmDialog(main.runEnding.gameEnding,
 							  "Are you sure you want to save the settings?",
 		                      "Confirmation",
 		                      JOptionPane.YES_NO_OPTION);
@@ -234,7 +231,7 @@ public class ending extends JFrame {
 		
 		public ScoreDialog(String title)
 		{
-			super(main.win,title,true);
+			super(main.runEnding.gameEnding,title,true);
 			scoredata = new JTextArea(10,20);
 			scoredata.setEditable(false);
 			JScrollPane jspOutput = new JScrollPane(scoredata);

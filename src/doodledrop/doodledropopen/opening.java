@@ -24,12 +24,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
-
-
-
 public class opening extends JFrame {
 
-	private static JPanel imagepanel;
+  public RunGameEngine runGameEngine;
+  
+  private static JPanel imagepanel;
 	private static JPanel buttonpanel;
 	private static JPanel rightpart;
 	
@@ -51,7 +50,7 @@ public class opening extends JFrame {
 		
 		try{
 		titleimagelabel = new JLabel(new 
-			ImageIcon(getClass().getClassLoader().getResource("image/images/title.jpg")));
+			ImageIcon(getClass().getClassLoader().getResource("image/title.jpg")));
 		}
 		catch (InvalidPathException e) 
 		  {
@@ -84,6 +83,10 @@ public class opening extends JFrame {
 		
 	}
 	
+	public void setRunGameEngine(RunGameEngine _runGameEngine){
+	  this.runGameEngine = _runGameEngine;
+	}
+	
 	public class ButtonListener implements ActionListener{
 		public ButtonListener()
 		{
@@ -95,7 +98,8 @@ public class opening extends JFrame {
 			// TODO Auto-generated method stub
 			if (event.getSource().equals(startbutton))
 			{
-				
+			  runGameEngine.start();
+			  main.runOpening.win.dispose();
 			}
 			else if (event.getSource().equals(scoredatabutton))
 			{
@@ -107,13 +111,13 @@ public class opening extends JFrame {
 			}
 			else if (event.getSource().equals(exitbutton))
 			{
-				int confirm = JOptionPane.showConfirmDialog(main.win,
+				int confirm = JOptionPane.showConfirmDialog(main.runOpening.win,
 					  "Are you sure you want to exit?",
                       "Confirmation",
                       JOptionPane.YES_NO_OPTION);
 				if (confirm == 0)
 				{
-					main.win.dispose();
+				  main.runOpening.win.dispose();
 				}
 			}
 		}
@@ -143,7 +147,7 @@ public class opening extends JFrame {
 		
 		public SettingDialog(String title)
 		{
-			super(main.win,title,true);
+			super(main.runOpening.win,title,true);
 			
 			setLayout(new GridLayout(6,1));
 			
@@ -210,7 +214,7 @@ public class opening extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 				if (event.getSource().equals(okbutton)){
-					int confirm = JOptionPane.showConfirmDialog(main.win,
+					int confirm = JOptionPane.showConfirmDialog(main.runOpening.win,
 							  "Are you sure you want to save the settings?",
 		                      "Confirmation",
 		                      JOptionPane.YES_NO_OPTION);
@@ -234,7 +238,7 @@ public class opening extends JFrame {
 		
 		public ScoreDialog(String title)
 		{
-			super(main.win,title,true);
+			super(main.runOpening.win,title,true);
 			scoredata = new JTextArea(10,20);
 			scoredata.setEditable(false);
 			JScrollPane jspOutput = new JScrollPane(scoredata);
@@ -245,7 +249,4 @@ public class opening extends JFrame {
 		}
 		
 	}
-	
-	
-	
 }

@@ -3,8 +3,12 @@ package doodledrop;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
+
+import doodledrop.doodledropopen.RunEnding;
 
 public class GamingWindow extends JFrame
 {
@@ -16,10 +20,24 @@ public class GamingWindow extends JFrame
   public static final int stageLength = 100;
   public static final int stageWidth = 100;
 
-
+  public RunEnding runEnding;
   
   static JLabel position;
+  
+  public void setRunEnding(RunEnding _runEnding){
+    this.runEnding = _runEnding;
+  }
 
+  public class WindowOnDispose extends WindowAdapter{
+    public void windowClosed(WindowEvent e){
+      System.out.println("hey");
+      //open the ending window
+      runEnding = new RunEnding();
+      runEnding.start();
+      //runEnding.run();
+    }
+  }
+  
   public class KeyboardListener extends KeyAdapter
   {
     public void keyPressed(KeyEvent event)
@@ -75,11 +93,11 @@ public class GamingWindow extends JFrame
     position = new JLabel();
     add(position);
     setVisible(true);
-    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     
     addKeyListener(new KeyboardListener());
-    
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    addWindowListener(new WindowOnDispose());
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
   }
 }

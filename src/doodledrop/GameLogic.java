@@ -3,6 +3,8 @@ package doodledrop;
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
+import doodledrop.doodledropopen.RunEnding;
+
 
 public class GameLogic extends Thread
 {
@@ -16,6 +18,7 @@ public class GameLogic extends Thread
 
   public static final int MaximumBarNumber = 3;
   GamingWindow gamingMenu;
+  RunEnding runEnding;
 
   // --------------------------------------------------------------------------
   // constructor and the four master functions:
@@ -31,6 +34,10 @@ public class GameLogic extends Thread
     player1 = new GamePlayer();
     delay = 200;
   }
+  
+  public void setRunEnding(RunEnding _runEnding){
+    this.runEnding = _runEnding;
+  }
 
   public void gameInit()
   {
@@ -44,6 +51,7 @@ public class GameLogic extends Thread
     System.out.println("game running");
 
     gamingMenu = new GamingWindow();
+    gamingMenu.setRunEnding(this.runEnding);
 
     // gamingMenu.initGUI();
     // initBars();
