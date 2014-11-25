@@ -2,11 +2,10 @@ package doodledrop;
 
 public class MovingComponent
 {
-  public enum Directions {NONE ,UP, DOWN, LEFT, RIGHT}
   // The displacement of each update period
   XVec2 velocity;
 
-  // The point corresponding to the upper left conner.
+  // The point corresponding to the upper left corner.
   XVec2 location;
 
   // The collision rectangle start from the upper left corner.
@@ -16,15 +15,16 @@ public class MovingComponent
   {
     velocity = new XVec2();
     location = new XVec2();
-    collision = new XVec2(25, 25);
+    collision = new XVec2(0, 0);
 
   }
 
+  // constructor with location parameter
   public MovingComponent(int x_in, int y_in)
   {
     velocity = new XVec2();
     location = new XVec2(x_in, y_in);
-    collision = new XVec2(25, 25);
+    collision = new XVec2(0, 0);
 
   }
 
@@ -69,22 +69,43 @@ public class MovingComponent
   }
 
   // check collision of two component
-  public Directions checkCollision(MovingComponent another)
+  public Constants.Directions checkCollision(MovingComponent another)
   {
-    if( another.location.x - location.x < collision.x)
-      return Directions.RIGHT;
-    if (another.location.y - location.y < collision.y )
-      return Directions.DOWN;
+    // Y+ == vertically downward
+    // X+ == horizontally
     
-    if( location.x - another.location.x < another.collision.x)
-      return Directions.LEFT;
-    if( location.y - another.location.y  < another.collision.y )
-      return Directions.RIGHT;
+    // if they have the same x region
+    if( location.x > another.location.x - collision.x
+        && location.x < another.location.x + another.collision.x )
+    {
+      //check if their y region cross on other
+      if( another.location.y > location.y
+          && another.location.y - location.y < another.collision.y )
+        return Constants.Directions.DOWN;
+      if( another.location.y < location.y
+          && -another.location.y + location.y < collision.y )
+        return Constants.Directions.UP;
+    }
+    
+    // if they have the same y region
+    // Hint: y increasing from top to bottom.
+    if( location.y > another.location.y - collision.y
+        && location.y < another.location.y + another.collision.y )
+    {
+      //check if their x region cross on other
+      if( another.location.x > location.x
+          && another.location.x - location.x < collision.x )
+        return Constants.Directions.RIGHT;
+      else if( another.location.x < location.x
+          && -another.location.x + location.x < another.collision.x )
+        return Constants.Directions.LEFT;
+    }
+    
+    
+    // System.out.println("collision find as:" + toString());
+    // System.out.println("with another component" + another.toString());
 
-    System.out.println("collision find as:" + toString());
-    System.out.println("with another component" + another.toString());
-
-    return Directions.NONE;
+    return Constants.Directions.NONE;
 
   }
 

@@ -7,10 +7,8 @@ public class GameBar extends MovingComponent
   // XVec2 location;
   // XVec2 velocity;
   static int barIDCounter = 0;
-  final int barID;
-  final int riseSpeed = 3;
-  
-  
+  int barID;
+
 
   // define the type of this bar
   public enum barTypeEnum
@@ -22,31 +20,37 @@ public class GameBar extends MovingComponent
 
   public GameBar()
   {
-    super(0, GamingWindow.stageLength);
-    
-    Random rand = new Random(); 
-    int offset = 10;
-    location.x = offset + rand.nextInt(GamingWindow.stageWidth - offset);
+    super(0, Constants.STAGE_HEIGHT);
+    initBar();
+  }
 
-    velocity.y = riseSpeed;
+  private void initBar()
+  {
+    Random rand = new Random();
+    // int offset = 10;
+    location.x = rand.nextInt(Constants.STAGE_WIDTH - Constants.BAR_WIDTH);
+    location.y = Constants.STAGE_HEIGHT;
+
+    velocity.y = Constants.BAR_RISING_SPEED;
+
+    collision.set(Constants.BAR_WIDTH, Constants.BAR_HEIGHT);
 
     barType = barTypeEnum.NORMAL;
 
     barID = barIDCounter;
     ++barIDCounter;
-
   }
 
   public GameBar(barTypeEnum type_in)
   {
     super();
-
-    velocity.y = riseSpeed;
-
+    initBar();
     barType = type_in;
+  }
 
-    barID = barIDCounter;
-    ++barIDCounter;
+  public String toString()
+  {
+    return "bar: id = " + barID + super.toString();
   }
 
 

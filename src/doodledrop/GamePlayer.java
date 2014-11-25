@@ -1,55 +1,74 @@
 package doodledrop;
 
+import doodledrop.Constants.Directions;
+
 public class GamePlayer extends MovingComponent
 {
 
 
   boolean isAlive;
   int isBlocked;
+  // enum Directions declared in Constants
+  Directions motionStatus;
 
 
   public GamePlayer()
   {
     super();
     isAlive = true;
-    //isBlocked = false;
+    velocity.set(0, Constants.PLAYER_DROP_SPEED);
+    motionStatus = Directions.NONE;
+
+    collision.set(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT);
+
+
+    // isBlocked = false;
   }
 
-  // public void move()
-  // {
-  // if(velocity.x + velocity.y != 0)
-  // {
-  // System.out.println("Player moving to:" + location.toString());
-  // }
-  // set_location(location.x + velocity.x, location.y + velocity.y);
-  // // velocity.x = 0;
-  // // velocity.y = 0;
-  // //
-  //
-  // }
-  //
-  // public void set_velocity(int x, int y)
-  // {
-  // velocity.x = x;
-  // velocity.y = y;
-  // }
-  //
-  // public void set_location(int x, int y)
-  // {
-  // location.x = x;
-  // location.y = y;
-  // //GUI.changeIconPosition(location, "left");
-  // }
-  //
-  // public XVec2 get_location()
-  // {
-  // return location;
-  // }
+  public void move()
+  {
+    update_status();
 
-  // public String toString()
-  // {
-  // return "velocity = " + velocity.toString() + ", location = " +
-  // location.toString();
-  // }
+    if( velocity.x + velocity.y != 0 )
+    {
+      System.out.println("Player moving to:" + location.toString());
+    }
+
+    super.move();
+
+    // velocity.x = 0;
+    velocity.y = Constants.PLAYER_DROP_SPEED;
+
+  }
+
+  private void update_status()
+  {
+    if( velocity.y > 0 )
+    {
+      motionStatus = Directions.DOWN;
+    }
+    else if( velocity.y < 0 )
+    {
+      motionStatus = Directions.UP;
+    }
+    else if( velocity.x < 0 )
+    {
+      motionStatus = Directions.LEFT;
+    }
+    else if( velocity.x > 0 )
+    {
+      motionStatus = Directions.RIGHT;
+    }
+    else
+    {
+      motionStatus = Directions.NONE;
+    }
+
+  }
+
+  public Directions get_status()
+  {
+    return motionStatus;
+  }
 
 }
