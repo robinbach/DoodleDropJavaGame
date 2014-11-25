@@ -1,7 +1,7 @@
 package doodledrop;
 
+import doodledrop.Constants;
 
-import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -18,9 +18,11 @@ public class MainPanel {
     
     private static JLabel characterlabel;
     
-    private static Integer direction[];
+    private static Constants.Directions direction[];
     
     private static String picString;
+    
+    private static int curX, curY;
     
     
     public static void main(String[] args) {
@@ -29,8 +31,10 @@ public class MainPanel {
 
     public MainPanel() {
     	//initialize
-    	direction = new Integer[3];
-    	direction[0] = direction [1] = direction[2] = 0;
+      curX = 0;
+      curY = 0;
+    	direction = new Constants.Directions[3];
+    	direction[0] = direction [1] = direction[2] = Constants.Directions.NONE;
     	picString = "image/characterpic/stand0.png";
     	//get contentPane
     	MainFrame = new JFrame("");
@@ -43,7 +47,7 @@ public class MainPanel {
         characterlabel = new JLabel(characterIcon);
         MainPanel.add(characterlabel);
         characterlabel.setBounds(0, 0, characterIcon.getIconWidth(),characterIcon.getIconHeight());
-        characterlabel.setLocation(40, 40);
+        characterlabel.setLocation(0, 0);
         MainFrame.getLayeredPane().setLayout(null);
         //set background picture
         background = new ImageIcon(getClass().getClassLoader().getResource("image/background/background.png"));
@@ -51,37 +55,37 @@ public class MainPanel {
         label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
         MainFrame.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
         //test
-//        MainPanel.addMouseListener(new MouseListener() {
-//			
-//			@Override
-//			public void mouseReleased(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mousePressed(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseExited(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseEntered(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				setLocation(curX, curY + 10, 2);	
-//			}
-//		});
+        MainPanel.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setLocation(curX + 10, curY , Constants.Directions.RIGHT);	
+			}
+		});
         
         //mainframe settings
         MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,11 +98,11 @@ public class MainPanel {
     public static void setPictureStr()
     {
     	//leftward 0 rightward 1 downward 2 upward 3
-    	if(direction[0] == 0)
+    	if(direction[0] == Constants.Directions.LEFT)
     	{
-    		if(direction[1] == 0)
+    		if(direction[1] == Constants.Directions.LEFT)
     		{
-    			if(direction[2] == 0)
+    			if(direction[2] == Constants.Directions.LEFT)
     			{
     				if(picString == "image/characterpic/left0.png")
     				{
@@ -118,11 +122,11 @@ public class MainPanel {
     		{
     			picString = "image/characterpic/left0.png";
 			}
-    	}else if(direction[0] == 1)
+    	}else if(direction[0] == Constants.Directions.RIGHT)
     	{
-    		if(direction[1] == 1)
+    		if(direction[1] == Constants.Directions.RIGHT)
     		{
-    			if(direction[2] == 1)
+    			if(direction[2] == Constants.Directions.RIGHT)
     			{
     				if(picString == "image/characterpic/right0.png")
     				{
@@ -142,24 +146,26 @@ public class MainPanel {
     		{
     			picString = "image/characterpic/right0.png";
 			}
-    	}else if(direction[0] == 2)
+    	}else if(direction[0] == Constants.Directions.DOWN)
     	{
-    		if(direction[1] == 2)
+    		if(direction[1] == Constants.Directions.DOWN)
     		{
     			picString = "image/characterpic/jump0.png";
     		}else 
     		{
 				picString = "image/characterpic/jump1.png";
 			}	
-    	}else if(direction[0] == 3)
+    	}else if(direction[0] == Constants.Directions.UP)
     	{
     		picString = "image/characterpic/stand0.png";
     	}
     	
     }
     
-    public static void setLocation(int x, int y, int indirection)
+    public static void setLocation(int x, int y, Constants.Directions indirection)
     {
+      curX = x;
+      curY = y;
     	direction[2] = direction[1];
     	direction[1] = direction[0];
     	direction[0] = indirection;
