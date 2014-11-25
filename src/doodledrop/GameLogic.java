@@ -187,7 +187,7 @@ public class GameLogic extends Thread implements Runnable
     // GameingWindow.setPlayerLocationOnGUI(location.x, location.y,
     // motionStatus);
     // or GameingWindow.setPlayerLocationOnGUI(location, motionStatus);
-    MainPanel.SetLocation(location.x, location.y);
+    MainPanel.setLocation(location.x, location.y, Constants.Directions.LEFT);
 
     // @GUI_API setPlayerLocation: set the image location of the player
     // Parameters:
