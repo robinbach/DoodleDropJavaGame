@@ -167,11 +167,18 @@ public class MainPanel {
         barString = "image/board/normal.png";
       }else if(barType == Constants.barTypeEnum.KILLLING)
       {
-        barString = "image/board/disappear.png";
+        barString = "image/board/killig.png";
       }else if(barType == Constants.barTypeEnum.SPRING)
       {
-        
+        barString = "image/board/spring0.png";
+      }else if(barType == Constants.barTypeEnum.DISAPPEAR)
+      {
+        barString = "image/board/disappear0.png";
+      }else if(barType == Constants.barTypeEnum.TURNING)
+      {
+        barString = "image/board/turning0.png";
       }
+      
       return barString;
     }
     
