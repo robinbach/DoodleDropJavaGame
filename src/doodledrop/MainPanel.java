@@ -25,18 +25,14 @@ public class MainPanel {
     
     private static String playerPicString, barPicString;
     
-    private static int curX, curY;
-    
     private static Vector<JLabel> barVector;
     
     public static void main(String[] args) {
         new MainPanel();
     }
-
+    
     public MainPanel() {
     	//initialize
-      curX = 0;
-      curY = 0;
     	direction = new Constants.Directions[3];
     	direction[0] = direction [1] = direction[2] = Constants.Directions.NONE;
     	playerPicString = "image/characterpic/stand0.png";
@@ -59,41 +55,6 @@ public class MainPanel {
       JLabel label = new JLabel(background);
       label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
       MainFrame.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
-      
-      
-      MainPanel.addMouseListener(new MouseListener() {
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-          // TODO Auto-generated method stub
-          
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-          // TODO Auto-generated method stub
-          
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-          // TODO Auto-generated method stub
-          
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-          // TODO Auto-generated method stub
-          creatBar(50, 50, Constants.barTypeEnum.NORMAL);
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-          setPlayerLocation(curX , curY +10, Constants.Directions.DOWN);  
-        }
-        });
-
-      
       //mainframe settings
       MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       MainFrame.setSize(background.getIconWidth(), background.getIconHeight());
@@ -171,8 +132,6 @@ public class MainPanel {
     
     public static void setPlayerLocation(int x, int y, Constants.Directions indirection)
     {
-      curX = x;
-      curY = y;
     	direction[2] = direction[1];
     	direction[1] = direction[0];
     	direction[0] = indirection;
@@ -200,21 +159,68 @@ public class MainPanel {
       return barString;
     }
     
-    public static void creatBar(int x, int y, Constants.barTypeEnum barType)
+    public static void creatBar(XVec2 location, Constants.barTypeEnum barType, int barID)
     {
       barPicString = getBarPicString(barType);
       ImageIcon barIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(barPicString));
       JLabel barlabel = new JLabel(barIcon);
       System.out.println(barPicString);
-      //barVector.;
       barVector.addElement(barlabel);
       MainPanel.add(barVector.lastElement());
       barVector.lastElement().setBounds(0, 0, Constants.BAR_WIDTH, Constants.BAR_HEIGHT);
-      barVector.lastElement().setLocation(x, y);
+      barVector.lastElement().setLocation(location.x, location.y);
     }
     
-    public static void setBarLocation(int x, int y, int index)
+    public static void updateBarLocation(Vector<XVec2> locationVector)
     {
-      barVector.elementAt(index).setLocation(x, y);
+      for(int i = 0; i < barVector.size(); ++i)
+      {
+        barVector.elementAt(i).setLocation(locationVector.elementAt(i).x, locationVector.elementAt(i).y);
+      } 
     }
+    
+    public static void deleteBar()
+    {
+      
+    }
+
 }
+
+
+
+
+/*
+MainPanel.addMouseListener(new MouseListener() {
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+    // TODO Auto-generated method stub
+    //creatBar(50, 50, Constants.barTypeEnum.NORMAL);
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent e) {
+    setPlayerLocation(curX , curY +10, Constants.Directions.DOWN);  
+  }
+  });
+
+*/
+
