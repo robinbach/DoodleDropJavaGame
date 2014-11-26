@@ -14,11 +14,11 @@ public class Constants
     KILLLING, NORMAL, DISAPPEAR, SPRING, TURNING;
   };
   
-  public static final int PLAYER_HEIGHT = 25;
-  public static final int PLAYER_WIDTH = 25;
+  public static final int PLAYER_HEIGHT = 80;
+  public static final int PLAYER_WIDTH = 64;
 
-  public static final int BAR_HEIGHT = 15;
-  public static final int BAR_WIDTH = 50;
+  public static final int BAR_HEIGHT = 30;
+  public static final int BAR_WIDTH = 100;
 
 
   public static final int PLAYER_HORIZONTAL_SPEED = 5;

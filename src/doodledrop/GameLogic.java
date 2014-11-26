@@ -141,7 +141,7 @@ public class GameLogic extends Thread implements Runnable
 
     debugMenu.dispose();
 
-    //mainPanel.gameEnding();
+    MainPanel.gameEnding();
   }
 
   // --------------------------------------------------------------------------
@@ -167,6 +167,7 @@ public class GameLogic extends Thread implements Runnable
     // GUI.drawAllBarOnCanvas(GameBar[] allBars)
     // where each has member attribute as barID and location
     
+    MainPanel.updateBarLocation(barLocationList);
     // updateBarLocation(Vector<XVec2> barLocationList);
   }
 
@@ -196,6 +197,7 @@ public class GameLogic extends Thread implements Runnable
     // @param XVec2 Location.
     // @param enum Directions motionStatus.
     // GameingWindow.setPlayer2OnGUI(location, motionStatus);
+    
 
   }
 
@@ -270,6 +272,7 @@ public class GameLogic extends Thread implements Runnable
     {
       allBars.removeFirst();
       // @ GUI_API
+      MainPanel.deleteBar();
       // deleteBar();
       
     }

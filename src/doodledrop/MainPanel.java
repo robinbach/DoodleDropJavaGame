@@ -47,6 +47,9 @@ public class MainPanel {
       characterlabel = new JLabel(characterIcon);
       MainPanel.add(characterlabel);
       characterlabel.setBounds(0, 0, characterIcon.getIconWidth(),characterIcon.getIconHeight());
+      
+      //System.out.println(characterIcon.getIconWidth() + "," + characterIcon.getIconHeight());
+      
       characterlabel.setLocation(0, 0);
       MainFrame.getLayeredPane().setLayout(null);
       //set background picture
@@ -194,7 +197,9 @@ public class MainPanel {
       ibar inbar = new ibar(barIcon, barID);
       barVector.addElement(inbar);
       MainPanel.add(barVector.lastElement().barLabel);
-      barVector.lastElement().barLabel.setBounds(0, 0, Constants.BAR_WIDTH, Constants.BAR_HEIGHT);
+      barVector.lastElement().barLabel.setBounds(0, 0, barIcon.getIconWidth(), barIcon.getIconHeight());
+//      System.out.println(barIcon.getIconWidth() + ","+ barIcon.getIconHeight());
+
       barVector.lastElement().barLabel.setLocation(location.x, location.y);
     }
     

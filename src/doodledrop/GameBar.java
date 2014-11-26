@@ -21,6 +21,7 @@ public class GameBar extends MovingComponent
     // @ GUI_API
     // create a bar panel in GUI bar panel array
     // GUI.createBar(location, barType, barID);
+    MainPanel.creatBar(location, barType, barID);
     
   }
 
