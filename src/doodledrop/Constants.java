@@ -11,7 +11,7 @@ public class Constants
   // define the type of this bar
   public static enum barTypeEnum
   {
-    KILLLING, NORMAL
+    KILLLING, NORMAL, DISAPPEAR, SPRING, TURNING;
   };
   
   public static final int PLAYER_HEIGHT = 25;

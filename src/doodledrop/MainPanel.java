@@ -136,6 +136,9 @@ public class MainPanel {
     	}else if(direction[0] == Constants.Directions.UP)
     	{
     		playerPicString = "image/characterpic/stand0.png";
+    	}else if(direction[0] == Constants.Directions.NONE)
+    	{
+    	  playerPicString = "image/characterpic/stand0.png";
     	}
     	
     }
@@ -161,10 +164,13 @@ public class MainPanel {
       String barString = null;
       if(barType == Constants.barTypeEnum.NORMAL)
       {
-        barString = "image/board/normalboard.png";
+        barString = "image/board/normal.png";
       }else if(barType == Constants.barTypeEnum.KILLLING)
       {
-        barString = "image/board/disappearboard";
+        barString = "image/board/disappear.png";
+      }else if(barType == Constants.barTypeEnum.SPRING)
+      {
+        
       }
       return barString;
     }
