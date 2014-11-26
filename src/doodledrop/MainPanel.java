@@ -8,10 +8,6 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
-import com.sun.prism.Image;
-import com.sun.xml.internal.ws.server.sei.EndpointResponseMessageBuilder.Bare;
-
 
 public class MainPanel {
 
