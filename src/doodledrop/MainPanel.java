@@ -62,6 +62,11 @@ public class MainPanel {
         
     }
     
+    public static void gameEnding()
+    {
+      MainFrame.dispose();
+    }
+    
     public static class ibar
     {
       JLabel barLabel;
