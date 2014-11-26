@@ -10,13 +10,7 @@ public class GameBar extends MovingComponent
   int barID;
 
 
-  // define the type of this bar
-  public enum barTypeEnum
-  {
-    KILLLING, NORMAL
-  };
-
-  barTypeEnum barType;
+  Constants.barTypeEnum barType;
 
   public GameBar()
   {
@@ -35,13 +29,13 @@ public class GameBar extends MovingComponent
 
     collision.set(Constants.BAR_WIDTH, Constants.BAR_HEIGHT);
 
-    barType = barTypeEnum.NORMAL;
+    barType = Constants.barTypeEnum.NORMAL;
 
     barID = barIDCounter;
     ++barIDCounter;
   }
 
-  public GameBar(barTypeEnum type_in)
+  public GameBar(Constants.barTypeEnum type_in)
   {
     super();
     initBar();

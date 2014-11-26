@@ -7,7 +7,13 @@ public class Constants
   {
     NONE, UP, DOWN, LEFT, RIGHT
   }
-
+  
+  // define the type of this bar
+  public static enum barTypeEnum
+  {
+    KILLLING, NORMAL
+  };
+  
   public static final int PLAYER_HEIGHT = 25;
   public static final int PLAYER_WIDTH = 25;
 

@@ -187,7 +187,7 @@ public class GameLogic extends Thread implements Runnable
     // GameingWindow.setPlayerLocationOnGUI(location.x, location.y,
     // motionStatus);
     // or GameingWindow.setPlayerLocationOnGUI(location, motionStatus);
-    MainPanel.setLocation(location.x, location.y, Constants.Directions.LEFT);
+    MainPanel.setPlayerLocation(location.x, location.y, Constants.Directions.LEFT);
 
     // @GUI_API setPlayerLocation: set the image location of the player
     // Parameters:
@@ -234,7 +234,7 @@ public class GameLogic extends Thread implements Runnable
             System.err.println("error");
             break;
         }
-        if( eachbar.barType == GameBar.barTypeEnum.KILLLING )
+        if( eachbar.barType == Constants.barTypeEnum.KILLLING )
         {
           System.out.println(" which kills players");
           player1.isAlive = false;
