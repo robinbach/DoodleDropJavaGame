@@ -47,10 +47,6 @@ public class GamePlayer extends MovingComponent
     {
       motionStatus = Directions.DOWN;
     }
-    else if( velocity.y < 0 )
-    {
-      motionStatus = Directions.UP;
-    }
     else if( velocity.x < 0 )
     {
       motionStatus = Directions.LEFT;
@@ -61,9 +57,15 @@ public class GamePlayer extends MovingComponent
     }
     else
     {
-      motionStatus = Directions.NONE;
+    	if(velocity.y <= Constants.BAR_RISING_SPEED)
+    	{
+    		motionStatus = Directions.UP;
+    	}
+    	else
+    	{
+    	      motionStatus = Directions.NONE;
+    	}
     }
-
   }
 
   public Directions get_status()

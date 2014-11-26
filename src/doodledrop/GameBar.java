@@ -6,7 +6,7 @@ public class GameBar extends MovingComponent
 {
   // XVec2 location;
   // XVec2 velocity;
-  static int barIDCounter = 0;
+  private static int barIDCounter = 0;
   int barID;
 
 
@@ -16,6 +16,12 @@ public class GameBar extends MovingComponent
   {
     super(0, Constants.STAGE_HEIGHT);
     initBar();
+    
+    
+    // @ GUI_API
+    // create a bar panel in GUI bar panel array
+    // GUI.createBar(location, barType, barID);
+    
   }
 
   private void initBar()

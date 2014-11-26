@@ -2,6 +2,7 @@ package doodledrop;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import doodledrop.Constants.Directions;
 
@@ -30,7 +31,7 @@ public class GameLogic extends Thread implements Runnable
 
   public GameLogic()
   {
-
+	  
   }
 
   public void run()
@@ -142,22 +143,15 @@ public class GameLogic extends Thread implements Runnable
   {
     System.out.println("moving bars");
 
+    Vector<XVec2> barLocationList = new Vector<XVec2>();
 
     // for each existing bar on the panel
+    
     for( GameBar eachbar : allBars )
     {
       int barID = eachbar.barID;
       XVec2 location = eachbar.location;
-
-      // @GUI_API movebarA: set the image location of each bar,
-      // Parameters:
-      // @param location: take the location of the bar in XVec2 form or x,y,
-      // both OK.
-      // @param barID: the unique ID of the bar, for GUI to keep track of each
-      // bar.
-
-      // GUI.drawOneBarOnCanvas(XVec2 location, int barID)
-
+      barLocationList.add(new XVec2(eachbar.location.x, eachbar.location.y));
       eachbar.move();
     }
 
@@ -165,7 +159,8 @@ public class GameLogic extends Thread implements Runnable
     // or:
     // GUI.drawAllBarOnCanvas(GameBar[] allBars)
     // where each has member attribute as barID and location
-
+    
+    // updateBarLocation(Vector<XVec2> barLocationList);
   }
 
   public void movePlayers()
@@ -187,7 +182,7 @@ public class GameLogic extends Thread implements Runnable
     // GameingWindow.setPlayerLocationOnGUI(location.x, location.y,
     // motionStatus);
     // or GameingWindow.setPlayerLocationOnGUI(location, motionStatus);
-    MainPanel.setPlayerLocation(location.x, location.y, Constants.Directions.LEFT);
+    MainPanel.setPlayerLocation(location.x, location.y, motionStatus);
 
     // @GUI_API setPlayerLocation: set the image location of the player
     // Parameters:
@@ -267,6 +262,9 @@ public class GameLogic extends Thread implements Runnable
     if( allBars.getFirst().location.y < 0 )
     {
       allBars.removeFirst();
+      // @ GUI_API
+      // deleteBar();
+      
     }
 
   }
