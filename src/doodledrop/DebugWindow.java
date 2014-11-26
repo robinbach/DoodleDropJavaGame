@@ -60,6 +60,11 @@ public class DebugWindow extends JFrame
         System.out.println("Quit released");
         DebugWindow.this.dispose();
       }
+      else if( event.getKeyCode() == KeyEvent.VK_K )
+      {
+        System.out.println("Player Killed");
+        DebugWindow.this.dispose();
+      }
     }
   }
 
@@ -87,7 +92,7 @@ public class DebugWindow extends JFrame
 
     addKeyListener(new KeyboardListener());
 
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
+//    setDefaultCloseOperation(EXIT_ON_CLOSE);
 
   }
 }

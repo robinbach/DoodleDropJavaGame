@@ -26,6 +26,10 @@ import javax.swing.JTextArea;
 
 public class ending extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static JPanel imagepanel;
 	private static JPanel buttonpanel;
 	private static JPanel rightpart;

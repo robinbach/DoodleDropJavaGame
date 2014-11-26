@@ -26,7 +26,12 @@ import javax.swing.JTextArea;
 
 public class opening extends JFrame {
 
-  public RunGameEngine runGameEngine;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+public RunGameEngine runGameEngine;
   
   private static JPanel imagepanel;
 	private static JPanel buttonpanel;

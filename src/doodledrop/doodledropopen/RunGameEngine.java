@@ -7,11 +7,14 @@ public class RunGameEngine extends Thread{
   public GameLogic gameEngine;
   
   public void run(){
+//    gameEngine = new GameLogic();
+//    //gameEngine.setRunEnding(this.runEnding);
+//    gameEngine.gameInit();
+//    gameEngine.gamePlaying();
+//    gameEngine.gameExit();
     gameEngine = new GameLogic();
-    //gameEngine.setRunEnding(this.runEnding);
-    gameEngine.gameInit();
-    gameEngine.gamePlaying();
-    gameEngine.gameExit();
+    Thread gameThread = new Thread(gameEngine);
+    gameThread.start();
   }
   
   public void setRunEnding(RunEnding _runEnding){

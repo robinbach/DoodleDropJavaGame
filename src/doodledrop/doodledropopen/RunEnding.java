@@ -4,7 +4,6 @@ import java.awt.Dimension;
 
 import javax.swing.WindowConstants;
 
-import doodledrop.GameLogic;
 
 public class RunEnding extends Thread
 {

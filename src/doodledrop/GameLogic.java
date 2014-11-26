@@ -5,20 +5,21 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import doodledrop.Constants.Directions;
+import doodledrop.doodledropopen.RunEnding;
 
 
 public class GameLogic extends Thread implements Runnable
 {
 
-  boolean gameRunning;
-  int delay;
+  static boolean gameRunning;
+  private int delay;
   static int updateNums;
 
   // GuiClassMainMenu mainMenu;
   static GamePlayer player1, player2;
   static LinkedList<GameBar> allBars;
 
-  DebugWindow debugMenu;
+  private DebugWindow debugMenu;
   MainPanel mainPanel;
 
   // --------------------------------------------------------------------------
@@ -133,8 +134,14 @@ public class GameLogic extends Thread implements Runnable
     // create a showResultMenu(),
     // Should contains game statistics (database), resume button, etc.
     // GUI.showResultMenu();
+    
+    RunEnding runEnding;
+    runEnding = new RunEnding();
+    runEnding.start();
 
     debugMenu.dispose();
+
+    //mainPanel.gameEnding();
   }
 
   // --------------------------------------------------------------------------
@@ -149,8 +156,8 @@ public class GameLogic extends Thread implements Runnable
     
     for( GameBar eachbar : allBars )
     {
-      int barID = eachbar.barID;
-      XVec2 location = eachbar.location;
+//      int barID = eachbar.barID;
+//      XVec2 location = eachbar.location;
       barLocationList.add(new XVec2(eachbar.location.x, eachbar.location.y));
       eachbar.move();
     }
@@ -314,6 +321,11 @@ public class GameLogic extends Thread implements Runnable
       System.out.println("upward moving stoped");
 
       player1.velocity.y = Constants.PLAYER_DROP_SPEED;
+    }
+    else if( keyCode == KeyEvent.VK_K )
+    {
+    	player1.isAlive = false;
+    	gameRunning = false;	
     }
   }
 
