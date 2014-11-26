@@ -80,17 +80,17 @@ public class MovingComponent
     {
       //check if their y region cross on other
       if( another.location.y > location.y
-          && another.location.y - location.y < another.collision.y )
+          && another.location.y - location.y < collision.y )
         return Constants.Directions.DOWN;
       if( another.location.y < location.y
-          && -another.location.y + location.y < collision.y )
+          && -another.location.y + location.y < another.collision.y )
         return Constants.Directions.UP;
     }
     
     // if they have the same y region
     // Hint: y increasing from top to bottom.
-    if( location.y > another.location.y - collision.y
-        && location.y < another.location.y + another.collision.y )
+    if( location.y > another.location.y + another.collision.y
+        && location.y < another.location.y + collision.y )
     {
       //check if their x region cross on other
       if( another.location.x > location.x
