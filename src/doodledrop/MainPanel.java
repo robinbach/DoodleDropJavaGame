@@ -213,6 +213,7 @@ public class MainPanel {
     
     public static void deleteBar()
     {
+      barVector.elementAt(0).barLabel.setLocation(-100, -100);
       barVector.remove(0);
     }
 
