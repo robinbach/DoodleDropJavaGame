@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-
 public class MainPanel {
 
     private static JFrame MainFrame;
@@ -25,7 +24,7 @@ public class MainPanel {
     
     private static String playerPicString, barPicString;
     
-    private static Vector<JLabel> barVector;
+    private static Vector<ibar> barVector;
     
     public static void main(String[] args) {
         new MainPanel();
@@ -36,7 +35,7 @@ public class MainPanel {
     	direction = new Constants.Directions[3];
     	direction[0] = direction [1] = direction[2] = Constants.Directions.NONE;
     	playerPicString = "image/characterpic/stand0.png";
-    	barVector = new Vector<JLabel>();
+    	barVector = new Vector<ibar>();
     	//get contentPane
     	MainFrame = new JFrame("");
       MainPanel = (JPanel) MainFrame.getContentPane();
@@ -61,6 +60,17 @@ public class MainPanel {
       MainFrame.setResizable(false);
       MainFrame.setVisible(true); 
         
+    }
+    
+    public static class ibar
+    {
+      JLabel barLabel;
+      int barID;
+      public ibar(ImageIcon barimage, int inbarID)
+      {
+        barLabel = new JLabel(barimage);
+        barID = inbarID;
+      }
     }
     
     public static void setPlayerPictureStr()
@@ -163,64 +173,25 @@ public class MainPanel {
     {
       barPicString = getBarPicString(barType);
       ImageIcon barIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(barPicString));
-      JLabel barlabel = new JLabel(barIcon);
-      System.out.println(barPicString);
-      barVector.addElement(barlabel);
-      MainPanel.add(barVector.lastElement());
-      barVector.lastElement().setBounds(0, 0, Constants.BAR_WIDTH, Constants.BAR_HEIGHT);
-      barVector.lastElement().setLocation(location.x, location.y);
+      ibar inbar = new ibar(barIcon, barID);
+      barVector.addElement(inbar);
+      MainPanel.add(barVector.lastElement().barLabel);
+      barVector.lastElement().barLabel.setBounds(0, 0, Constants.BAR_WIDTH, Constants.BAR_HEIGHT);
+      barVector.lastElement().barLabel.setLocation(location.x, location.y);
     }
     
     public static void updateBarLocation(Vector<XVec2> locationVector)
     {
       for(int i = 0; i < barVector.size(); ++i)
       {
-        barVector.elementAt(i).setLocation(locationVector.elementAt(i).x, locationVector.elementAt(i).y);
+        barVector.elementAt(i).barLabel.setLocation(locationVector.elementAt(i).x, locationVector.elementAt(i).y);
       } 
     }
     
     public static void deleteBar()
     {
-      
+      barVector.remove(0);
     }
 
 }
-
-
-
-
-/*
-MainPanel.addMouseListener(new MouseListener() {
-
-  @Override
-  public void mouseReleased(MouseEvent e) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  @Override
-  public void mousePressed(MouseEvent e) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-    // TODO Auto-generated method stub
-    //creatBar(50, 50, Constants.barTypeEnum.NORMAL);
-  }
-
-  @Override
-  public void mouseClicked(MouseEvent e) {
-    setPlayerLocation(curX , curY +10, Constants.Directions.DOWN);  
-  }
-  });
-
-*/
 
