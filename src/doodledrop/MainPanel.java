@@ -217,4 +217,8 @@ public class MainPanel {
       barVector.lastElement().setLocation(x, y);
     }
     
+    public static void setBarLocation(int x, int y, int index)
+    {
+      barVector.elementAt(index).setLocation(x, y);
+    }
 }
