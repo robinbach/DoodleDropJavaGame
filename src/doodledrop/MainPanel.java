@@ -3,7 +3,6 @@ package doodledrop;
 import doodledrop.Constants;
 import doodledrop.Constants.barTypeEnum;
 
-import java.awt.event.*;
 import java.util.Vector;
 
 import javax.swing.*;

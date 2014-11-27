@@ -22,8 +22,8 @@ public class Constants
 
 
   public static final int PLAYER_HORIZONTAL_SPEED = 5;
-  public static final int PLAYER_DROP_SPEED = 1;
-  public static final int PLAYER_JUMP_SPEED = -10;
+  public static final int PLAYER_DROP_SPEED = 4;
+  public static final int PLAYER_JUMP_SPEED = -50;
 
   public static final int FRAME_DELAY = 20;
 
