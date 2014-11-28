@@ -24,6 +24,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
+import doodledrop.GameLogic;
+
 public class ending extends JFrame {
 
 	/**
@@ -96,7 +98,10 @@ public class ending extends JFrame {
 			// TODO Auto-generated method stub
 			if (event.getSource().equals(tryagainbutton))
 			{
-				
+				GameLogic gameEngine = new GameLogic();
+			    Thread gameThread = new Thread(gameEngine);
+			    gameThread.start();
+				main.runEnding.gameEnding.dispose();
 			}
 			else if (event.getSource().equals(scoredatabutton))
 			{

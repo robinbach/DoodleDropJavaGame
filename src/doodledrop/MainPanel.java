@@ -55,6 +55,9 @@ public class MainPanel {
       MainFrame.setSize(background.getIconWidth(), background.getIconHeight());
       MainFrame.setResizable(false);
       MainFrame.setVisible(true); 
+      
+      MainFrame.addKeyListener(new GameKbdListener());
+
         
     }
     
