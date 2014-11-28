@@ -15,9 +15,9 @@ public class MainPanel {
 
     private static ImageIcon background;
 
-    private static ImageIcon characterIcon;
+    private static ImageIcon playerIcon;
     
-    private static JLabel characterlabel;
+    private static JLabel playerlabel;
     
     private static Constants.Directions direction[];
     
@@ -33,7 +33,6 @@ public class MainPanel {
     	//initialize
     	direction = new Constants.Directions[3];
     	direction[0] = direction [1] = direction[2] = Constants.Directions.NONE;
-    	playerPicString = "image/characterpic/stand0.png";
     	barVector = new Vector<ibar>();
     	//get contentPane
     	MainFrame = new JFrame("");
@@ -41,15 +40,10 @@ public class MainPanel {
       MainFrame.setContentPane(MainPanel);
       MainPanel.setOpaque(false);
       MainPanel.setLayout(null);
-      //set character label
-      characterIcon = new ImageIcon(getClass().getClassLoader().getResource(playerPicString));
-      characterlabel = new JLabel(characterIcon);
-      MainPanel.add(characterlabel);
-      characterlabel.setBounds(0, 0, characterIcon.getIconWidth(),characterIcon.getIconHeight());
       
-      //System.out.println(characterIcon.getIconWidth() + "," + characterIcon.getIconHeight());
+      //System.out.println(playerIcon.getIconWidth() + "," + playerIcon.getIconHeight());
+      playerInitial(1);
       
-      characterlabel.setLocation(0, 0);
       MainFrame.getLayeredPane().setLayout(null);
       //set background picture
       background = new ImageIcon(getClass().getClassLoader().getResource("image/background/background.png"));
@@ -82,7 +76,7 @@ public class MainPanel {
     
     public static void setPlayerPictureStr()
     {
-    	//leftward 0 rightward 1 downward 2 upward 3
+
     	if(direction[0] == Constants.Directions.LEFT)
     	{
     		if(direction[1] == Constants.Directions.LEFT)
@@ -150,15 +144,27 @@ public class MainPanel {
     	
     }
     
+    
+    public static void playerInitial(int player1or2)
+    {
+      //set character label
+      playerPicString = "image/characterpic/stand0.png";
+      playerIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(playerPicString));
+      playerlabel = new JLabel(playerIcon);
+      MainPanel.add(playerlabel);
+      playerlabel.setBounds(0, 0, playerIcon.getIconWidth(),playerIcon.getIconHeight());
+      playerlabel.setLocation(0, 0);
+    }
+    
     public static void setPlayerLocation(int x, int y, Constants.Directions indirection)
     {
     	direction[2] = direction[1];
     	direction[1] = direction[0];
     	direction[0] = indirection;
     	setPlayerPictureStr();
-    	characterIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(playerPicString));
-    	characterlabel.setIcon(characterIcon);
-    	characterlabel.setLocation(x, y);
+    	playerIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(playerPicString));
+    	playerlabel.setIcon(playerIcon);
+    	playerlabel.setLocation(x, y);
     }
     
     public static void refreshPanel()
