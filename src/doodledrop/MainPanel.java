@@ -3,7 +3,6 @@ package doodledrop;
 import doodledrop.Constants;
 import doodledrop.Constants.barTypeEnum;
 
-import java.awt.event.*;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -62,6 +61,9 @@ public class MainPanel {
       MainFrame.setSize(background.getIconWidth(), background.getIconHeight());
       MainFrame.setResizable(false);
       MainFrame.setVisible(true); 
+      
+      MainFrame.addKeyListener(new GameKbdListener());
+
         
     }
     

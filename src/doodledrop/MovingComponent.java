@@ -79,8 +79,12 @@ public class MovingComponent
         && location.x < another.location.x + another.collision.x )
     {
       //check if their y region cross on other
+    	// a.l.y > l.y means bar beneath
+    	// second line make sure bar in region
+    	// third line make sure player not hang in air
       if( another.location.y > location.y
-          && another.location.y - location.y < collision.y )
+          && another.location.y - location.y < collision.y 
+          && another.location.y - location.y > collision.y - another.collision.y )
         return Constants.Directions.DOWN;
       if( another.location.y < location.y
           && -another.location.y + location.y < another.collision.y )

@@ -196,8 +196,10 @@ public class GameLogic extends Thread implements Runnable
     // Parameters:
     // @param XVec2 Location.
     // @param enum Directions motionStatus.
+    
     // GameingWindow.setPlayer2OnGUI(location, motionStatus);
     
+    // @Network_API setPlayerLocation: set the image location of the player
 
   }
 
