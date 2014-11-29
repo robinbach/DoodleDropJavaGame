@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import javax.swing.*;
 
+
 public class MainPanel {
 
     private static JFrame MainFrame;
@@ -50,6 +51,19 @@ public class MainPanel {
       MainFrame.setResizable(false);
       MainFrame.setVisible(true); 
     }
+    
+    @SuppressWarnings("static-access")
+    public static void main(String[] args)
+    {
+      MainPanel x= new MainPanel();
+      XVec2 location = new XVec2(100, 100);
+      x.creatBar(location, barTypeEnum.KILLLING , 1);
+      Vector<XVec2> locationvec = new Vector<XVec2>();
+      locationvec.addElement(new XVec2(100,300));
+      x.updateBarLocation(locationvec);
+      x.refreshPanel();
+    }
+    
     
     /**
      * Destrucor of MainPanel, call at the end of game.
@@ -286,10 +300,10 @@ public class MainPanel {
      */
     public static class ibar
     {
-      Constants.barTypeEnum barType;
-      JLabel barLabel;
-      int barID;
-      String picString;
+      public Constants.barTypeEnum barType;
+      public JLabel barLabel;
+      public int barID;
+      public String picString;
       public ibar(Constants.barTypeEnum inbarType, ImageIcon barimage, int inbarID, String inPicString)
       {
         barType = inbarType;
@@ -316,6 +330,7 @@ public class MainPanel {
       inbar.barLabel = new JLabel(barIcon);
       barVector.addElement(inbar);
       MainPanel.add(barVector.lastElement().barLabel);
+      System.out.println("after add label");
       barVector.lastElement().barLabel.setBounds(0, 0, barIcon.getIconWidth(), barIcon.getIconHeight());
       barVector.lastElement().barLabel.setLocation(location.x, location.y);
     }
@@ -370,9 +385,11 @@ public class MainPanel {
           }
         }
         
+        System.out.println("asdf");
         ImageIcon barIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(barVector.elementAt(i).picString));
-        barVector.elementAt(i).barLabel = new JLabel(barIcon);
+        barVector.elementAt(i).barLabel.setIcon(barIcon);
         barVector.elementAt(i).barLabel.setLocation(locationVector.elementAt(i).x, locationVector.elementAt(i).y);
+        System.out.println("dsg3");
       }
       
     }
@@ -417,7 +434,7 @@ public class MainPanel {
         barString = "image/board/normal.png";
       }else if(barType == Constants.barTypeEnum.KILLLING)
       {
-        barString = "image/board/killig.png";
+        barString = "image/board/killing.png";
       }else if(barType == Constants.barTypeEnum.SPRING)
       {
         barString = "image/board/spring0.png";
