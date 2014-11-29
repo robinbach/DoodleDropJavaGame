@@ -118,6 +118,12 @@ public class GameLogic extends Thread implements Runnable
     while( player1.isAlive || updateNums < 30 * (1000/delay) )
     {
       gameUpdate();
+      
+      if( updateNums < 30 * (1000/delay))
+      {
+        player1.isAlive = true;
+      }
+      
     }
   }
 
@@ -302,7 +308,6 @@ public class GameLogic extends Thread implements Runnable
             }
             //@ GUI_API# step on a specific bar
             // call animation method in GUI
-             MainPanel.barCollision(barIndexFromTop);
             break;
           case LEFT:
             if( player1.velocity.x < 0 )
@@ -319,12 +324,14 @@ public class GameLogic extends Thread implements Runnable
           default:
             System.err.println("error");
             break;
+
         }
         if( eachbar.barType == Constants.barTypeEnum.KILLLING )
         {
           System.out.println(" which kills players");
           player1.isAlive = false;
         }
+        MainPanel.barCollision(barIndexFromTop);
       }
       barIndexFromTop++;
     }

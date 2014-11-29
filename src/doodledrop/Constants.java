@@ -23,7 +23,7 @@ public class Constants
   public static final int BAR_WIDTH = 80;
   
   public static final int SPRING_BAR_POWER = 35;
-  public static final int TURNING_BAR_POWER = 2;
+  public static final int TURNING_BAR_POWER = 1;
   public static final double POWER_DEACY_CONSTANT = 1.2;
 
   public static final int PLAYER_HORIZONTAL_SPEED = 6;
