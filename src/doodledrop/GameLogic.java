@@ -190,7 +190,7 @@ public class GameLogic extends Thread implements Runnable
     // GameingWindow.setPlayerLocationOnGUI(location.x, location.y,
     // motionStatus);
     // or GameingWindow.setPlayerLocationOnGUI(location, motionStatus);
-    MainPanel.setPlayerLocation(location.x, location.y, motionStatus);
+    MainPanel.setPlayerLocation(location.x, location.y, 1, motionStatus);
 
     // @GUI_API setPlayerLocation: set the image location of the player
     // Parameters:
