@@ -21,32 +21,9 @@ public class MainPanel {
     
     private static Constants.Directions direction1[], direction2[];
     
-    private static String player1PicString, player2PicString, barPicString;
+    private static String player1PicString, player2PicString;
     
     private static Vector<ibar> barVector;
-    
-    public static void main(String[] args) {
-        new MainPanel();
-    }
-    
-    /**
-     * struct ibar
-     * @member barLabel
-     *      the JLabel for this bar
-     * @member barID
-     *      specific ID for this bar
-     */
-    public static class ibar
-    {
-      JLabel barLabel;
-      int barID;
-      public ibar(ImageIcon barimage, int inbarID)
-      {
-        barLabel = new JLabel(barimage);
-        barID = inbarID;
-      }
-    }
-    
     
     /**
      * Constructor of MainPanel
@@ -299,7 +276,140 @@ public class MainPanel {
       }
     }
     
-    public static String getBarPicString(barTypeEnum barType)
+    
+    /**
+     * class ibar
+     * @member barLabel
+     *      the JLabel for this bar
+     * @member barID
+     *      specific ID for this bar
+     */
+    public static class ibar
+    {
+      Constants.barTypeEnum barType;
+      JLabel barLabel;
+      int barID;
+      String picString;
+      public ibar(Constants.barTypeEnum inbarType, ImageIcon barimage, int inbarID, String inPicString)
+      {
+        barType = inbarType;
+        barLabel = new JLabel(barimage);
+        barID = inbarID;
+        picString = new String(inPicString);
+      }
+    }
+    
+    /**
+     * 
+     * @param location
+     *      initial location of bar
+     * @param barType
+     *      type of bar
+     * @param barID
+     *      specific ID of bar
+     */
+    public static void creatBar(XVec2 location, Constants.barTypeEnum barType, int barID)
+    {
+      ibar inbar = new ibar(barType, null, barID, null);
+      inbar.picString = setBarPictureStr(barType);
+      ImageIcon barIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(inbar.picString));
+      inbar.barLabel = new JLabel(barIcon);
+      barVector.addElement(inbar);
+      MainPanel.add(barVector.lastElement().barLabel);
+      barVector.lastElement().barLabel.setBounds(0, 0, barIcon.getIconWidth(), barIcon.getIconHeight());
+      barVector.lastElement().barLabel.setLocation(location.x, location.y);
+    }
+    
+    /**
+     * 
+     * @param locationVector
+     *      location to update
+     */
+    public static void updateBarLocation(Vector<XVec2> locationVector)
+    {
+      for(int i = 0; i < barVector.size(); ++i)
+      {
+        if(barVector.elementAt(i).barType == Constants.barTypeEnum.TURNINGLEFT )
+        {
+          if(barVector.elementAt(i).picString == "image/board/turning0.png")
+          {
+            barVector.elementAt(i).picString = "image/board/turning1.png";
+          }else if(barVector.elementAt(i).picString == "image/board/turning1.png")
+          {
+            barVector.elementAt(i).picString = "image/board/turning2.png";
+          }else if(barVector.elementAt(i).picString == "image/board/turning2.png")
+          {
+            barVector.elementAt(i).picString = "image/board/turning0.png";
+          }
+        }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.TURNINGRIGHT )
+        {
+          if(barVector.elementAt(i).picString == "image/board/turning0.png")
+          {
+            barVector.elementAt(i).picString = "image/board/turning2.png";
+          }else if(barVector.elementAt(i).picString == "image/board/turning2.png")
+          {
+            barVector.elementAt(i).picString = "image/board/turning1.png";
+          }else if(barVector.elementAt(i).picString == "image/board/turning1.png")
+          {
+            barVector.elementAt(i).picString = "image/board/turning0.png";
+          }
+        }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.DISAPPEAR )
+        {
+          if(barVector.elementAt(i).picString == "image/board/disappear1.png")
+          {
+            barVector.elementAt(i).picString = "image/board/disappear2.png";
+          }else if(barVector.elementAt(i).picString == "image/board/disappear2.png")
+          {
+            barVector.elementAt(i).picString = "image/board/disappear3.png";
+          }
+        }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.SPRING )
+        {
+          if(barVector.elementAt(i).picString == "image/board/spring1.png")
+          {
+            barVector.elementAt(i).picString = "image/board/spring0.png";
+          }
+        }
+        
+        ImageIcon barIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(barVector.elementAt(i).picString));
+        barVector.elementAt(i).barLabel = new JLabel(barIcon);
+        barVector.elementAt(i).barLabel.setLocation(locationVector.elementAt(i).x, locationVector.elementAt(i).y);
+      }
+      
+    }
+    
+    /**
+     * delete the first bar in the bar vector
+     */
+    public static void deleteBar()
+    {
+      barVector.elementAt(0).barLabel.setLocation(-100, -100);
+      barVector.remove(0);
+    }
+
+    /**
+     * 
+     * @param index
+     *      the index of the collision bar in barvector
+     */
+    public static void barCollision(int index)
+    {
+      if(barVector.elementAt(index).barType == barTypeEnum.SPRING )
+      {
+        barVector.elementAt(index).picString = "image/board/spring1.png";
+      }else if(barVector.elementAt(index).barType == barTypeEnum.DISAPPEAR)
+      {
+        barVector.elementAt(index).picString = "image/board/disappear1.png";
+      }
+    }
+    
+    /**
+     * set BarPictureStr
+     * @param barType
+     *      the type of bar
+     * @return barPictureStr
+     *      the string route of the bar pic 
+     */
+    public static String setBarPictureStr(barTypeEnum barType)
     {
       String barString = null;
       if(barType == Constants.barTypeEnum.NORMAL)
@@ -314,40 +424,15 @@ public class MainPanel {
       }else if(barType == Constants.barTypeEnum.DISAPPEAR)
       {
         barString = "image/board/disappear0.png";
-      }else if(barType == Constants.barTypeEnum.TURNING)
+      }else if(barType == Constants.barTypeEnum.TURNINGLEFT)
+      {
+        barString = "image/board/turning0.png";
+      }else if(barType == Constants.barTypeEnum.TURNINGRIGHT)
       {
         barString = "image/board/turning0.png";
       }
-      
       return barString;
     }
     
-    public static void creatBar(XVec2 location, Constants.barTypeEnum barType, int barID)
-    {
-      barPicString = getBarPicString(barType);
-      ImageIcon barIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(barPicString));
-      ibar inbar = new ibar(barIcon, barID);
-      barVector.addElement(inbar);
-      MainPanel.add(barVector.lastElement().barLabel);
-      barVector.lastElement().barLabel.setBounds(0, 0, barIcon.getIconWidth(), barIcon.getIconHeight());
-//      System.out.println(barIcon.getIconWidth() + ","+ barIcon.getIconHeight());
-
-      barVector.lastElement().barLabel.setLocation(location.x, location.y);
-    }
-    
-    public static void updateBarLocation(Vector<XVec2> locationVector)
-    {
-      for(int i = 0; i < barVector.size(); ++i)
-      {
-        barVector.elementAt(i).barLabel.setLocation(locationVector.elementAt(i).x, locationVector.elementAt(i).y);
-      } 
-    }
-    
-    public static void deleteBar()
-    {
-      barVector.elementAt(0).barLabel.setLocation(-100, -100);
-      barVector.remove(0);
-    }
-
 }
 
