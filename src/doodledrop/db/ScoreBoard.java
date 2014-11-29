@@ -17,17 +17,13 @@ public class ScoreBoard
   private static final String USER = "dianazh";
   private static final String PASS = "dianazh17";
   
-  //default player
-  public static final String DEFAULT_PLAYER = "player0";
-  
   public static void createPlayer(String name) throws UserExistException{
     String query = null;
     query = "select count(*) as count from players where name = '"+name+"';";
     Count count = new Count();
     runQuery(query, count, true);
     if (count.count != 0){
-      throw new UserExistException(name);
-      //throw new UserExistException("User name: "+name+" already exist!");
+      throw new UserExistException("User name: "+name+" already exist!");
     }
     query = "insert into players (name) values ('"+name+"');";
     runQuery(query, null, false);
@@ -35,7 +31,7 @@ public class ScoreBoard
   
   // player name must be unique and not null
   // check in UI
-  public static Player startPlayer(String name) throws UserExistException{
+  /*public static Player startPlayer(String name) throws UserExistException{
     Player player = null;
     try {
       createPlayer(name);
@@ -48,12 +44,15 @@ public class ScoreBoard
     }
     player = getPlayerInfo(name);
     return player;
-  }
+  }*/
   
-  public static Player getPlayerInfo(String name){
+  public static Player getPlayerInfo(String name) throws UserNotExistException{
     String query = "select * from players where name = '"+name+"';";
     Player player = new Player();
     runQuery(query, player, true);
+    if (player.name == null){
+      throw new UserNotExistException("User name: "+name+" doesn't exist!");
+    }
     return player;
   }
   
