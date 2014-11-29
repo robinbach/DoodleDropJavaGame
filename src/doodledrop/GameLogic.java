@@ -108,7 +108,7 @@ public class GameLogic extends Thread implements Runnable
 
 
     // the main updating loop:
-    while( player1.isAlive )
+    while( player1.isAlive || updateNums < 30 * (1000/delay) )
     {
       gameUpdate();
     }
@@ -283,15 +283,18 @@ public class GameLogic extends Thread implements Runnable
                 System.out.println("spring jumping");
                 player1.inertia.y += -30;
                 break;
-              case TURNING:
+              case TURNINGRIGHT:
                 player1.velocity.x += 10;
+                break;
+              case TURNINGLEFT:
+                player1.velocity.x -= 10;
                 break;
               default:
                 break;
             }
             //@ GUI_API# step on a specific bar
             // call animation method in GUI
-            // animation(int barIndexFromTop);
+             MainPanel.barCollision(barIndexFromTop);
             break;
           case LEFT:
             if( player1.velocity.x < 0 )
