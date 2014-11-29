@@ -15,13 +15,13 @@ public class MainPanel {
 
     private static ImageIcon background;
 
-    private static ImageIcon characterIcon;
+    private static ImageIcon player1Icon, player2Icon;
     
-    private static JLabel characterlabel;
+    private static JLabel player1Label, player2Label;
     
-    private static Constants.Directions direction[];
+    private static Constants.Directions direction1[], direction2[];
     
-    private static String playerPicString, barPicString;
+    private static String player1PicString, player2PicString, barPicString;
     
     private static Vector<ibar> barVector;
     
@@ -29,49 +29,13 @@ public class MainPanel {
         new MainPanel();
     }
     
-    public MainPanel() {
-    	//initialize
-    	direction = new Constants.Directions[3];
-    	direction[0] = direction [1] = direction[2] = Constants.Directions.NONE;
-    	playerPicString = "image/characterpic/stand0.png";
-    	barVector = new Vector<ibar>();
-    	//get contentPane
-    	MainFrame = new JFrame("");
-      MainPanel = (JPanel) MainFrame.getContentPane();
-      MainFrame.setContentPane(MainPanel);
-      MainPanel.setOpaque(false);
-      MainPanel.setLayout(null);
-      //set character label
-      characterIcon = new ImageIcon(getClass().getClassLoader().getResource(playerPicString));
-      characterlabel = new JLabel(characterIcon);
-      MainPanel.add(characterlabel);
-      characterlabel.setBounds(0, 0, characterIcon.getIconWidth(),characterIcon.getIconHeight());
-      
-      //System.out.println(characterIcon.getIconWidth() + "," + characterIcon.getIconHeight());
-      
-      characterlabel.setLocation(0, 0);
-      MainFrame.getLayeredPane().setLayout(null);
-      //set background picture
-      background = new ImageIcon(getClass().getClassLoader().getResource("image/background/background.png"));
-      JLabel label = new JLabel(background);
-      label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
-      MainFrame.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
-      //mainframe settings
-      MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      MainFrame.setSize(background.getIconWidth(), background.getIconHeight());
-      MainFrame.setResizable(false);
-      MainFrame.setVisible(true); 
-      
-      MainFrame.addKeyListener(new GameKbdListener());
-
-        
-    }
-    
-    public static void gameEnding()
-    {
-      MainFrame.dispose();
-    }
-    
+    /**
+     * struct ibar
+     * @member barLabel
+     *      the JLabel for this bar
+     * @member barID
+     *      specific ID for this bar
+     */
     public static class ibar
     {
       JLabel barLabel;
@@ -83,90 +47,256 @@ public class MainPanel {
       }
     }
     
-    public static void setPlayerPictureStr()
-    {
-    	//leftward 0 rightward 1 downward 2 upward 3
-    	if(direction[0] == Constants.Directions.LEFT)
-    	{
-    		if(direction[1] == Constants.Directions.LEFT)
-    		{
-    			if(direction[2] == Constants.Directions.LEFT)
-    			{
-    				if(playerPicString == "image/characterpic/left0.png")
-    				{
-    					playerPicString = "image/characterpic/left1.png";
-    				}else if(playerPicString == "image/characterpic/left1.png")
-    				{
-    					playerPicString = "image/characterpic/left2.png";
-    				}else
-    				{
-    					playerPicString = "image/characterpic/left0.png";
-    				}
-    			}else 
-    			{
-    				playerPicString = "image/characterpic/left1.png";
-				}
-    		}else 
-    		{
-    			playerPicString = "image/characterpic/left0.png";
-			}
-    	}else if(direction[0] == Constants.Directions.RIGHT)
-    	{
-    		if(direction[1] == Constants.Directions.RIGHT)
-    		{
-    			if(direction[2] == Constants.Directions.RIGHT)
-    			{
-    				if(playerPicString == "image/characterpic/right0.png")
-    				{
-    					playerPicString = "image/characterpic/right1.png";
-    				}else if(playerPicString == "image/characterpic/right1.png")
-    				{
-    					playerPicString = "image/characterpic/right2.png";
-    				}else
-    				{
-    					playerPicString = "image/characterpic/right0.png";
-    				}
-    			}else 
-    			{
-    				playerPicString = "image/characterpic/right1.png";
-				}
-    		}else 
-    		{
-    			playerPicString = "image/characterpic/right0.png";
-			}
-    	}else if(direction[0] == Constants.Directions.DOWN)
-    	{
-    		if(direction[1] == Constants.Directions.DOWN)
-    		{
-    			playerPicString = "image/characterpic/jump0.png";
-    		}else 
-    		{
-				playerPicString = "image/characterpic/jump1.png";
-			}	
-    	}else if(direction[0] == Constants.Directions.UP)
-    	{
-    		playerPicString = "image/characterpic/stand0.png";
-    	}else if(direction[0] == Constants.Directions.NONE)
-    	{
-    	  playerPicString = "image/characterpic/stand0.png";
-    	}
-    	
+    
+    /**
+     * Constructor of MainPanel
+     */
+    public MainPanel() {
+    	//initialize
+    	barVector = new Vector<ibar>();
+    	//get contentPane
+    	MainFrame = new JFrame("");
+      MainPanel = (JPanel) MainFrame.getContentPane();
+      MainFrame.setContentPane(MainPanel);
+      MainPanel.setOpaque(false);
+      MainPanel.setLayout(null);
+      MainFrame.getLayeredPane().setLayout(null);
+      //set background picture
+      background = new ImageIcon(getClass().getClassLoader().getResource("image/background/background.png"));
+      JLabel label = new JLabel(background);
+      label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
+      MainFrame.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+      //mainframe settings
+      MainFrame.addKeyListener(new GameKbdListener());
+      MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      MainFrame.setSize(background.getIconWidth(), background.getIconHeight());
+      MainFrame.setResizable(false);
+      MainFrame.setVisible(true); 
     }
     
-    public static void setPlayerLocation(int x, int y, Constants.Directions indirection)
+    /**
+     * Destrucor of MainPanel, call at the end of game.
+     */
+    public static void gameEnding()
     {
-    	direction[2] = direction[1];
-    	direction[1] = direction[0];
-    	direction[0] = indirection;
-    	setPlayerPictureStr();
-    	characterIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(playerPicString));
-    	characterlabel.setIcon(characterIcon);
-    	characterlabel.setLocation(x, y);
+      MainFrame.dispose();
     }
     
+    /**
+     * refresh the MainPanel
+     */
     public static void refreshPanel()
     {
       MainPanel.repaint();
+    }
+    
+    
+    /**
+     * Player initialization
+     * @param palyer1or2 
+     *      Choose player1 or player2
+     * @param iniLocation 
+     *      the initial location of the player
+     */
+    public static void playerInitial(int player1or2, XVec2 iniLocation)
+    {
+      if(player1or2 == 1)
+      {
+        direction1 = new Constants.Directions[3];
+        direction1[0] = direction1[1] = direction1[2] = Constants.Directions.NONE;
+        player1PicString = "image/characterpic/stand0.png";
+        player1Icon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player1PicString));
+        player1Label = new JLabel(player1Icon);
+        MainPanel.add(player1Label);
+        player1Label.setBounds(0, 0, player1Icon.getIconWidth(),player1Icon.getIconHeight());
+        player1Label.setLocation(iniLocation.x, iniLocation.y);  
+      }else 
+      {
+        direction2 = new Constants.Directions[3];
+        direction2[0] = direction2[1] = direction2[2] = Constants.Directions.NONE;
+        player2PicString = "image/characterpic2/stand0.png";
+        player2Icon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player2PicString));
+        player2Label = new JLabel(player2Icon);
+        MainPanel.add(player2Label);
+        player2Label.setBounds(0, 0, player2Icon.getIconWidth(),player2Icon.getIconHeight());
+        player2Label.setLocation(iniLocation.x, iniLocation.y);  
+      }
+      
+    }
+    
+    /**
+     * set the location of player1 or player2
+     * 
+     * @param x, y
+     *      the location of player
+     * @param player1or2
+     * 
+     * @param indrection
+     *      the location of the player
+     */
+    public static void setPlayerLocation(int x, int y, int player1or2, Constants.Directions indirection)
+    {
+      if(player1or2 == 1)
+      {
+        direction1[2] = direction1[1];
+        direction1[1] = direction1[0];
+        direction1[0] = indirection;
+        setPlayerPictureStr();
+        player1Icon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player1PicString));
+        player1Label.setIcon(player1Icon);
+        player1Label.setLocation(x, y);
+      }else
+      {
+        direction2[2] = direction2[1];
+        direction2[1] = direction2[0];
+        direction2[0] = indirection;
+        setPlayer2PictureStr();
+        player2Icon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player2PicString));
+        player2Label.setIcon(player2Icon);
+        player2Label.setLocation(x, y);
+      }
+    }
+    
+    /**
+     * set player1PicStr
+     */
+    public static void setPlayerPictureStr()
+    {
+      if(direction1[0] == Constants.Directions.LEFT)
+      {
+        if(direction1[1] == Constants.Directions.LEFT)
+        {
+          if(direction1[2] == Constants.Directions.LEFT)
+          {
+            if(player1PicString == "image/characterpic/left0.png")
+            {
+              player1PicString = "image/characterpic/left1.png";
+            }else if(player1PicString == "image/characterpic/left1.png")
+            {
+              player1PicString = "image/characterpic/left2.png";
+            }else
+            {
+              player1PicString = "image/characterpic/left0.png";
+            }
+          }else 
+          {
+            player1PicString = "image/characterpic/left1.png";
+        }
+        }else 
+        {
+          player1PicString = "image/characterpic/left0.png";
+      }
+      }else if(direction1[0] == Constants.Directions.RIGHT)
+      {
+        if(direction1[1] == Constants.Directions.RIGHT)
+        {
+          if(direction1[2] == Constants.Directions.RIGHT)
+          {
+            if(player1PicString == "image/characterpic/right0.png")
+            {
+              player1PicString = "image/characterpic/right1.png";
+            }else if(player1PicString == "image/characterpic/right1.png")
+            {
+              player1PicString = "image/characterpic/right2.png";
+            }else
+            {
+              player1PicString = "image/characterpic/right0.png";
+            }
+          }else 
+          {
+            player1PicString = "image/characterpic/right1.png";
+        }
+        }else 
+        {
+          player1PicString = "image/characterpic/right0.png";
+      }
+      }else if(direction1[0] == Constants.Directions.DOWN)
+      {
+        if(direction1[1] == Constants.Directions.DOWN)
+        {
+          player1PicString = "image/characterpic/jump0.png";
+        }else 
+        {
+        player1PicString = "image/characterpic/jump1.png";
+      } 
+      }else if(direction1[0] == Constants.Directions.UP)
+      {
+        player1PicString = "image/characterpic/stand0.png";
+      }else if(direction1[0] == Constants.Directions.NONE)
+      {
+        player1PicString = "image/characterpic/stand0.png";
+      }  
+    }
+    
+    /**
+     * set player2PicStr
+     */
+    public static void setPlayer2PictureStr()
+    {
+      if(direction2[0] == Constants.Directions.LEFT)
+      {
+        if(direction2[1] == Constants.Directions.LEFT)
+        {
+          if(direction2[2] == Constants.Directions.LEFT)
+          {
+            if(player2PicString == "image/characterpic2/left0.png")
+            {
+              player2PicString = "image/characterpic2/left1.png";
+            }else if(player2PicString == "image/characterpic2/left1.png")
+            {
+              player2PicString = "image/characterpic2/left2.png";
+            }else
+            {
+              player2PicString = "image/characterpic2/left0.png";
+            }
+          }else 
+          {
+            player2PicString = "image/characterpic2/left1.png";
+        }
+        }else 
+        {
+          player2PicString = "image/characterpic2/left0.png";
+      }
+      }else if(direction2[0] == Constants.Directions.RIGHT)
+      {
+        if(direction2[1] == Constants.Directions.RIGHT)
+        {
+          if(direction2[2] == Constants.Directions.RIGHT)
+          {
+            if(player2PicString == "image/characterpic2/right0.png")
+            {
+              player2PicString = "image/characterpic2/right1.png";
+            }else if(player2PicString == "image/characterpic2/right1.png")
+            {
+              player2PicString = "image/characterpic2/right2.png";
+            }else
+            {
+              player2PicString = "image/characterpic2/right0.png";
+            }
+          }else 
+          {
+            player2PicString = "image/characterpic2/right1.png";
+        }
+        }else 
+        {
+          player2PicString = "image/characterpic2/right0.png";
+      }
+      }else if(direction2[0] == Constants.Directions.DOWN)
+      {
+        if(direction2[1] == Constants.Directions.DOWN)
+        {
+          player2PicString = "image/characterpic2/jump0.png";
+        }else 
+        {
+        player2PicString = "image/characterpic2/jump1.png";
+      } 
+      }else if(direction2[0] == Constants.Directions.UP)
+      {
+        player2PicString = "image/characterpic2/stand0.png";
+      }else if(direction2[0] == Constants.Directions.NONE)
+      {
+        player2PicString = "image/characterpic2/stand0.png";
+      }
     }
     
     public static String getBarPicString(barTypeEnum barType)
