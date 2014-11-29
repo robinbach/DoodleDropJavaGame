@@ -29,7 +29,26 @@ public class MainPanel {
         new MainPanel();
     }
     
-    /*
+    /**
+     * struct ibar
+     * @member barLabel
+     *      the JLabel for this bar
+     * @member barID
+     *      specific ID for this bar
+     */
+    public static class ibar
+    {
+      JLabel barLabel;
+      int barID;
+      public ibar(ImageIcon barimage, int inbarID)
+      {
+        barLabel = new JLabel(barimage);
+        barID = inbarID;
+      }
+    }
+    
+    
+    /**
      * Constructor of MainPanel
      */
     public MainPanel() {
@@ -41,9 +60,6 @@ public class MainPanel {
       MainFrame.setContentPane(MainPanel);
       MainPanel.setOpaque(false);
       MainPanel.setLayout(null);
-      
-      //System.out.println(playerIcon.getIconWidth() + "," + playerIcon.getIconHeight());
-
       MainFrame.getLayeredPane().setLayout(null);
       //set background picture
       background = new ImageIcon(getClass().getClassLoader().getResource("image/background/background.png"));
@@ -58,7 +74,7 @@ public class MainPanel {
       MainFrame.setVisible(true); 
     }
     
-    /*
+    /**
      * Destrucor of MainPanel, call at the end of game.
      */
     public static void gameEnding()
@@ -66,7 +82,16 @@ public class MainPanel {
       MainFrame.dispose();
     }
     
-    /*
+    /**
+     * refresh the MainPanel
+     */
+    public static void refreshPanel()
+    {
+      MainPanel.repaint();
+    }
+    
+    
+    /**
      * Player initialization
      * @param palyer1or2 
      *      Choose player1 or player2
@@ -99,18 +124,16 @@ public class MainPanel {
       
     }
     
-    
-    public static class ibar
-    {
-      JLabel barLabel;
-      int barID;
-      public ibar(ImageIcon barimage, int inbarID)
-      {
-        barLabel = new JLabel(barimage);
-        barID = inbarID;
-      }
-    }
-    
+    /**
+     * set the location of player1 or player2
+     * 
+     * @param x, y
+     *      the location of player
+     * @param player1or2
+     * 
+     * @param indrection
+     *      the location of the player
+     */
     public static void setPlayerLocation(int x, int y, int player1or2, Constants.Directions indirection)
     {
       if(player1or2 == 1)
@@ -134,15 +157,11 @@ public class MainPanel {
       }
     }
     
-    public static void refreshPanel()
-    {
-      MainPanel.repaint();
-    }
-    
-    
+    /**
+     * set player1PicStr
+     */
     public static void setPlayerPictureStr()
     {
-      // set player1PicStr
       if(direction1[0] == Constants.Directions.LEFT)
       {
         if(direction1[1] == Constants.Directions.LEFT)
@@ -209,32 +228,34 @@ public class MainPanel {
       }  
     }
     
+    /**
+     * set player2PicStr
+     */
     public static void setPlayer2PictureStr()
     {
-      //set player2PicStr
       if(direction2[0] == Constants.Directions.LEFT)
       {
         if(direction2[1] == Constants.Directions.LEFT)
         {
           if(direction2[2] == Constants.Directions.LEFT)
           {
-            if(player1PicString == "image/characterpic2/left0.png")
+            if(player2PicString == "image/characterpic2/left0.png")
             {
-              player1PicString = "image/characterpic2/left1.png";
-            }else if(player1PicString == "image/characterpic2/left1.png")
+              player2PicString = "image/characterpic2/left1.png";
+            }else if(player2PicString == "image/characterpic2/left1.png")
             {
-              player1PicString = "image/characterpic2/left2.png";
+              player2PicString = "image/characterpic2/left2.png";
             }else
             {
-              player1PicString = "image/characterpic2/left0.png";
+              player2PicString = "image/characterpic2/left0.png";
             }
           }else 
           {
-            player1PicString = "image/characterpic2/left1.png";
+            player2PicString = "image/characterpic2/left1.png";
         }
         }else 
         {
-          player1PicString = "image/characterpic2/left0.png";
+          player2PicString = "image/characterpic2/left0.png";
       }
       }else if(direction2[0] == Constants.Directions.RIGHT)
       {
@@ -242,39 +263,39 @@ public class MainPanel {
         {
           if(direction2[2] == Constants.Directions.RIGHT)
           {
-            if(player1PicString == "image/characterpic2/right0.png")
+            if(player2PicString == "image/characterpic2/right0.png")
             {
-              player1PicString = "image/characterpic2/right1.png";
-            }else if(player1PicString == "image/characterpic2/right1.png")
+              player2PicString = "image/characterpic2/right1.png";
+            }else if(player2PicString == "image/characterpic2/right1.png")
             {
-              player1PicString = "image/characterpic2/right2.png";
+              player2PicString = "image/characterpic2/right2.png";
             }else
             {
-              player1PicString = "image/characterpic2/right0.png";
+              player2PicString = "image/characterpic2/right0.png";
             }
           }else 
           {
-            player1PicString = "image/characterpic2/right1.png";
+            player2PicString = "image/characterpic2/right1.png";
         }
         }else 
         {
-          player1PicString = "image/characterpic2/right0.png";
+          player2PicString = "image/characterpic2/right0.png";
       }
       }else if(direction2[0] == Constants.Directions.DOWN)
       {
         if(direction2[1] == Constants.Directions.DOWN)
         {
-          player1PicString = "image/characterpic2/jump0.png";
+          player2PicString = "image/characterpic2/jump0.png";
         }else 
         {
-        player1PicString = "image/characterpic2/jump1.png";
+        player2PicString = "image/characterpic2/jump1.png";
       } 
       }else if(direction2[0] == Constants.Directions.UP)
       {
-        player1PicString = "image/characterpic2/stand0.png";
+        player2PicString = "image/characterpic2/stand0.png";
       }else if(direction2[0] == Constants.Directions.NONE)
       {
-        player1PicString = "image/characterpic2/stand0.png";
+        player2PicString = "image/characterpic2/stand0.png";
       }
     }
     
