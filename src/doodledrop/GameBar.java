@@ -35,8 +35,16 @@ public class GameBar extends MovingComponent
     velocity.y = Constants.BAR_RISING_SPEED;
 
     collision.set(Constants.BAR_WIDTH, Constants.BAR_HEIGHT);
+    barType = Constants.barTypeEnum.SPRING;
 
-    barType = Constants.barTypeEnum.NORMAL;
+//    if(barID % 3 != 0)
+//      barType = Constants.barTypeEnum.NORMAL;
+//    else
+//    {
+//      int rand_in = barID;// % 7;
+////      switch(rand_in)
+//        barType = Constants.barTypeEnum.values()[rand_in % Constants.BAR_TYPES];
+//    }
 
     barID = barIDCounter;
     ++barIDCounter;

@@ -8,6 +8,7 @@ public class GamePlayer extends MovingComponent
 
   boolean isAlive;
   int isBlocked;
+  XVec2 inertia;
   // enum Directions declared in Constants
   Directions motionStatus;
 
@@ -18,10 +19,10 @@ public class GamePlayer extends MovingComponent
     isAlive = true;
     velocity.set(0, Constants.PLAYER_DROP_SPEED);
     motionStatus = Directions.NONE;
-
+    
     collision.set(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT);
 
-
+    inertia = new XVec2(0,0);
     // isBlocked = false;
   }
 
@@ -34,6 +35,13 @@ public class GamePlayer extends MovingComponent
       System.out.println("Player moving to:" + location.toString());
     }
 
+    if(inertia.y < 0)
+    {
+      location.y += inertia.y;
+      System.out.println("Player inertia is:" + inertia.y);
+      inertia.y /= 1.2;
+    }
+    
     super.move();
 
     // velocity.x = 0;
@@ -68,9 +76,9 @@ public class GamePlayer extends MovingComponent
     }
   }
 
-  public Directions get_status()
-  {
-    return motionStatus;
-  }
+//  public Directions get_status()
+//  {
+//    return motionStatus;
+//  }
 
 }
