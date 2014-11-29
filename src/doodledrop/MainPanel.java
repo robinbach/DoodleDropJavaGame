@@ -41,7 +41,6 @@ public class MainPanel {
       
       //System.out.println(playerIcon.getIconWidth() + "," + playerIcon.getIconHeight());
       XVec2 a = new XVec2(0, 0);
-      playerInitial(2, a);
       
       MainFrame.getLayeredPane().setLayout(null);
       //set background picture

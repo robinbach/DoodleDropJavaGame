@@ -23,13 +23,13 @@ public class Constants
 
 
   public static final int PLAYER_HORIZONTAL_SPEED = 5;
-  public static final int PLAYER_DROP_SPEED = 3;
+  public static final int PLAYER_DROP_SPEED = 6;
   public static final int PLAYER_JUMP_SPEED = -150;
 
 
   public static final int FRAME_DELAY = 20;
 
-  public static final int BAR_RISING_SPEED = -7;
+  public static final int BAR_RISING_SPEED = -3;
   public static final int BAR_VERTICAL_DISTANCE = 100;
 
   public static final int MAXIMUM_BAR_NUM = 10;
