@@ -49,7 +49,7 @@ public class GameBar extends MovingComponent
 //      switch(rand_in)
         barType = Constants.barTypeEnum.values()[rand_in % 6];
     }
-    
+    barType = Constants.barTypeEnum.TURNINGLEFT;
     ++barIDCounter;
   }
 
