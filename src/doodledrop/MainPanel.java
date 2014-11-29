@@ -347,7 +347,7 @@ public class MainPanel {
       {
         if(barVector.elementAt(i).barType == Constants.barTypeEnum.TURNINGLEFT )
         {
-          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % Constants.BOARD_DELAY * 4;
+          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % (Constants.BOARD_DELAY * 4);
           if(//barVector.elementAt(i).picString == "image/board/turning0.png" && 
               barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 1)
           {
@@ -367,7 +367,7 @@ public class MainPanel {
           }
         }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.TURNINGRIGHT )
         {
-          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % Constants.BOARD_DELAY * 4;
+          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % (Constants.BOARD_DELAY * 4);
           if(//barVector.elementAt(i).picString == "image/board/turning0.png" && 
               barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 1)
           {
@@ -388,7 +388,7 @@ public class MainPanel {
           
         }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.DISAPPEAR )
         {
-          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % Constants.BOARD_DELAY *2;
+          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % (Constants.BOARD_DELAY *2);
           if(barVector.elementAt(i).picString == "image/board/disappear1.png"
               && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 0)
           {
@@ -400,7 +400,7 @@ public class MainPanel {
           }
         }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.SPRING )
         {
-          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % Constants.BOARD_DELAY *3;
+          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % (Constants.BOARD_DELAY *3);
           if(barVector.elementAt(i).picString == "image/board/spring1.png"
               && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 0)
           {

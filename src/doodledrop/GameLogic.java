@@ -225,7 +225,7 @@ public class GameLogic extends Thread implements Runnable
     // }
     if(isMulti)
     {
-      MainPanel.setPlayerLocation(player1.location.x, player1.location.y + 60, 2,
+      MainPanel.setPlayerLocation(player1.location.x, player1.location.y + 200, 2,
           player1.motionStatus);
       
 //      MainPanel.setPlayerLocation(player2.location.x, player2.location.y, 2,
