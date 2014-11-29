@@ -5,7 +5,7 @@ import doodledrop.db.ScoreBoard;
 
 public class DbTest
 {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws UserNotExistException {
       
     for (Integer i = 0; i < 5; i++){
       try {
@@ -15,7 +15,8 @@ public class DbTest
       }
     }
     
-    Player testPlayer = ScoreBoard.getPlayerInfo("player0");
+    Player testPlayer;
+    testPlayer = ScoreBoard.getPlayerInfo("player0");
     System.out.println(testPlayer.toString());
     ScoreBoard.setWin(testPlayer);
     ScoreBoard.setLose(testPlayer);
