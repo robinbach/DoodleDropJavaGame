@@ -295,7 +295,7 @@ public class MainPanel {
         barType = inbarType;
         barLabel = new JLabel(barimage);
         barID = inbarID;
-        picString = new String(inPicString);
+        picString = inPicString;
       }
     }
     
