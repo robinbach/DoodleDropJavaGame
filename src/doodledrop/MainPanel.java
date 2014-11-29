@@ -400,17 +400,17 @@ public class MainPanel {
           }
         }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.SPRING )
         {
-          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % (Constants.BOARD_DELAY *3);
+          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % (Constants.SPRING_DELAY *3);
           if(barVector.elementAt(i).picString == "image/board/spring1.png"
-              && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 0)
+              && barVector.elementAt(i).timestamps / Constants.SPRING_DELAY == 0)
           {
             barVector.elementAt(i).picString = "image/board/spring2.png";
           }else if(barVector.elementAt(i).picString == "image/board/spring2.png"
-              && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 1)
+              && barVector.elementAt(i).timestamps / Constants.SPRING_DELAY == 1)
           {
             barVector.elementAt(i).picString = "image/board/spring1.png";
           }else if(barVector.elementAt(i).picString == "image/board/spring1.png"
-              && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 2)
+              && barVector.elementAt(i).timestamps / Constants.SPRING_DELAY == 2)
           {
             barVector.elementAt(i).picString = "image/board/spring0.png";
           }
