@@ -11,7 +11,7 @@ import doodledrop.doodledropopen.RunEnding;
 public class GameLogic extends Thread implements Runnable
 {
 
-  static boolean gameRunning;
+  // static boolean gameRunning;
   private int delay;
   static int updateNums;
 
@@ -21,6 +21,8 @@ public class GameLogic extends Thread implements Runnable
 
   private DebugWindow debugMenu;
   MainPanel mainPanel;
+  
+  static boolean isMulti;
 
   // --------------------------------------------------------------------------
   // constructor and the four master functions:
@@ -32,7 +34,12 @@ public class GameLogic extends Thread implements Runnable
 
   public GameLogic()
   {
-	  
+    isMulti = true;
+  }
+  
+  public GameLogic(boolean isMulti_in)
+  {
+    isMulti = isMulti_in;
   }
 
   public void run()
@@ -59,9 +66,10 @@ public class GameLogic extends Thread implements Runnable
     // initiate Players:
     player1 = new GamePlayer();
     player2 = new GamePlayer();
-    
+
     MainPanel.playerInitial(1, player1.location);
-    MainPanel.playerInitial(2, player2.location);
+    if(isMulti)
+      MainPanel.playerInitial(2, player2.location);
 
 
     // initiate thread delay time
@@ -70,7 +78,7 @@ public class GameLogic extends Thread implements Runnable
     // initialize the frame counter, for debug.
     updateNums = 0;
 
-    // @Network_API
+    // @Network_API#
     // initialize the network connection with another player
     // established a thread for updating info of player2.
     // if( multiplayer )
@@ -89,7 +97,7 @@ public class GameLogic extends Thread implements Runnable
 
   public void gamePlaying()
   {
-    gameRunning = true;
+    player1.isAlive = true;
     System.out.println("game running");
 
     debugMenu = new DebugWindow();
@@ -100,7 +108,7 @@ public class GameLogic extends Thread implements Runnable
 
 
     // the main updating loop:
-    while( gameRunning )
+    while( player1.isAlive || updateNums < 30 * (1000/delay) )
     {
       gameUpdate();
     }
@@ -115,6 +123,7 @@ public class GameLogic extends Thread implements Runnable
     try
     {
       sleep(delay);
+      //where the listener occur
     }
     catch( InterruptedException e )
     {
@@ -138,7 +147,7 @@ public class GameLogic extends Thread implements Runnable
     // create a showResultMenu(),
     // Should contains game statistics (database), resume button, etc.
     // GUI.showResultMenu();
-    
+
     RunEnding runEnding;
     runEnding = new RunEnding();
     runEnding.start();
@@ -157,11 +166,11 @@ public class GameLogic extends Thread implements Runnable
     Vector<XVec2> barLocationList = new Vector<XVec2>();
 
     // for each existing bar on the panel
-    
+
     for( GameBar eachbar : allBars )
     {
-//      int barID = eachbar.barID;
-//      XVec2 location = eachbar.location;
+      // int barID = eachbar.barID;
+      // XVec2 location = eachbar.location;
       barLocationList.add(new XVec2(eachbar.location.x, eachbar.location.y));
       eachbar.move();
     }
@@ -170,7 +179,7 @@ public class GameLogic extends Thread implements Runnable
     // or:
     // GUI.drawAllBarOnCanvas(GameBar[] allBars)
     // where each has member attribute as barID and location
-    
+
     MainPanel.updateBarLocation(barLocationList);
     // updateBarLocation(Vector<XVec2> barLocationList);
   }
@@ -182,8 +191,8 @@ public class GameLogic extends Thread implements Runnable
     // for testing
     DebugWindow.position.setText(player1.location.toString());
 
-    XVec2 location = player1.location;
-    Directions motionStatus = player1.motionStatus;
+//    XVec2 location = player1.location;
+//    Directions motionStatus = player1.motionStatus;
 
     // @GUI_API setPlayerLocationOnGUI: set the image location of the player
     // Parameters:
@@ -194,36 +203,38 @@ public class GameLogic extends Thread implements Runnable
     // GameingWindow.setPlayerLocationOnGUI(location.x, location.y,
     // motionStatus);
     // or GameingWindow.setPlayerLocationOnGUI(location, motionStatus);
-//    try
-//    {
-//      sleep(1000);
-//    }
-//    catch( InterruptedException e )
-//    {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    }
-    MainPanel.setPlayerLocation(location.x, location.y, 1, motionStatus);
-//    try
-//    {
-//      sleep(1000);
-//    }
-//    catch( InterruptedException e )
-//    {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    }
-    MainPanel.setPlayerLocation(location.x + 100, location.y, 2, motionStatus);
 
+    MainPanel.setPlayerLocation(player1.location.x, player1.location.y, 1,
+        player1.motionStatus);
+
+    
+    
 
     // @GUI_API setPlayerLocation: set the image location of the player
     // Parameters:
     // @param XVec2 Location.
     // @param enum Directions motionStatus.
-    
-    // GameingWindow.setPlayer2OnGUI(location, motionStatus);
-    
-    // @Network_API setPlayerLocation: set the image location of the player
+
+    // try
+    // {
+    // sleep(1000);
+    // }
+    // catch( InterruptedException e )
+    // {
+    // e.printStackTrace();
+    // }
+    if(isMulti)
+    {
+      MainPanel.setPlayerLocation(player1.location.x, player1.location.y + 60, 2,
+          player1.motionStatus);
+      
+//      MainPanel.setPlayerLocation(player2.location.x, player2.location.y, 2,
+//          player2.motionStatus);
+    }
+
+
+    // @Network_API# setPlayerLocation: set the image location of the player
+    // sendPlayerInfo(location, motionStatus);
 
   }
 
@@ -231,7 +242,14 @@ public class GameLogic extends Thread implements Runnable
   // check the player's status after this move
   private void updatePlayerStatus()
   {
-
+    int barIndexFromTop = 0;
+    if(player1.location.y < 0 || player1.location.y > Constants.STAGE_HEIGHT )
+    {
+      player1.isAlive = false;
+      return;
+    }
+    
+    
     for( GameBar eachbar : allBars )
     {
       Constants.Directions direction = player1.checkCollision(eachbar);
@@ -244,6 +262,40 @@ public class GameLogic extends Thread implements Runnable
 
         switch ( direction )
         {
+          case DOWN:
+            if( player1.velocity.y > 0 )
+            {
+              player1.velocity.y = eachbar.velocity.y;
+            }
+            switch(eachbar.barType)
+            {
+              case DISAPPEAR:
+                // animation(int barIndexFromTop);
+                eachbar.collision.set(0, 0);
+                break;
+              case KILLLING:
+                System.out.println(" which kills players");
+                player1.isAlive = false;
+                break;
+              case SPRING:
+                // animation(int barIndexFromTop);
+                // eachbar.collision.set(0, 0);
+                System.out.println("spring jumping");
+                player1.inertia.y += -30;
+                break;
+              case TURNINGRIGHT:
+                player1.velocity.x += 10;
+                break;
+              case TURNINGLEFT:
+                player1.velocity.x -= 10;
+                break;
+              default:
+                break;
+            }
+            //@ GUI_API# step on a specific bar
+            // call animation method in GUI
+             MainPanel.barCollision(barIndexFromTop);
+            break;
           case LEFT:
             if( player1.velocity.x < 0 )
               player1.velocity.x = 0;
@@ -256,10 +308,6 @@ public class GameLogic extends Thread implements Runnable
             if( player1.velocity.y < 0 )
               player1.velocity.y = 0;
             break;
-          case DOWN:
-            if( player1.velocity.y > 0 )
-              player1.velocity.y = eachbar.velocity.y;
-            break;
           default:
             System.err.println("error");
             break;
@@ -268,10 +316,9 @@ public class GameLogic extends Thread implements Runnable
         {
           System.out.println(" which kills players");
           player1.isAlive = false;
-          gameRunning = false;
         }
-        break;
       }
+      barIndexFromTop++;
     }
     System.out.println("updating players");
   }
@@ -297,10 +344,11 @@ public class GameLogic extends Thread implements Runnable
     if( allBars.getFirst().location.y < 0 )
     {
       allBars.removeFirst();
-      // @ GUI_API
+      // @ GUI_API 
+      // remove bar from GUI window
       MainPanel.deleteBar();
       // deleteBar();
-      
+
     }
 
   }
@@ -353,8 +401,7 @@ public class GameLogic extends Thread implements Runnable
     }
     else if( keyCode == KeyEvent.VK_K )
     {
-    	player1.isAlive = false;
-    	gameRunning = false;	
+      player1.isAlive = false;
     }
   }
 

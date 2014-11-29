@@ -86,25 +86,25 @@ public class MovingComponent
           && another.location.y - location.y < collision.y 
           && another.location.y - location.y > collision.y - another.collision.y )
         return Constants.Directions.DOWN;
-      if( another.location.y < location.y
-          && -another.location.y + location.y < another.collision.y )
-        return Constants.Directions.UP;
+//      if( another.location.y < location.y
+//          && -another.location.y + location.y < another.collision.y )
+//        return Constants.Directions.UP;
     }
     
     // if they have the same y region
     // Hint: y increasing from top to bottom.
-    if( location.y > another.location.y + another.collision.y
-        && location.y < another.location.y + collision.y )
-    {
-      //check if their x region cross on other
-      if( another.location.x > location.x
-          && another.location.x - location.x < collision.x )
-        return Constants.Directions.RIGHT;
-      else if( another.location.x < location.x
-          && -another.location.x + location.x < another.collision.x )
-        return Constants.Directions.LEFT;
-    }
-    
+//    if( location.y > another.location.y + another.collision.y
+//        && location.y < another.location.y + collision.y )
+//    {
+//      //check if their x region cross on other
+//      if( another.location.x > location.x
+//          && another.location.x - location.x < collision.x )
+//        return Constants.Directions.RIGHT;
+//      else if( another.location.x < location.x
+//          && -another.location.x + location.x < another.collision.x )
+//        return Constants.Directions.LEFT;
+//    }
+//    
     
     // System.out.println("collision find as:" + toString());
     // System.out.println("with another component" + another.toString());

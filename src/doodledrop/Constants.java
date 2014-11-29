@@ -14,6 +14,8 @@ public class Constants
     KILLLING, NORMAL, DISAPPEAR, SPRING, TURNINGLEFT, TURNINGRIGHT;
   };
   
+  public static final int BAR_TYPES =  barTypeEnum.values().length;
+  
   public static final int PLAYER_HEIGHT = 60;
   public static final int PLAYER_WIDTH = 34;
 
