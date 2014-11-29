@@ -59,6 +59,10 @@ public class GameLogic extends Thread implements Runnable
     // initiate Players:
     player1 = new GamePlayer();
     player2 = new GamePlayer();
+    
+    MainPanel.playerInitial(1, player1.location);
+    MainPanel.playerInitial(2, player2.location);
+
 
     // initiate thread delay time
     delay = Constants.FRAME_DELAY;
@@ -190,7 +194,27 @@ public class GameLogic extends Thread implements Runnable
     // GameingWindow.setPlayerLocationOnGUI(location.x, location.y,
     // motionStatus);
     // or GameingWindow.setPlayerLocationOnGUI(location, motionStatus);
+//    try
+//    {
+//      sleep(1000);
+//    }
+//    catch( InterruptedException e )
+//    {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    }
     MainPanel.setPlayerLocation(location.x, location.y, 1, motionStatus);
+//    try
+//    {
+//      sleep(1000);
+//    }
+//    catch( InterruptedException e )
+//    {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    }
+    MainPanel.setPlayerLocation(location.x + 100, location.y, 2, motionStatus);
+
 
     // @GUI_API setPlayerLocation: set the image location of the player
     // Parameters:

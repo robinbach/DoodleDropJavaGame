@@ -43,6 +43,7 @@ public class MainPanel {
       MainPanel.setLayout(null);
       
       //System.out.println(playerIcon.getIconWidth() + "," + playerIcon.getIconHeight());
+
       MainFrame.getLayeredPane().setLayout(null);
       //set background picture
       background = new ImageIcon(getClass().getClassLoader().getResource("image/background/background.png"));
