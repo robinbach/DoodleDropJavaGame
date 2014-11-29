@@ -17,6 +17,7 @@ public class GamePlayer extends MovingComponent
   {
     super();
     isAlive = true;
+    location.set(Constants.STAGE_WIDTH/2 , 0);
     velocity.set(0, Constants.PLAYER_DROP_SPEED);
     motionStatus = Directions.NONE;
     
@@ -35,14 +36,27 @@ public class GamePlayer extends MovingComponent
       System.out.println("Player moving to:" + location.toString());
     }
 
-    if(inertia.y < 0)
+    if(inertia.y != 0)
     {
       location.y += inertia.y;
-      System.out.println("Player inertia is:" + inertia.y);
-      inertia.y /= 1.2;
+      System.out.println("Player inertia y is:" + inertia.y);
+      inertia.y /= Constants.POWER_DEACY_CONSTANT;
     }
-    
+    if(inertia.x != 0)
+    {
+      location.x += inertia.x;
+      System.out.println("Player inertia x is:" + inertia.x);
+      inertia.x /= Constants.POWER_DEACY_CONSTANT;
+    }
     super.move();
+    if(location.x < -Constants.PLAYER_WIDTH)
+    {
+      location.x = Constants.STAGE_WIDTH;
+    }
+    if(location.x > Constants.STAGE_WIDTH)
+    {
+      location.x = -Constants.PLAYER_WIDTH;
+    }
 
     // velocity.x = 0;
     velocity.y = Constants.PLAYER_DROP_SPEED;

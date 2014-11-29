@@ -1,6 +1,5 @@
 package doodledrop;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 
@@ -22,7 +21,8 @@ public class DebugWindow extends JFrame
   {
     super("Doodle _(:3Z)_ Drop");
 
-    setMinimumSize(new Dimension(400, 120));
+    //setMinimumSize(new Dimension(400, 120));
+    setBounds(400, 0, 400, 120);
 
     setLayout(new FlowLayout());
     JLabel positionLabel = new JLabel("player's location: ");

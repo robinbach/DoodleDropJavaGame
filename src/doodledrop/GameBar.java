@@ -38,18 +38,19 @@ public class GameBar extends MovingComponent
     barType = Constants.barTypeEnum.NORMAL;
 
     barID = barIDCounter;
-
-    if(barID % 5 != 4)
-    {
-      barType = Constants.barTypeEnum.NORMAL;
-    }
-    else
-    {
+//
+//    if(barID % 99 != 4)
+//    {
+//      barType = Constants.barTypeEnum.NORMAL;
+//    }
+//    else
+//    {
       int rand_in = barID;// % 7;
 //      switch(rand_in)
         barType = Constants.barTypeEnum.values()[rand_in % 6];
-    }
-    barType = Constants.barTypeEnum.NORMAL;
+
+  //  barType = Constants.barTypeEnum.NORMAL;
+
     ++barIDCounter;
   }
 
