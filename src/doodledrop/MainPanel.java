@@ -15,9 +15,9 @@ public class MainPanel {
 
     private static ImageIcon background;
 
-    private static ImageIcon playerIcon;
+    private static ImageIcon player1Icon, player2Icon;
     
-    private static JLabel playerlabel;
+    private static JLabel player1Label, player2Label;
     
     private static Constants.Directions direction1[], direction2[];
     
@@ -29,6 +29,9 @@ public class MainPanel {
         new MainPanel();
     }
     
+    /*
+     * Constructor of MainPanel
+     */
     public MainPanel() {
     	//initialize
     	barVector = new Vector<ibar>();
@@ -40,9 +43,6 @@ public class MainPanel {
       MainPanel.setLayout(null);
       
       //System.out.println(playerIcon.getIconWidth() + "," + playerIcon.getIconHeight());
-      XVec2 a = new XVec2(0, 0);
-      playerInitial(2, a);
-      
       MainFrame.getLayeredPane().setLayout(null);
       //set background picture
       background = new ImageIcon(getClass().getClassLoader().getResource("image/background/background.png"));
@@ -55,14 +55,49 @@ public class MainPanel {
       MainFrame.setSize(background.getIconWidth(), background.getIconHeight());
       MainFrame.setResizable(false);
       MainFrame.setVisible(true); 
-      
-      
     }
     
+    /*
+     * Destrucor of MainPanel, call at the end of game.
+     */
     public static void gameEnding()
     {
       MainFrame.dispose();
     }
+    
+    /*
+     * Player initialization
+     * @param palyer1or2 
+     *      Choose player1 or player2
+     * @param iniLocation 
+     *      the initial location of the player
+     */
+    public static void playerInitial(int player1or2, XVec2 iniLocation)
+    {
+      if(player1or2 == 1)
+      {
+        direction1 = new Constants.Directions[3];
+        direction1[0] = direction1[1] = direction1[2] = Constants.Directions.NONE;
+        player1PicString = "image/characterpic/stand0.png";
+        player1Icon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player1PicString));
+        player1Label = new JLabel(player1Icon);
+        MainPanel.add(player1Label);
+        player1Label.setBounds(0, 0, player1Icon.getIconWidth(),player1Icon.getIconHeight());
+        player1Label.setLocation(iniLocation.x, iniLocation.y);  
+      }else 
+      {
+        direction2 = new Constants.Directions[3];
+        direction2[0] = direction2[1] = direction2[2] = Constants.Directions.NONE;
+        player2PicString = "image/characterpic2/stand0.png";
+        player2Icon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player2PicString));
+        player2Label = new JLabel(player2Icon);
+        MainPanel.add(player2Label);
+        player2Label.setBounds(0, 0, player2Icon.getIconWidth(),player2Icon.getIconHeight());
+        player2Label.setLocation(iniLocation.x, iniLocation.y);  
+      }
+      
+    }
+    
     
     public static class ibar
     {
@@ -75,36 +110,6 @@ public class MainPanel {
       }
     }
     
-  
-    
-    
-    public static void playerInitial(int player1or2, XVec2 iniLocation)
-    {
-      //set character label
-      if(player1or2 == 1)
-      {
-        direction1 = new Constants.Directions[3];
-        direction1[0] = direction1[1] = direction1[2] = Constants.Directions.NONE;
-        player1PicString = "image/characterpic/stand0.png";
-        playerIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player1PicString));
-        playerlabel = new JLabel(playerIcon);
-        MainPanel.add(playerlabel);
-        playerlabel.setBounds(0, 0, playerIcon.getIconWidth(),playerIcon.getIconHeight());
-        playerlabel.setLocation(iniLocation.x, iniLocation.y);  
-      }else 
-      {
-        direction2 = new Constants.Directions[3];
-        direction2[0] = direction2[1] = direction2[2] = Constants.Directions.NONE;
-        player2PicString = "image/characterpic2/stand0.png";
-        playerIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player2PicString));
-        playerlabel = new JLabel(playerIcon);
-        MainPanel.add(playerlabel);
-        playerlabel.setBounds(0, 0, playerIcon.getIconWidth(),playerIcon.getIconHeight());
-        playerlabel.setLocation(iniLocation.x, iniLocation.y);  
-      }
-      
-    }
-    
     public static void setPlayerLocation(int x, int y, int player1or2, Constants.Directions indirection)
     {
       if(player1or2 == 1)
@@ -113,18 +118,18 @@ public class MainPanel {
         direction1[1] = direction1[0];
         direction1[0] = indirection;
         setPlayerPictureStr();
-        playerIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player1PicString));
-        playerlabel.setIcon(playerIcon);
-        playerlabel.setLocation(x, y);
+        player1Icon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player1PicString));
+        player1Label.setIcon(player1Icon);
+        player1Label.setLocation(x, y);
       }else
       {
         direction2[2] = direction2[1];
         direction2[1] = direction2[0];
         direction2[0] = indirection;
         setPlayer2PictureStr();
-        playerIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player2PicString));
-        playerlabel.setIcon(playerIcon);
-        playerlabel.setLocation(x, y);
+        player2Icon = new ImageIcon(MainPanel.class.getClassLoader().getResource(player2PicString));
+        player2Label.setIcon(player2Icon);
+        player2Label.setLocation(x, y);
       }
     }
     
