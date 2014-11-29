@@ -302,10 +302,11 @@ public class MainPanel {
     {
       public Constants.barTypeEnum barType;
       public JLabel barLabel;
-      public int barID;
+      public int barID, timestamps;
       public String picString;
       public ibar(Constants.barTypeEnum inbarType, ImageIcon barimage, int inbarID, String inPicString)
       {
+        timestamps = 0;
         barType = inbarType;
         barLabel = new JLabel(barimage);
         barID = inbarID;
@@ -346,52 +347,80 @@ public class MainPanel {
       {
         if(barVector.elementAt(i).barType == Constants.barTypeEnum.TURNINGLEFT )
         {
-          if(barVector.elementAt(i).picString == "image/board/turning0.png")
+          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % Constants.BOARD_DELAY * 4;
+          if(//barVector.elementAt(i).picString == "image/board/turning0.png" && 
+              barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 1)
           {
             barVector.elementAt(i).picString = "image/board/turning1.png";
-          }else if(barVector.elementAt(i).picString == "image/board/turning1.png")
+          }else if(//barVector.elementAt(i).picString == "image/board/turning1.png" && 
+              barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 2)
           {
             barVector.elementAt(i).picString = "image/board/turning2.png";
-          }else if(barVector.elementAt(i).picString == "image/board/turning2.png")
+          }else if(//barVector.elementAt(i).picString == "image/board/turning2.png" && 
+              barVector.elementAt(i).timestamps / Constants.BOARD_DELAY ==3)
+          {
+            barVector.elementAt(i).picString = "image/board/turning3.png";
+          }else if(//barVector.elementAt(i).picString == "image/board/turning3.png" && 
+              barVector.elementAt(i).timestamps / Constants.BOARD_DELAY ==0)
           {
             barVector.elementAt(i).picString = "image/board/turning0.png";
           }
         }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.TURNINGRIGHT )
         {
-          if(barVector.elementAt(i).picString == "image/board/turning0.png")
+          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % Constants.BOARD_DELAY * 4;
+          if(//barVector.elementAt(i).picString == "image/board/turning0.png" && 
+              barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 1)
+          {
+            barVector.elementAt(i).picString = "image/board/turning3.png";
+          }else if(//barVector.elementAt(i).picString == "image/board/turning3.png" && 
+              barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 2)
           {
             barVector.elementAt(i).picString = "image/board/turning2.png";
-          }else if(barVector.elementAt(i).picString == "image/board/turning2.png")
+          }else if(//barVector.elementAt(i).picString == "image/board/turning2.png" && 
+              barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 3)
           {
             barVector.elementAt(i).picString = "image/board/turning1.png";
-          }else if(barVector.elementAt(i).picString == "image/board/turning1.png")
+          }else if(//barVector.elementAt(i).picString == "image/board/turning1.png" && 
+              barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 0)
           {
             barVector.elementAt(i).picString = "image/board/turning0.png";
           }
+          
         }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.DISAPPEAR )
         {
-          if(barVector.elementAt(i).picString == "image/board/disappear1.png")
+          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % Constants.BOARD_DELAY *2;
+          if(barVector.elementAt(i).picString == "image/board/disappear1.png"
+              && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 0)
           {
             barVector.elementAt(i).picString = "image/board/disappear2.png";
-          }else if(barVector.elementAt(i).picString == "image/board/disappear2.png")
+          }else if(barVector.elementAt(i).picString == "image/board/disappear2.png"
+              && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 1)
           {
             barVector.elementAt(i).picString = "image/board/disappear3.png";
           }
         }else if(barVector.elementAt(i).barType == Constants.barTypeEnum.SPRING )
         {
-          if(barVector.elementAt(i).picString == "image/board/spring1.png")
+          barVector.elementAt(i).timestamps = barVector.elementAt(i).timestamps % Constants.BOARD_DELAY *3;
+          if(barVector.elementAt(i).picString == "image/board/spring1.png"
+              && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 0)
+          {
+            barVector.elementAt(i).picString = "image/board/spring2.png";
+          }else if(barVector.elementAt(i).picString == "image/board/spring2.png"
+              && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 1)
+          {
+            barVector.elementAt(i).picString = "image/board/spring1.png";
+          }else if(barVector.elementAt(i).picString == "image/board/spring1.png"
+              && barVector.elementAt(i).timestamps / Constants.BOARD_DELAY == 2)
           {
             barVector.elementAt(i).picString = "image/board/spring0.png";
           }
         }
         
-        System.out.println("asdf");
+        barVector.elementAt(i).timestamps ++;
         ImageIcon barIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource(barVector.elementAt(i).picString));
         barVector.elementAt(i).barLabel.setIcon(barIcon);
         barVector.elementAt(i).barLabel.setLocation(locationVector.elementAt(i).x, locationVector.elementAt(i).y);
-        System.out.println("dsg3");
       }
-      
     }
     
     /**
