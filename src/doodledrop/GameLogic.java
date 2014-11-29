@@ -101,10 +101,17 @@ public class GameLogic extends Thread implements Runnable
     System.out.println("game running");
 
     debugMenu = new DebugWindow();
-
     allBars.add(new GameBar());
 
-    // gamingMenu.initGUI();
+
+    try
+    {
+      sleep(Constants.GAME_PREPARE_TIME);
+    }
+    catch( InterruptedException e )
+    {
+      e.printStackTrace();
+    }
 
 
     // the main updating loop:
@@ -120,6 +127,7 @@ public class GameLogic extends Thread implements Runnable
     System.out.println("@@@@@@---------");
     System.out.println("game updating" + updateNums);
 
+    
     try
     {
       sleep(delay);
@@ -281,13 +289,13 @@ public class GameLogic extends Thread implements Runnable
                 // animation(int barIndexFromTop);
                 // eachbar.collision.set(0, 0);
                 System.out.println("spring jumping");
-                player1.inertia.y += -30;
+                player1.inertia.y += -Constants.SPRING_BAR_POWER;
                 break;
               case TURNINGRIGHT:
-                player1.velocity.x += 10;
+                player1.inertia.x += Constants.TURNING_BAR_POWER;
                 break;
               case TURNINGLEFT:
-                player1.velocity.x -= 10;
+                player1.inertia.x -= Constants.TURNING_BAR_POWER;
                 break;
               default:
                 break;
