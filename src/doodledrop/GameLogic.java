@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import doodledrop.Constants.Directions;
-import doodledrop.doodledropopen.RunEnding;
-
 
 public class GameLogic extends Thread implements Runnable
 {

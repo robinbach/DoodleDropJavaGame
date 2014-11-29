@@ -9,8 +9,8 @@ import javax.swing.WindowConstants;
 
 import doodledrop.GameLogic;
 import doodledrop.db.Player;
-import doodledrop.doodledropopen.EndingWin;
-import doodledrop.doodledropopen.OpeningWin;
+import doodledrop.control.EndingWin;
+import doodledrop.control.OpeningWin;
 
 public class ControlTest
 {
