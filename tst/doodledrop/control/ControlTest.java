@@ -35,7 +35,7 @@ public class ControlTest
       runGame();
       System.out.println("#in control: end of running game");
       startGame = null;
-      startEndingWin(startGame);
+      startEndingWin();
       while (startGame == null){
         startGame = endingWin.ifStartGame();
       }
@@ -57,8 +57,8 @@ public class ControlTest
     openingWin.dispose();
   }
   
-  public static void startEndingWin(Boolean startGame){
-    endingWin = new EndingWin(startGame);
+  public static void startEndingWin(){
+    endingWin = new EndingWin();
     endingWin.setMinimumSize(new Dimension(600, 600));
     endingWin.pack();
     endingWin.setVisible(true);

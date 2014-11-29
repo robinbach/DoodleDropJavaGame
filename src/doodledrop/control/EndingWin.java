@@ -30,9 +30,8 @@ public class EndingWin extends JFrame {
   
   private static Boolean startGame;
   
-  public EndingWin(Boolean _startGame) {
+  public EndingWin() {
     super ("Doodle Drop");
-    startGame = _startGame;
     setLayout(new GridLayout(2,1));
     imagepanel = new JPanel(new BorderLayout());
     buttonpanel = new JPanel(new GridLayout(1,2));
@@ -78,11 +77,11 @@ public class EndingWin extends JFrame {
         Thread gameThread = new Thread(gameEngine);
         gameThread.start();
         GameControl.runEnding.gameEnding.dispose();*/
-        startGame = true;
+        setStartGame(true);
       }
       else if (event.getSource().equals(scoredatabutton))
       {
-        ScoreDialog scoredialog = new ScoreDialog("Scores", EndingWin.this);
+        ScoreDialog scoredialog = new ScoreDialog("Score Board", EndingWin.this);
       }
       else if (event.getSource().equals(settingbutton))
       {
@@ -96,7 +95,7 @@ public class EndingWin extends JFrame {
                       JOptionPane.YES_NO_OPTION);
         if (confirm == 0)
         {
-          startGame = false;  //make main control continue
+          setStartGame(false);         
         }
       }
     }
@@ -104,5 +103,16 @@ public class EndingWin extends JFrame {
   
   public Boolean ifStartGame(){
     return this.startGame;
+  }
+  
+  public void resetStartGame(){
+    setStartGame(null);
+  }
+  
+  private void setStartGame(Boolean bool){
+    MainControl.sgLock.lock();
+    startGame = bool;
+    MainControl.sgNotNull.signal();
+    MainControl.sgLock.unlock();
   }
 }

@@ -64,6 +64,13 @@ public class ScoreBoard
     return top10;
   }
   
+  public static Top10Winners getTop10W(){
+    String query = "select name, win, lose from players order by win DESC limit 10;";
+    Top10Winners top10 = new Top10Winners();
+    runQuery(query, top10, true);
+    return top10;
+  }
+  
   public static void storeScore (Player player, int score){
     String query = "insert into score (player_id, score) values ("+player.id+", "+score+");";
     runQuery(query, null, false);

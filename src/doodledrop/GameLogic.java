@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import doodledrop.Constants.Directions;
+import doodledrop.control.MainControl;
 
 public class GameLogic extends Thread implements Runnable
 {
@@ -113,14 +114,15 @@ public class GameLogic extends Thread implements Runnable
 
 
     // the main updating loop:
-    while( player1.isAlive || updateNums < 30 * (1000/delay) )
+    // TODO: should stop updating if the other player died
+    while( player1.isAlive ) //|| updateNums < 30 * (1000/delay) ) //test
     {
       gameUpdate();
       
-      if( updateNums < 30 * (1000/delay))
+      /*if( updateNums < 30 * (1000/delay)) //test
       {
         player1.isAlive = true;
-      }
+      }*/
       
     }
   }
@@ -146,7 +148,8 @@ public class GameLogic extends Thread implements Runnable
     updateBarStatus();
     updatePlayerStatus();
 
-    // getNetworkInfo();
+    // getNetworkInfo(); 
+    // TODO: also needs to send aliveness of the other player: indicate game ending
     moveBars();
     movePlayers();
   }
@@ -160,13 +163,19 @@ public class GameLogic extends Thread implements Runnable
     // Should contains game statistics (database), resume button, etc.
     // GUI.showResultMenu();
 
-    /*RunEnding runEnding;
-    runEnding = new RunEnding();
-    runEnding.start();*/
-
+    // dispose windows
     debugMenu.dispose();
-
     MainPanel.gameEnding();
+    // set winners
+    // whoever ends first is loser
+    // end either current player died or the other player died
+    // if died send signal to the other player to stop
+    // send timestamp as well in case of network delay, i.e. died after the other already died
+    if (player1.isAlive){  // if (player1.isAlive || otherDeathTimestamp_earlier_than_currtimestamp)
+      MainControl.setCurrentPlayerWin();
+    } else {
+      MainControl.setCurrentPlayerLose();
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -415,6 +424,7 @@ public class GameLogic extends Thread implements Runnable
     else if( keyCode == KeyEvent.VK_K )
     {
       player1.isAlive = false;
+      System.out.println("player killed in gamelogic");
     }
   }
 

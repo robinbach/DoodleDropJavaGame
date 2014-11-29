@@ -2,6 +2,7 @@ package doodledrop.db;
 
 import doodledrop.db.Top10Scores.PlayerScore;
 import doodledrop.db.ScoreBoard;
+import doodledrop.db.Top10Winners.PlayerWinlose;
 
 public class DbTest
 {
@@ -36,6 +37,10 @@ public class DbTest
       throw new RuntimeException("Player not deleted!");
     } else {
       System.out.println("Player deleted!");
+    }
+    Top10Winners top10W = ScoreBoard.getTop10W();
+    for (PlayerWinlose player : top10W.list){
+      System.out.println(player.toString());
     }
   }
 }

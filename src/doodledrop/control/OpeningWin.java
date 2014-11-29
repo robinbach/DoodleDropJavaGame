@@ -87,12 +87,15 @@ public class OpeningWin extends JFrame {
     public void actionPerformed(ActionEvent event) {
       if (event.getSource().equals(startbutton))
       {
+        MainControl.rpLock.lock();
         RegisterDialog registerDialog = new RegisterDialog(OpeningWin.this);
         registeredPlayer = registerDialog.getResigteredPlayer();
+        MainControl.rpNotNull.signal();
+        MainControl.rpLock.unlock();
       }
       else if (event.getSource().equals(scoredatabutton))
       {
-        ScoreDialog scoredialog = new ScoreDialog("Scores", OpeningWin.this);
+        ScoreDialog scoredialog = new ScoreDialog("Score Board", OpeningWin.this);
       }
       else if (event.getSource().equals(settingbutton))
       {
