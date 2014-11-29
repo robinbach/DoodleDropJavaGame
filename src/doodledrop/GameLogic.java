@@ -162,9 +162,9 @@ public class GameLogic extends Thread implements Runnable
     // Should contains game statistics (database), resume button, etc.
     // GUI.showResultMenu();
 
-    RunEnding runEnding;
+    /*RunEnding runEnding;
     runEnding = new RunEnding();
-    runEnding.start();
+    runEnding.start();*/
 
     debugMenu.dispose();
 
