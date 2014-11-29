@@ -29,5 +29,12 @@ public class DbTest
     for (PlayerScore player : top10.list){
       System.out.println(player.toString());
     }
+    ScoreBoard.deletePlayer(testPlayer);
+    Top10Scores top10_2 = ScoreBoard.getTop10();
+    if (!top10_2.list.isEmpty()){
+      throw new RuntimeException("Player not deleted!");
+    } else {
+      System.out.println("Player deleted!");
+    }
   }
 }
