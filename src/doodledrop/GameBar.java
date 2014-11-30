@@ -10,7 +10,7 @@ public class GameBar extends MovingComponent
   int barID;
   int heat;
   boolean musicPlayed;
-  static private Random rand = new Random(0);
+  static private Random rand = new Random(1);
 
 
 
