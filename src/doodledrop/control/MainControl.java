@@ -1,7 +1,5 @@
 package doodledrop.control;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +30,6 @@ public class MainControl
   public static EndingWin endingWin = new EndingWin();;
   public static GameLogic gameEngine;
   
-  //private static AudioClip bgm = 
-  //    Applet.newAudioClip(MainMusic.class.getClassLoader().getResource("bgm/call_cut.wav"));
   private static Clip bgm;
   private static Player resigteredPlayer;
   private static Boolean startGame = true;
@@ -42,16 +38,6 @@ public class MainControl
   public final static Lock sgLock = new ReentrantLock();
   public final static Condition rpNotNull  = rpLock.newCondition(); 
   public final static Condition sgNotNull = sgLock.newCondition(); 
-  
-  public static void setupBgm() throws UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException{
-    File soundFile = new File(MainMusic.class.getClassLoader().getResource("bgm/call_cut.wav").toURI());
-    AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
-
-    // load the sound into memory (a Clip)
-    DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
-    bgm = (Clip) AudioSystem.getLine(info);
-    bgm.open(sound);
-  }
   
   public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException
   {
@@ -120,6 +106,7 @@ public class MainControl
   
   public static void runGame()
   {
+    startBgm();    
     gameEngine = new GameLogic();
     Thread gameThread = new Thread(gameEngine);
     gameThread.start();
@@ -154,7 +141,19 @@ public class MainControl
   }
   
   public static void startBgm(){
-    bgm.loop(Clip.LOOP_CONTINUOUSLY);
+    if (!bgm.isRunning()){
+      bgm.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+  }
+  
+  public static void setupBgm() throws UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException{
+    File soundFile = new File(MainMusic.class.getClassLoader().getResource("bgm/call_cut.wav").toURI());
+    AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
+
+    // load the sound into memory (a Clip)
+    DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+    bgm = (Clip) AudioSystem.getLine(info);
+    bgm.open(sound);
   }
   
   public static void setBgmVolumn(double gain){
