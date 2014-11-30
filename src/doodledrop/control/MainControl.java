@@ -120,6 +120,7 @@ public class MainControl
   
   public static void runGame()
   {
+    startBgm();    
     gameEngine = new GameLogic();
     Thread gameThread = new Thread(gameEngine);
     gameThread.start();
@@ -154,7 +155,9 @@ public class MainControl
   }
   
   public static void startBgm(){
-    bgm.loop(Clip.LOOP_CONTINUOUSLY);
+    if (!bgm.isRunning()){
+      bgm.loop(Clip.LOOP_CONTINUOUSLY);
+    }
   }
   
   public static void setBgmVolumn(double gain){

@@ -225,10 +225,12 @@ public class GameLogic extends Thread implements Runnable
     // send timestamp as well in case of network delay, i.e. died after the other already died
     
     if (isWinner){  // if (player1.isAlive || otherDeathTimestamp_earlier_than_currtimestamp)
-      MainControl.setCurrentPlayerWin();  
+      MainControl.setCurrentPlayerWin();
+      MainControl.stopBgm();
       mainMusic.playWin();
     } else {
       MainControl.setCurrentPlayerLose();
+      MainControl.stopBgm();
       mainMusic.playLose();
     }
   }
