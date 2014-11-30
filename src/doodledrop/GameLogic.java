@@ -177,11 +177,12 @@ public class GameLogic extends Thread implements Runnable
       updateNums++;
       gameUpdate();
       
-      if(isMulti & updateNums - clientFrameNum > Constants.DELAY_CONTROL)
+      while(player1.isAlive && isWinner == false 
+          && isMulti && updateNums - clientFrameNum > Constants.DELAY_CONTROL)
       {
         try
         {
-          sleep(delay);
+          sleep(Constants.DELAY_CONTROL * delay);
           //where the listener occur
         }
         catch( InterruptedException e )
