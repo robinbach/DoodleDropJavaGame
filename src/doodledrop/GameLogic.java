@@ -84,10 +84,13 @@ public class GameLogic extends Thread implements Runnable
       if(Constants.IsServer)
       {
         MainPanel.playerInitial(1, player1.location);
+        MainPanel.playerInitial(2, player1.location);
+
       }
       else
       {
-        MainPanel.playerInitial(2, player2.location);
+        MainPanel.playerInitial(2, player1.location);
+        MainPanel.playerInitial(1, player2.location);
       }
     }
     else

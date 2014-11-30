@@ -31,6 +31,8 @@ public class PlayerSocket implements Runnable
 			serverSocket = new ServerSocket(portNum);
 		    System.out.println("waiting for client to connect...");
 		    socket = serverSocket.accept();
+        System.out.println("ready for client to connect");
+
 		    outData = new DataOutputStream(socket.getOutputStream());
 		    inData = new DataInputStream(socket.getInputStream());
 		}
@@ -46,6 +48,7 @@ public class PlayerSocket implements Runnable
 	    try
 	    {
 	      socket = new Socket(ipAddr, portNum);
+        System.out.println("ready for server to connect");
 	      outData = new DataOutputStream(socket.getOutputStream());
 	      inData = new DataInputStream(socket.getInputStream());
 	    }
