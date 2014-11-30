@@ -248,6 +248,7 @@ public class GameLogic extends Thread implements Runnable
     MainPanel.setPlayerLocation(player1.location.x, player1.location.y, 1,
         player1.motionStatus);
     MainPanel.setBloodBar(player1.healthPoint*4/Constants.PLAYER_HEALTH);
+    MainPanel.setScoreLabel(score);
 
     
     
