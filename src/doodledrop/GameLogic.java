@@ -20,6 +20,7 @@ public class GameLogic extends Thread implements Runnable
 
   private DebugWindow debugMenu;
   MainPanel mainPanel;
+  MainMusic mainMusic;
   
   static boolean isMulti;
   private static boolean isWinner;
@@ -63,6 +64,7 @@ public class GameLogic extends Thread implements Runnable
     // @GUI_API
     // initialize/swap to gaming menu
     mainPanel = new MainPanel();
+    mainMusic = new MainMusic();
     MainPanel.setBloodBar(3);
 
     
@@ -327,15 +329,21 @@ public class GameLogic extends Thread implements Runnable
                 {
                   eachbar.collision.set(0, 0);
                   MainPanel.barCollision(barIndexFromTop);
+                  mainMusic.playDisappear();
                 }
                 eachbar.heat--;
                 break;
               case KILLLING:
                 System.out.println(" which kills players");
+                if(!eachbar.musicPlayed)
+                  mainMusic.playKilling();
+                eachbar.musicPlayed = true;
+
                 player1.healthPoint--;
 //                player1.isAlive = false;
                 break;
               case SPRING:
+                  mainMusic.playSprint();
                 // animation(int barIndexFromTop);
                 // eachbar.collision.set(0, 0);
                 System.out.println("spring jumping");
@@ -343,12 +351,21 @@ public class GameLogic extends Thread implements Runnable
                 MainPanel.barCollision(barIndexFromTop);
                 break;
               case TURNINGRIGHT:
+                if(!eachbar.musicPlayed)
+                  mainMusic.playNormal();
+                eachbar.musicPlayed = true;
                 player1.inertia.x -= Constants.TURNING_BAR_POWER;
                 break;
               case TURNINGLEFT:
+                if(!eachbar.musicPlayed)
+                  mainMusic.playNormal();
+                eachbar.musicPlayed = true;
                 player1.inertia.x += Constants.TURNING_BAR_POWER;
                 break;
               default:
+                if(!eachbar.musicPlayed)
+                  mainMusic.playNormal();
+                eachbar.musicPlayed = true;
                 break;
             }
             //@ GUI_API# step on a specific bar

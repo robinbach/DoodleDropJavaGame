@@ -9,6 +9,7 @@ public class GameBar extends MovingComponent
   private static int barIDCounter = 0;
   int barID;
   int heat;
+  boolean musicPlayed;
 
 
   Constants.barTypeEnum barType;
@@ -18,6 +19,7 @@ public class GameBar extends MovingComponent
     super(0, Constants.STAGE_HEIGHT);
     initBar();
     heat = Constants.BAR_HEAT;
+    musicPlayed = false;
     
     
     // @ GUI_API
