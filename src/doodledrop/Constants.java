@@ -32,7 +32,8 @@ public class Constants
   public static final int PLAYER_HORIZONTAL_SPEED = 6;
 
   public static int PLAYER_DROP_SPEED = 5;
-  
+  public static int BAR_RISING_SPEED = -5;
+
 
   public static final int PLAYER_JUMP_SPEED = -150;
 
@@ -43,7 +44,6 @@ public class Constants
   public static final int SPRING_DELAY = 10;
 
 
-  public static int BAR_RISING_SPEED = -5;
   public static final int BAR_VERTICAL_DISTANCE = 100;
 
   public static final int MAXIMUM_BAR_NUM = 100;

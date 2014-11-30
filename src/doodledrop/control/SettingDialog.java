@@ -18,6 +18,11 @@ import javax.swing.JSlider;
 import doodledrop.Constants;
 
 public class SettingDialog extends JDialog{
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+  
   private static JLabel enableSound;
   private static JRadioButton doenable;
   private static JRadioButton notenable;
@@ -95,8 +100,8 @@ public class SettingDialog extends JDialog{
     	public void actionPerformed(ActionEvent e)
     	{
     		System.out.println("normal is selected");
-    		Constants.BAR_RISING_SPEED = -4;
-    		Constants.PLAYER_DROP_SPEED = 4;
+    		Constants.BAR_RISING_SPEED = -6;
+    		Constants.PLAYER_DROP_SPEED = 6;
     	}
     }
     );
@@ -105,8 +110,8 @@ public class SettingDialog extends JDialog{
     	public void actionPerformed(ActionEvent e)
     	{
     		System.out.println("hard is selected");
-    		Constants.BAR_RISING_SPEED = -5;
-    		Constants.PLAYER_DROP_SPEED = 5;
+    		Constants.BAR_RISING_SPEED = -10;
+    		Constants.PLAYER_DROP_SPEED = 10;
     	}
     }
     );
@@ -144,9 +149,13 @@ public class SettingDialog extends JDialog{
                         JOptionPane.YES_NO_OPTION);
         if (confirm == 0)
         {
+          
+          setVisible(false);
+        }
+        else
+        {
           Constants.BAR_RISING_SPEED = -4;
           Constants.PLAYER_DROP_SPEED = 4;
-          setVisible(false);
         }
       }
       else if (event.getSource().equals(cancelbutton)){
