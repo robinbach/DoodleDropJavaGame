@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 
+import doodledrop.Constants;
+
 public class SettingDialog extends JDialog{
   private static JLabel enableSound;
   private static JRadioButton doenable;
@@ -71,12 +73,44 @@ public class SettingDialog extends JDialog{
     
     mode = new JLabel("Mode: ");
     easy = new JRadioButton("Easy");
-    normal = new JRadioButton("Normal");
+    normal = new JRadioButton("Normal", true);
     hard = new JRadioButton("Hard");
+    
     ButtonGroup group2 = new ButtonGroup();
     group2.add(easy);
     group2.add(normal);
     group2.add(hard);
+    
+    easy.addActionListener(new ActionListener(){
+    	public void actionPerformed(ActionEvent e)
+    	{
+    		System.out.println("easy is selected");
+    		Constants.BAR_RISING_SPEED = -3;
+    		Constants.PLAYER_DROP_SPEED = 3;
+    	}
+    }
+    );
+    
+    normal.addActionListener(new ActionListener(){
+    	public void actionPerformed(ActionEvent e)
+    	{
+    		System.out.println("normal is selected");
+    		Constants.BAR_RISING_SPEED = -4;
+    		Constants.PLAYER_DROP_SPEED = 4;
+    	}
+    }
+    );
+    
+    hard.addActionListener(new ActionListener(){
+    	public void actionPerformed(ActionEvent e)
+    	{
+    		System.out.println("hard is selected");
+    		Constants.BAR_RISING_SPEED = -5;
+    		Constants.PLAYER_DROP_SPEED = 5;
+    	}
+    }
+    );
+    
     modepanel.add(mode);
     modepanel.add(easy);
     modepanel.add(normal);
@@ -110,10 +144,14 @@ public class SettingDialog extends JDialog{
                         JOptionPane.YES_NO_OPTION);
         if (confirm == 0)
         {
+          Constants.BAR_RISING_SPEED = -4;
+          Constants.PLAYER_DROP_SPEED = 4;
           setVisible(false);
         }
       }
       else if (event.getSource().equals(cancelbutton)){
+    	Constants.BAR_RISING_SPEED = -4;
+    	Constants.PLAYER_DROP_SPEED = 4;
         setVisible(false);
       }
     }

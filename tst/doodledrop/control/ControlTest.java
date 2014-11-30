@@ -30,7 +30,7 @@ public class ControlTest
       resigteredPlayer = openingWin.getResigteredPlayer();
     }
     closeOpeningWin();
-    System.out.println("#in control: registered¡¡" + openingWin.getResigteredPlayer());
+    System.out.println("#in control: registeredï¿½ï¿½" + openingWin.getResigteredPlayer());
     while (startGame){
       runGame();
       System.out.println("#in control: end of running game");
@@ -58,7 +58,7 @@ public class ControlTest
   }
   
   public static void startEndingWin(){
-    endingWin = new EndingWin();
+    endingWin = new EndingWin(startGame);
     endingWin.setMinimumSize(new Dimension(600, 600));
     endingWin.pack();
     endingWin.setVisible(true);
