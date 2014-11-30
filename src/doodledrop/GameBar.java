@@ -8,6 +8,7 @@ public class GameBar extends MovingComponent
   // XVec2 velocity;
   private static int barIDCounter = 0;
   int barID;
+  int heat;
 
 
   Constants.barTypeEnum barType;
@@ -16,6 +17,7 @@ public class GameBar extends MovingComponent
   {
     super(0, Constants.STAGE_HEIGHT);
     initBar();
+    heat = Constants.BAR_HEAT;
     
     
     // @ GUI_API
