@@ -50,11 +50,8 @@ public class ClientDemo
     windows.setVisible(true);
     windows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
     /*leftButton.addKeyListener(new KeyListen());*/
-<<<<<<< HEAD
-    firstClient = new ClientSock("35.3.110.200", 45000);
-=======
+
     firstClient = new ClientSock("127.0.0.1", 45000);
->>>>>>> FETCH_HEAD
     firstClient.startClient();
     System.out.println("...");
     firstClient.sendString("Hello to the server");
