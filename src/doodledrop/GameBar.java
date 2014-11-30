@@ -6,11 +6,11 @@ public class GameBar extends MovingComponent
 {
   // XVec2 location;
   // XVec2 velocity;
-  private static int barIDCounter = 0;
+  public static int barIDCounter = 0;
   int barID;
   int heat;
   boolean musicPlayed;
-  static private Random rand = new Random(1);
+  static public Random rand;
 
 
 

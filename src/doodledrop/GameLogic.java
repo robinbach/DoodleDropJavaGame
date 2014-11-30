@@ -2,6 +2,7 @@ package doodledrop;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Vector;
 
 import doodledrop.Constants.Directions;
@@ -70,9 +71,12 @@ public class GameLogic extends Thread implements Runnable
     MainPanel.setBloodBar(3);
 
     isWinner = false;
+    
 
     // initiate Bars:
     allBars = new LinkedList<GameBar>();
+    GameBar.barIDCounter = 0;
+    GameBar.rand = new Random(1);
 
     // initiate Players:
     player1 = new GamePlayer();

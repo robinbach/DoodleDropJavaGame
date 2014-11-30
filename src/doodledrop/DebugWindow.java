@@ -21,7 +21,7 @@ public class DebugWindow extends JFrame
   public DebugWindow()
   {
     super("Doodle _(:3Z)_ Drop");
-
+    
     //setMinimumSize(new Dimension(400, 120));
     setBounds(600, 0, 400, 120);
 
