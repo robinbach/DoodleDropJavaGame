@@ -133,12 +133,12 @@ public class GameLogic extends Thread implements Runnable
 
   // @Network_API
   // call this function when updating in Networking thread
-  static public void updatePlayer2Info(XVec2 location, Directions motionStatus) // int frameNUmIN
+  static public void updatePlayer2Info(XVec2 location, Directions motionStatus, int frameNumIN)
   {
     System.out.println("receiving player info and updating" + location.toString());
     player2.location = location;
     player2.motionStatus = motionStatus;
-//    clientFrameNum = frameNumIn;
+    clientFrameNum = frameNumIN;
     if(location.y == 0 && motionStatus == Directions.NONE)
     {
       isWinner = true;
@@ -319,7 +319,7 @@ public class GameLogic extends Thread implements Runnable
             player2.motionStatus);
       }
       System.out.println("sending player information");
-      playerSocket.sendInfo(player1.location, player1.motionStatus);//, updateNums);//@Network_API#
+      playerSocket.sendInfo(player1.location, player1.motionStatus, updateNums);//@Network_API#
     }
     else
     {
@@ -350,7 +350,7 @@ public class GameLogic extends Thread implements Runnable
       
       // setPlayerLocation: set the image location of the player
       if(isMulti)
-        playerSocket.sendInfo(new XVec2(0 , 0), Constants.Directions.NONE);//@Network_API#
+        playerSocket.sendInfo(new XVec2(0 , 0), Constants.Directions.NONE, updateNums);//@Network_API#
 
       return;
     }
