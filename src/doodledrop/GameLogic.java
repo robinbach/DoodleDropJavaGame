@@ -63,6 +63,8 @@ public class GameLogic extends Thread implements Runnable
     // @GUI_API
     // initialize/swap to gaming menu
     mainPanel = new MainPanel();
+    MainPanel.setBloodBar(3);
+
     
     isWinner = false;
 
@@ -129,14 +131,14 @@ public class GameLogic extends Thread implements Runnable
 
 
     // the main updating loop:
-    while( (player1.isAlive  || updateNums < 30 * (1000/delay)) && isWinner == false ) //test
+    while( player1.isAlive && isWinner == false ) //test
     {
       gameUpdate();
-      
-      if( updateNums < 30 * (1000/delay)) //test
-      {
-        player1.isAlive = true;
-      }
+//      
+//      if( updateNums < 30 * (1000/delay)) //test
+//      {
+//        player1.isAlive = true;
+//      }
       
     }
   }
@@ -245,6 +247,7 @@ public class GameLogic extends Thread implements Runnable
 
     MainPanel.setPlayerLocation(player1.location.x, player1.location.y, 1,
         player1.motionStatus);
+    MainPanel.setBloodBar(player1.healthPoint*4/Constants.PLAYER_HEALTH);
 
     
     
@@ -339,10 +342,10 @@ public class GameLogic extends Thread implements Runnable
                 MainPanel.barCollision(barIndexFromTop);
                 break;
               case TURNINGRIGHT:
-                player1.inertia.x += Constants.TURNING_BAR_POWER;
+                player1.inertia.x -= Constants.TURNING_BAR_POWER;
                 break;
               case TURNINGLEFT:
-                player1.inertia.x -= Constants.TURNING_BAR_POWER;
+                player1.inertia.x += Constants.TURNING_BAR_POWER;
                 break;
               default:
                 break;
