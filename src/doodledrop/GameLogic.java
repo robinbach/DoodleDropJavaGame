@@ -176,7 +176,8 @@ public class GameLogic extends Thread implements Runnable
     {
       updateNums++;
       gameUpdate();
-      while(isMulti & updateNums - clientFrameNum > Constants.DELAY_CONTROL)
+      
+      if(isMulti & updateNums - clientFrameNum > Constants.DELAY_CONTROL)
       {
         try
         {
