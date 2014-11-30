@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import doodledrop.Constants.Directions;
+import doodledrop.control.MainControl;
 
 public class GameLogic extends Thread implements Runnable
 {
@@ -128,7 +129,7 @@ public class GameLogic extends Thread implements Runnable
 
 
     // the main updating loop:
-    while( player1.isAlive && isWinner == false || updateNums < 30 * (1000/delay) ) //test
+    while( (player1.isAlive  || updateNums < 30 * (1000/delay)) && isWinner == false ) //test
     {
       gameUpdate();
       
@@ -446,6 +447,11 @@ public class GameLogic extends Thread implements Runnable
     {
       player1.isAlive = false;
       System.out.println("player killed in gamelogic");
+    }
+    else if( keyCode == KeyEvent.VK_W )
+    {
+      isWinner = true;
+      System.out.println("player wined in gamelogic");
     }
   }
 
