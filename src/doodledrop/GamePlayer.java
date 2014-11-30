@@ -9,6 +9,7 @@ public class GamePlayer extends MovingComponent
   boolean isAlive;
   int isBlocked;
   XVec2 inertia;
+  int healthPoint;
   // enum Directions declared in Constants
   Directions motionStatus;
 
@@ -17,6 +18,7 @@ public class GamePlayer extends MovingComponent
   {
     super();
     isAlive = true;
+    healthPoint = Constants.PLAYER_HEALTH;
     location.set(Constants.STAGE_WIDTH/2 , 0);
     velocity.set(0, Constants.PLAYER_DROP_SPEED);
     motionStatus = Directions.NONE;

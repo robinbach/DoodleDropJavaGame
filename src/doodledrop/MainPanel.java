@@ -13,7 +13,9 @@ public class MainPanel {
     private static JFrame MainFrame;
 
     private static JPanel MainPanel;
-
+    
+    private static JLabel bloodbar;
+    
     private static ImageIcon background;
 
     private static ImageIcon player1Icon, player2Icon;
@@ -44,10 +46,16 @@ public class MainPanel {
       JLabel label = new JLabel(background);
       label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
       MainFrame.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+      //blood bar
+      ImageIcon BloodIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource("image/bloodbar/2blood.png"));
+      bloodbar = new JLabel(BloodIcon);
+      MainPanel.add(bloodbar);
+      bloodbar.setBounds(0, 0,BloodIcon.getIconWidth(), BloodIcon.getIconHeight());
+      bloodbar.setLocation(background.getIconWidth(), 0);
       //mainframe settings
       MainFrame.addKeyListener(new GameKbdListener());
       MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      MainFrame.setSize(background.getIconWidth(), background.getIconHeight());
+      MainFrame.setSize(background.getIconWidth() + 100, background.getIconHeight());
       MainFrame.setResizable(false);
       MainFrame.setVisible(true); 
     }
@@ -315,6 +323,33 @@ public class MainPanel {
     }
     
     /**
+     * set blood bar
+     * @param blood
+     */
+    public static void setBloodBar(int blood)
+    {
+      if(blood == 0)
+      {
+        ImageIcon BloodIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource("image/bloodbar/0blood.png"));
+        bloodbar.setIcon(BloodIcon);
+      }else if (blood == 1)
+      {
+        ImageIcon BloodIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource("image/bloodbar/1blood.png"));
+        bloodbar.setIcon(BloodIcon);
+      }else if (blood == 2)
+      {
+        ImageIcon BloodIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource("image/bloodbar/2blood.png"));
+        bloodbar.setIcon(BloodIcon);
+      }
+      else if(blood == 3)
+      {
+        ImageIcon BloodIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource("image/bloodbar/3blood.png"));
+        bloodbar.setIcon(BloodIcon);
+      }
+    }
+    
+    
+    /**
      * 
      * @param location
      *      initial location of bar
@@ -331,7 +366,6 @@ public class MainPanel {
       inbar.barLabel = new JLabel(barIcon);
       barVector.addElement(inbar);
       MainPanel.add(barVector.lastElement().barLabel);
-      System.out.println("after add label");
       barVector.lastElement().barLabel.setBounds(0, 0, barIcon.getIconWidth(), barIcon.getIconHeight());
       barVector.lastElement().barLabel.setLocation(location.x, location.y);
     }

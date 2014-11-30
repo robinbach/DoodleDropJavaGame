@@ -74,5 +74,17 @@ public class GameKbdListener extends KeyAdapter
 
       }
     }
+    else if( event.getKeyCode() == KeyEvent.VK_W )
+    {
+      System.out.println("Player win");
+      try
+      {
+        ((Window) event.getSource()).dispose();
+      }
+      catch( ClassCastException e )
+      {
+
+      }
+    }
   }
 }
