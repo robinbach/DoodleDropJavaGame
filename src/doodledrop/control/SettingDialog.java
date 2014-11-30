@@ -67,6 +67,7 @@ public class SettingDialog extends JDialog{
   {
     super(_win,title,true);
     win = _win;
+    MainControl.startBgm();
     setLayout(new GridLayout(7,1));
     
     soundpanel1 = new JPanel(new FlowLayout());

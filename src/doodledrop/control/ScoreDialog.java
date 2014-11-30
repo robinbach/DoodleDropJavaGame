@@ -16,6 +16,7 @@ public class ScoreDialog extends JDialog{
   public ScoreDialog(String title, JFrame win)
   {
     super(win,title,true);
+    MainControl.startBgm();
     scoredata = new JTextArea(10,20);
     scoredata.setEditable(false);
     Top10Winners top10 = ScoreBoard.getTop10W();
