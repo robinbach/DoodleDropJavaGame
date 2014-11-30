@@ -16,13 +16,13 @@ public class ScoreDialog extends JDialog{
   public ScoreDialog(String title, JFrame win)
   {
     super(win,title,true);
-    MainControl.startBgm();
+    MainControl.BGM.start();
     scoredata = new JTextArea(10,20);
     scoredata.setEditable(false);
     Top10Winners top10 = ScoreBoard.getTop10W();
     Integer i = 0;
     for (PlayerWinlose player : top10.list){
-      scoredata.append(i + ". "+ player.toString()+"\n");
+      scoredata.append(i + "."+ player.toString()+"\n");
       i++;
     }    
     JScrollPane jspOutput = new JScrollPane(scoredata);

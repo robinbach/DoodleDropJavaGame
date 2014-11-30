@@ -30,8 +30,9 @@ public class MainControl
   public static EndingWin endingWin = new EndingWin();;
   public static GameLogic gameEngine;
   
-  private static Clip bgm;
+  
   private static Player resigteredPlayer;
+  private static Boolean playerWin;
   private static Boolean startGame = true;
   private static Boolean forceQuit = false;
   public final static Lock rpLock = new ReentrantLock();
@@ -41,14 +42,13 @@ public class MainControl
   
   public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException
   {
-    setupBgm();
-    startBgm();
+    BGM.setupBgm();
     startOpeningWin();
     rpLock.lock();
     try {
       while (openingWin.getResigteredPlayer() == null){
         if (forceQuit){
-          stopBgm();
+          BGM.stop();
           return;
         }
         rpNotNull.await();
@@ -64,22 +64,24 @@ public class MainControl
       System.out.println("#in control: end of running game");
       sgLock.lock();
       startEndingWin();
+      storeCurrentPlayerWin(playerWin);
       try {
         while (endingWin.ifStartGame() == null){
           sgNotNull.await();
         }
       } finally {
         startGame = endingWin.ifStartGame();
-        sgLock.unlock();
+        sgLock.unlock();        
       }
       closeEndingWin();
       System.out.println("#in control: player choose to " + (startGame ? "" : "not") + " play again.");      
     }
     System.out.println("#in control: Exiting game.");
-    stopBgm();
+    BGM.stop();
   }
   
   public static void startOpeningWin(){
+    BGM.start();
     openingWin.setMinimumSize(new Dimension(600, 600));
     openingWin.pack();
     openingWin.setVisible(true);
@@ -106,7 +108,7 @@ public class MainControl
   
   public static void runGame()
   {
-    startBgm();    
+    BGM.start();    
     gameEngine = new GameLogic();
     Thread gameThread = new Thread(gameEngine);
     gameThread.start();
@@ -121,45 +123,73 @@ public class MainControl
     }
   }
   
-  public static void setCurrentPlayerWin(){
-    ScoreBoard.setWin(resigteredPlayer);
-    endingWin.setWinLosePic(true);
+  public static void setCurrentPlayerWin(boolean isWin){
+    playerWin = isWin;
+    if (isWin){
+      endingWin.setWinLosePic(true);
+    } else {
+      endingWin.setWinLosePic(false);
+    }
   }
   
-  public static void setCurrentPlayerLose(){
-    ScoreBoard.setLose(resigteredPlayer);
-    endingWin.setWinLosePic(false);
+  public static void storeCurrentPlayerWin(boolean isWin){
+    if (isWin){
+      ScoreBoard.setWin(resigteredPlayer);
+    } else {
+      ScoreBoard.setLose(resigteredPlayer);
+    }
   }
-  
+
   public static void setForceQuit(){
     System.out.println("#in control: Force quiting¡£");
     forceQuit = true;
   }
   
-  public static void stopBgm(){
-    bgm.stop();
-  }
   
-  public static void startBgm(){
-    if (!bgm.isRunning()){
-      bgm.loop(Clip.LOOP_CONTINUOUSLY);
-    }
-  }
   
-  public static void setupBgm() throws UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException{
-    File soundFile = new File(MainMusic.class.getClassLoader().getResource("bgm/call_cut.wav").toURI());
-    AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
+  public static class BGM{
+    private static Clip bgm;
+    private static Boolean enableBgm = true;
+    
+    public static void setupBgm() throws UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException{
+      File soundFile = new File(MainMusic.class.getClassLoader().getResource("bgm/call_cut.wav").toURI());
+      AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
 
-    // load the sound into memory (a Clip)
-    DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
-    bgm = (Clip) AudioSystem.getLine(info);
-    bgm.open(sound);
-  }
-  
-  public static void setBgmVolumn(double gain){
-    // gain must be a number between 0 and 1
-    FloatControl gainControl = (FloatControl) bgm.getControl(FloatControl.Type.MASTER_GAIN);
-    float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
-    gainControl.setValue(dB);
+      // load the sound into memory (a Clip)
+      DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+      bgm = (Clip) AudioSystem.getLine(info);
+      bgm.open(sound);
+    }
+    
+    public static void stop(){
+      bgm.stop();
+    }
+    
+    public static void start(){
+      if ((!bgm.isRunning()) && enableBgm){
+        bgm.loop(Clip.LOOP_CONTINUOUSLY);
+      }
+    }
+    
+    public static void setVolumn(double gain){
+      // gain must be a number between 0 and 1
+      FloatControl gainControl = (FloatControl) bgm.getControl(FloatControl.Type.MASTER_GAIN);
+      float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
+      gainControl.setValue(dB);
+    }
+    
+    public static void setEnable(boolean enable){
+      if (enable){
+        enableBgm = true;
+        start();
+      }else{
+        enableBgm = false;
+        stop();
+      }
+    }
+    
+    public static Boolean isEnabled(){
+      return enableBgm;
+    }
   }
 }

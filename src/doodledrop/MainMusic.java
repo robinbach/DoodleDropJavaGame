@@ -3,6 +3,8 @@ package doodledrop;
 import java.applet.Applet;
 import java.applet.AudioClip;
 
+import doodledrop.control.MainControl;
+
 
 public class MainMusic
 {
@@ -25,28 +27,34 @@ public class MainMusic
   
   public void playNormal()
   {
-    normal.play();
+    if (MainControl.BGM.isEnabled())
+      normal.play();
   }
   
   public void playSprint()
   {
-    spring.play();
+    if (MainControl.BGM.isEnabled())
+      spring.play();
   }
   public void playKilling()
   {
-    killing.play();
+    if (MainControl.BGM.isEnabled())
+      killing.play();
   }
   public void playDisappear()
   {
-    disappear.play();
+    if (MainControl.BGM.isEnabled())
+      disappear.play();
   }
   public void playWin()
   {
-    win.play();
+    if (MainControl.BGM.isEnabled())
+      win.play();
   }
   public void playLose()
   {
-    lose.play();
+    if (MainControl.BGM.isEnabled())
+      lose.play();
   }
 }
 
