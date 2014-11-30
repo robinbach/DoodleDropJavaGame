@@ -67,7 +67,7 @@ public class SettingDialog extends JDialog{
   {
     super(_win,title,true);
     win = _win;
-    MainControl.startBgm();
+    MainControl.BGM.start();
     setLayout(new GridLayout(7,1));
     
     soundpanel1 = new JPanel(new FlowLayout());
@@ -279,11 +279,7 @@ public class SettingDialog extends JDialog{
                         JOptionPane.YES_NO_OPTION);
         if (confirm == 0)
         {
-          if (enableBgm){
-            MainControl.startBgm();
-          } else {
-            MainControl.stopBgm();
-          }
+          MainControl.BGM.setEnable(enableBgm);
           
           if (isMulti){
         	  Constants.IsMultiPlayer = true;
@@ -299,7 +295,7 @@ public class SettingDialog extends JDialog{
         	  Constants.IsServer = false;
           }
           
-          MainControl.setBgmVolumn((double)bgmVolumn/100);
+          MainControl.BGM.setVolumn((double)bgmVolumn/100);
           setVisible(false);
         }
         else

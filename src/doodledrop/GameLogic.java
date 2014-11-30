@@ -27,6 +27,7 @@ public class GameLogic extends Thread implements Runnable
   private static boolean isWinner;
   
   static private int score;
+  static private int clientFrameNum;
 
   
 
@@ -132,11 +133,12 @@ public class GameLogic extends Thread implements Runnable
 
   // @Network_API
   // call this function when updating in Networking thread
-  static public void updatePlayer2Info(XVec2 location, Directions motionStatus)
+  static public void updatePlayer2Info(XVec2 location, Directions motionStatus, int frameNumIN)
   {
     System.out.println("receiving player info and updating" + location.toString());
     player2.location = location;
     player2.motionStatus = motionStatus;
+    clientFrameNum = frameNumIN;
     if(location.y == 0 && motionStatus == Directions.NONE)
     {
       isWinner = true;
@@ -172,19 +174,26 @@ public class GameLogic extends Thread implements Runnable
     // the main updating loop:
     while( player1.isAlive && isWinner == false ) //test
     {
+      updateNums++;
       gameUpdate();
-//      
-//      if( updateNums < 30 * (1000/delay)) //test
-//      {
-//        player1.isAlive = true;
-//      }
+      while(isMulti & updateNums - clientFrameNum > Constants.DELAY_CONTROL)
+      {
+        try
+        {
+          sleep(delay);
+          //where the listener occur
+        }
+        catch( InterruptedException e )
+        {
+          e.printStackTrace();
+        }
+      }
       
     }
   }
 
   public void gameUpdate()
   {
-    updateNums++;
     System.out.println("@@@@@@---------");
     System.out.println("game updating" + updateNums);
 
@@ -227,13 +236,12 @@ public class GameLogic extends Thread implements Runnable
     // if died send signal to the other player to stop
     // send timestamp as well in case of network delay, i.e. died after the other already died
     
+    MainControl.setCurrentPlayerWin(isWinner);
     if (isWinner){  // if (player1.isAlive || otherDeathTimestamp_earlier_than_currtimestamp)
-      MainControl.setCurrentPlayerWin();
-      MainControl.stopBgm();
+      MainControl.BGM.stop();
       mainMusic.playWin();
     } else {
-      MainControl.setCurrentPlayerLose();
-      MainControl.stopBgm();
+      MainControl.BGM.stop();
       mainMusic.playLose();
     }
   }
@@ -311,7 +319,7 @@ public class GameLogic extends Thread implements Runnable
             player2.motionStatus);
       }
       System.out.println("sending player information");
-      playerSocket.sendInfo(player1.location, player1.motionStatus);//@Network_API#
+      playerSocket.sendInfo(player1.location, player1.motionStatus, updateNums);//@Network_API#
     }
     else
     {
@@ -342,7 +350,7 @@ public class GameLogic extends Thread implements Runnable
       
       // setPlayerLocation: set the image location of the player
       if(isMulti)
-        playerSocket.sendInfo(new XVec2(0 , 0), Constants.Directions.NONE);//@Network_API#
+        playerSocket.sendInfo(new XVec2(0 , 0), Constants.Directions.NONE, updateNums);//@Network_API#
 
       return;
     }

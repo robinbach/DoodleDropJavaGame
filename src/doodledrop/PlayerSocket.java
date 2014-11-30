@@ -105,20 +105,22 @@ public class PlayerSocket implements Runnable
 	    return isSuccess;
 	  }
 	  
-	  public boolean sendInfo(XVec2 location, Directions direction)
+	  public boolean sendInfo(XVec2 location, Directions direction, int frameNumber)
 	  {
-		  return sendString(location.x + " " + location.y + " " + direction.name());
+		  return sendString(location.x + " " + location.y + " " + direction.name() + " " + frameNumber);
 	  }
 	  
 	  public void recvInfo()
 	  {
 		  String result = recvString();
 		  int firstIndex = result.indexOf(' ');
+		  int middleIndex = result.indexOf(' ', firstIndex + 1);
 		  int lastIndex = result.lastIndexOf(' ');
 		  int x = Integer.parseInt(result.substring(0, firstIndex));
-		  int y = Integer.parseInt(result.substring(firstIndex + 1, lastIndex));
-		  Directions direction = Directions.valueOf(result.substring(lastIndex + 1));
-		  GameLogic.updatePlayer2Info(new XVec2(x, y), direction);
+		  int y = Integer.parseInt(result.substring(firstIndex + 1, middleIndex));
+		  Directions direction = Directions.valueOf(result.substring(middleIndex + 1, lastIndex));
+		  int frameNumber = Integer.parseInt(result.substring(lastIndex + 1));
+		  GameLogic.updatePlayer2Info(new XVec2(x, y), direction, frameNumber);
 	  }
 	  
 	  public void run()

@@ -2,7 +2,9 @@ package doodledrop;
 
 public class Constants
 {
+  
   public static final String SERVER_IP = "35.2.110.200";
+
   public static final int SERVER_PORT = 21369;
 
   public static boolean IsMultiPlayer = false;
@@ -44,6 +46,7 @@ public class Constants
   public static final int PLAYER_JUMP_SPEED = -150;
 
   public static final int FRAME_DELAY = 20;
+  public static final int DELAY_CONTROL = 1;
   public static final int GAME_PREPARE_TIME = 2000;
 
   public static final int BOARD_DELAY = 20;
