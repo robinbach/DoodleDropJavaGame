@@ -47,6 +47,7 @@ public class Constants
 
   public static final int FRAME_DELAY = 20;
   public static final int DELAY_CONTROL = 9;
+  public static final int OFFSET_FRAME = 2;
   public static final int GAME_PREPARE_TIME = 2000;
 
   public static final int BOARD_DELAY = 20;

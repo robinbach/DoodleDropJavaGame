@@ -182,7 +182,7 @@ public class GameLogic extends Thread implements Runnable
       {
         try
         {
-          sleep(Constants.DELAY_CONTROL * delay);
+          sleep(Constants.OFFSET_FRAME * delay);
           //where the listener occur
         }
         catch( InterruptedException e )
