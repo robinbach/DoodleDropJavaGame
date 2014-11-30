@@ -58,7 +58,7 @@ public class ControlTest
   }
   
   public static void startEndingWin(){
-    endingWin = new EndingWin(startGame);
+    endingWin = new EndingWin();
     endingWin.setMinimumSize(new Dimension(600, 600));
     endingWin.pack();
     endingWin.setVisible(true);

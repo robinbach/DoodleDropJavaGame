@@ -25,43 +25,18 @@ public class EndingWin extends JFrame {
   private static JButton exitbutton;
   
   private static JLabel titleimagelabel;
-
   private static ButtonListener Buttons;
   
-  private static Boolean startGame;
+  private static Boolean startGame;  
   
-  
-  public EndingWin(boolean iswin) {
+  public EndingWin() {
     super ("Doodle Drop");
     setLayout(new GridLayout(2,1));
     imagepanel = new JPanel(new BorderLayout());
     buttonpanel = new JPanel(new GridLayout(1,2));
     rightpart = new JPanel(new GridLayout(6,1));
-    
-    if (iswin == true)
-    {
-    	try{
-    	      titleimagelabel = new JLabel(new 
-    	        ImageIcon(getClass().getClassLoader().getResource("image/endingwin.png")));
-    	    }
-    	    catch (InvalidPathException e) 
-    	    {
-    	      System.out.println("Image path exception");
-    	    }
-    }
-    else
-    {
-    	try{
-    	      titleimagelabel = new JLabel(new 
-    	        ImageIcon(getClass().getClassLoader().getResource("image/endinglose.png")));
-    	    }
-    	    catch (InvalidPathException e) 
-    	    {
-    	      System.out.println("Image path exception");
-    	    }
-    }
-    
 
+    titleimagelabel = new JLabel();
     imagepanel.add(titleimagelabel,BorderLayout.CENTER);
     tryagainbutton = new JButton("TRY AGAIN");
     scoredatabutton = new JButton("SCORES");
@@ -113,6 +88,31 @@ public class EndingWin extends JFrame {
         {
           setStartGame(false);         
         }
+      }
+    }
+  }
+  
+  public void setWinLosePic(boolean isWin){
+    if (isWin == true)
+    {
+      try{
+        titleimagelabel.setIcon(new 
+          ImageIcon(getClass().getClassLoader().getResource("image/endingwin.png")));
+      }
+      catch (InvalidPathException e) 
+      {
+        System.out.println("Image path exception");
+      }
+    }
+    else
+    {
+      try{
+        titleimagelabel.setIcon(new 
+          ImageIcon(getClass().getClassLoader().getResource("image/endinglose.png")));
+      }
+      catch (InvalidPathException e) 
+      {
+        System.out.println("Image path exception");
       }
     }
   }
