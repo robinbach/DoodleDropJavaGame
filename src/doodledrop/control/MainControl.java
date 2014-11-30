@@ -23,7 +23,7 @@ public class MainControl
   public static GameLogic gameEngine;
   
   private static AudioClip bgm = 
-      Applet.newAudioClip(MainMusic.class.getClassLoader().getResource("bgm/mystery.wav"));
+      Applet.newAudioClip(MainMusic.class.getClassLoader().getResource("bgm/call_cut.wav"));
   private static Player resigteredPlayer;
   private static Boolean startGame = true;
   private static Boolean forceQuit = false;
@@ -34,12 +34,13 @@ public class MainControl
   
   public static void main(String[] args) throws InterruptedException
   {
-    bgm.loop();
+    startBgm();
     startOpeningWin();
     rpLock.lock();
     try {
       while (openingWin.getResigteredPlayer() == null){
         if (forceQuit){
+          stopBgm();
           return;
         }
         rpNotNull.await();
@@ -67,6 +68,7 @@ public class MainControl
       System.out.println("#in control: player choose to " + (startGame ? "" : "not") + " play again.");      
     }
     System.out.println("#in control: Exiting game.");
+    stopBgm();
   }
   
   public static void startOpeningWin(){
