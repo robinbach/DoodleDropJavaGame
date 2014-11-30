@@ -64,10 +64,6 @@ public class EndingWin extends JFrame {
     public void actionPerformed(ActionEvent event) {
       if (event.getSource().equals(tryagainbutton))
       {
-        /*GameLogic gameEngine = new GameLogic();
-        Thread gameThread = new Thread(gameEngine);
-        gameThread.start();
-        GameControl.runEnding.gameEnding.dispose();*/
         setStartGame(true);
       }
       else if (event.getSource().equals(scoredatabutton))

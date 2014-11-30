@@ -3,10 +3,20 @@ package doodledrop.control;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.WindowConstants;
 
 import doodledrop.GameLogic;
@@ -22,8 +32,9 @@ public class MainControl
   public static EndingWin endingWin = new EndingWin();;
   public static GameLogic gameEngine;
   
-  private static AudioClip bgm = 
-      Applet.newAudioClip(MainMusic.class.getClassLoader().getResource("bgm/call_cut.wav"));
+  //private static AudioClip bgm = 
+  //    Applet.newAudioClip(MainMusic.class.getClassLoader().getResource("bgm/call_cut.wav"));
+  private static Clip bgm;
   private static Player resigteredPlayer;
   private static Boolean startGame = true;
   private static Boolean forceQuit = false;
@@ -32,8 +43,19 @@ public class MainControl
   public final static Condition rpNotNull  = rpLock.newCondition(); 
   public final static Condition sgNotNull = sgLock.newCondition(); 
   
-  public static void main(String[] args) throws InterruptedException
+  public static void setupBgm() throws UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException{
+    File soundFile = new File(MainMusic.class.getClassLoader().getResource("bgm/call_cut.wav").toURI());
+    AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
+
+    // load the sound into memory (a Clip)
+    DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+    bgm = (Clip) AudioSystem.getLine(info);
+    bgm.open(sound);
+  }
+  
+  public static void main(String[] args) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException
   {
+    setupBgm();
     startBgm();
     startOpeningWin();
     rpLock.lock();
@@ -75,6 +97,7 @@ public class MainControl
     openingWin.setMinimumSize(new Dimension(600, 600));
     openingWin.pack();
     openingWin.setVisible(true);
+    openingWin.setResizable(false);
     openingWin.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
   }
   
@@ -87,6 +110,7 @@ public class MainControl
     endingWin.setMinimumSize(new Dimension(600, 600));
     endingWin.pack();
     endingWin.setVisible(true);
+    endingWin.setResizable(false);
     endingWin.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
   }
   
@@ -130,6 +154,13 @@ public class MainControl
   }
   
   public static void startBgm(){
-    bgm.loop();
+    bgm.loop(Clip.LOOP_CONTINUOUSLY);
+  }
+  
+  public static void setBgmVolumn(double gain){
+    // gain must be a number between 0 and 1
+    FloatControl gainControl = (FloatControl) bgm.getControl(FloatControl.Type.MASTER_GAIN);
+    float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
+    gainControl.setValue(dB);
   }
 }

@@ -19,8 +19,10 @@ public class ScoreDialog extends JDialog{
     scoredata = new JTextArea(10,20);
     scoredata.setEditable(false);
     Top10Winners top10 = ScoreBoard.getTop10W();
+    Integer i = 0;
     for (PlayerWinlose player : top10.list){
-      scoredata.append(player.toString()+"\n");
+      scoredata.append(i + ". "+ player.toString()+"\n");
+      i++;
     }    
     JScrollPane jspOutput = new JScrollPane(scoredata);
     add(jspOutput);

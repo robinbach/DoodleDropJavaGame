@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import doodledrop.Constants;
 
@@ -46,6 +48,7 @@ public class SettingDialog extends JDialog{
   private static JFrame win;
   
   private static Boolean enableBgm = true;
+  private static int bgmVolumn = 100;
   
   public SettingDialog(String title, JFrame _win)
   {
@@ -65,6 +68,12 @@ public class SettingDialog extends JDialog{
     group1.add(doenable);
     group1.add(notenable);
 
+    if (enableBgm){
+      doenable.setSelected(true);
+    } else {
+      notenable.setSelected(true);
+    }
+    
     doenable.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent e)
       {
@@ -82,15 +91,29 @@ public class SettingDialog extends JDialog{
       }
     }
     );
+    
     soundpanel1.add(enableSound);
     soundpanel1.add(doenable);
     soundpanel1.add(notenable);
     
     volume = new JLabel("Volume: ");
-    volumeslider = new JSlider(JSlider.HORIZONTAL,0,100,50);
+    volumeslider = new JSlider(JSlider.HORIZONTAL,0,100,bgmVolumn);
     volumeslider.setPaintTicks(true);
     volumeslider.setPaintLabels(true);
     volumeslider.setSnapToTicks(true);
+    
+    volumeslider.addChangeListener(new ChangeListener(){
+      @Override
+      public void stateChanged(ChangeEvent e)
+      {
+        JSlider source = (JSlider) e.getSource();
+        if (!source.getValueIsAdjusting()){
+          Integer value = source.getValue();
+          System.out.println("volume: " + value);
+          bgmVolumn = value;          
+        }        
+      }    
+    });
     
     soundpanel2.add(volume);
     soundpanel2.add(volumeslider);
@@ -152,7 +175,7 @@ public class SettingDialog extends JDialog{
     add(modepanel);
     add(buttonpanel);
     
-    add(new JLabel("         !!!more setting stuff"));
+    //add(new JLabel("         !!!more setting stuff"));
     
     pack();
     setVisible(true);
@@ -173,7 +196,8 @@ public class SettingDialog extends JDialog{
           } else {
             MainControl.stopBgm();
           }
-          setVisible(false);          
+          MainControl.setBgmVolumn((double)bgmVolumn/100);
+          setVisible(false);
         }
         else
         {
@@ -182,8 +206,8 @@ public class SettingDialog extends JDialog{
         }
       }
       else if (event.getSource().equals(cancelbutton)){
-    	Constants.BAR_RISING_SPEED = -4;
-    	Constants.PLAYER_DROP_SPEED = 4;
+        Constants.BAR_RISING_SPEED = -4;
+        Constants.PLAYER_DROP_SPEED = 4;
         setVisible(false);
       }
     }

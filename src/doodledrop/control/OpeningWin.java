@@ -224,6 +224,7 @@ public class OpeningWin extends JFrame {
       
       pack();
       setVisible(true);
+      setResizable(false);
       setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
     
