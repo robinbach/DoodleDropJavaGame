@@ -1,4 +1,4 @@
-package test;
+package doodledrop;
 
 public class ServerDemo
 {
@@ -10,11 +10,7 @@ public class ServerDemo
     firstServer.startServer();
     recvString = firstServer.recvString();
     System.out.println("Received message from client " + recvString);
-    while(true)
-    {
-      recvString = firstServer.recvString();
-      System.out.println("Received message from client " + recvString);
-    }
+    firstServer.recvInfo();
     //firstServer.sendString("Back at ya client");
   }
 }

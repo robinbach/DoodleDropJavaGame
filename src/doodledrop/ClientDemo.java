@@ -1,4 +1,4 @@
-package test;
+package doodledrop;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import doodledrop.Constants.Directions;
 
 public class ClientDemo
 {
@@ -35,7 +37,7 @@ public class ClientDemo
   public static void main(String [] argv)
   {
     
-    JFrame windows;
+  /*  JFrame windows;
     JButton leftButton;
     JButton rightButton;
     windows = new JFrame("testFrame");
@@ -46,11 +48,12 @@ public class ClientDemo
     windows.add(leftButton, BorderLayout.WEST);
     windows.add(rightButton, BorderLayout.EAST);
     windows.setVisible(true);
-    windows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    leftButton.addKeyListener(new KeyListen());
+    windows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
+    /*leftButton.addKeyListener(new KeyListen());*/
     firstClient = new ClientSock("192.168.146.140", 45000);
     firstClient.startClient();
     firstClient.sendString("Hello to the server");
+    firstClient.sendInfo(new XVec2(12, 23), Directions.LEFT);
     //recvString = firstClient.recvString();
     //System.out.println("Received this message from server: " + recvString);
   }

@@ -1,4 +1,4 @@
-package test;
+package doodledrop;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -7,6 +7,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.*;
 import java.util.Vector;
+
+import doodledrop.Constants.Directions;
 
 public class ClientSock
 {
@@ -37,6 +39,24 @@ public class ClientSock
       System.out.println("unable to connect the server");
       System.exit(3);
     }
+  }
+  
+  public boolean sendInfo(XVec2 location, Directions direction)
+  {
+	  return sendString(location.x + " " + location.y + " " + direction.name());
+  }
+  
+  public void recvInfo()
+  {
+	  String result = recvString();
+	  int firstIndex = result.indexOf(' ');
+	  int lastIndex = result.lastIndexOf(' ');
+	  int x = Integer.parseInt(result.substring(0, firstIndex));
+	  int y = Integer.parseInt(result.substring(firstIndex + 1, lastIndex));
+	  Directions direction = Directions.valueOf(result.substring(lastIndex + 1));
+	  System.out.println("x value is: " + x);
+	  System.out.println("y value is: " + y);
+	  System.out.println("direction is: " + direction.name());
   }
   
   public boolean sendByte(byte outByte)

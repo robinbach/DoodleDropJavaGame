@@ -1,7 +1,9 @@
-package test;
+package doodledrop;
 import java.io.*;
 import java.net.*;
 import java.util.Vector;
+
+import doodledrop.Constants.Directions;
 
 public class ServerSock
 {
@@ -33,6 +35,23 @@ public class ServerSock
     }
   }
   
+  public boolean sendInfo(XVec2 location, Directions direction)
+  {
+	  return sendString(location.x + " " + location.y + " " + direction.name());
+  }
+  
+  public void recvInfo()
+  {
+	  String result = recvString();
+	  int firstIndex = result.indexOf(' ');
+	  int lastIndex = result.lastIndexOf(' ');
+	  int x = Integer.parseInt(result.substring(0, firstIndex));
+	  int y = Integer.parseInt(result.substring(firstIndex + 1, lastIndex));
+	  Directions direction = Directions.valueOf(result.substring(lastIndex + 1));
+	  System.out.println("x value is: " + x);
+	  System.out.println("y value is: " + y);
+	  System.out.println("direction is: " + direction.name());
+  }
   
   public boolean sendByte(byte outByte)
   {
