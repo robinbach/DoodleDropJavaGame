@@ -18,6 +18,8 @@ public class Constants
   
   public static final int PLAYER_HEIGHT = 60;
   public static final int PLAYER_WIDTH = 34;
+  public static final int PLAYER_HEALTH = 1000;
+
 
   public static final int BAR_HEIGHT = 30;
   public static final int BAR_WIDTH = 80;
@@ -29,6 +31,7 @@ public class Constants
   public static final int PLAYER_HORIZONTAL_SPEED = 6;
 
   public static int PLAYER_DROP_SPEED = 5;
+  
 
   public static final int PLAYER_JUMP_SPEED = -150;
 
