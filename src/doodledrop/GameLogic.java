@@ -27,6 +27,7 @@ public class GameLogic extends Thread implements Runnable
   private static boolean isWinner;
   
   static private int score;
+  static private int clientFrameNum;
 
   
 
@@ -132,11 +133,12 @@ public class GameLogic extends Thread implements Runnable
 
   // @Network_API
   // call this function when updating in Networking thread
-  static public void updatePlayer2Info(XVec2 location, Directions motionStatus)
+  static public void updatePlayer2Info(XVec2 location, Directions motionStatus) // int frameNUmIN
   {
     System.out.println("receiving player info and updating" + location.toString());
     player2.location = location;
     player2.motionStatus = motionStatus;
+//    clientFrameNum = frameNumIn;
     if(location.y == 0 && motionStatus == Directions.NONE)
     {
       isWinner = true;
@@ -172,19 +174,26 @@ public class GameLogic extends Thread implements Runnable
     // the main updating loop:
     while( player1.isAlive && isWinner == false ) //test
     {
+      updateNums++;
       gameUpdate();
-//      
-//      if( updateNums < 30 * (1000/delay)) //test
-//      {
-//        player1.isAlive = true;
-//      }
+      while(updateNums - clientFrameNum > Constants.DELAY_CONTROL)
+      {
+        try
+        {
+          sleep(delay);
+          //where the listener occur
+        }
+        catch( InterruptedException e )
+        {
+          e.printStackTrace();
+        }
+      }
       
     }
   }
 
   public void gameUpdate()
   {
-    updateNums++;
     System.out.println("@@@@@@---------");
     System.out.println("game updating" + updateNums);
 
@@ -311,7 +320,7 @@ public class GameLogic extends Thread implements Runnable
             player2.motionStatus);
       }
       System.out.println("sending player information");
-      playerSocket.sendInfo(player1.location, player1.motionStatus);//@Network_API#
+      playerSocket.sendInfo(player1.location, player1.motionStatus);//, updateNums);//@Network_API#
     }
     else
     {
