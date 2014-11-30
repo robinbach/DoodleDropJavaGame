@@ -13,6 +13,7 @@ public class DebugWindow extends JFrame
   private static final long serialVersionUID = 1L;
 
   static JLabel position, bar1, health, score;
+  
 
  
 

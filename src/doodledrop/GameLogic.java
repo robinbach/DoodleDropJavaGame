@@ -21,6 +21,7 @@ public class GameLogic extends Thread implements Runnable
   private DebugWindow debugMenu;
   MainPanel mainPanel;
   MainMusic mainMusic;
+  PlayerSocket playerSocket;
   
   static boolean isMulti;
   private static boolean isWinner;
@@ -39,7 +40,7 @@ public class GameLogic extends Thread implements Runnable
 
   public GameLogic()
   {
-    isMulti = true;
+    isMulti = Constants.IsMultiPlayer;
     score = 0;
   }
   
@@ -89,12 +90,25 @@ public class GameLogic extends Thread implements Runnable
     // initialize the frame counter, for debug.
     updateNums = 0;
 
-    // @Network_API#
+    
     // initialize the network connection with another player
     // established a thread for updating info of player2.
-    // if( multiplayer )
-    // Network.initNetworkConnection();
-    // should return when the connection is established.
+    playerSocket = new PlayerSocket(Constants.SERVER_IP,Constants.SERVER_PORT);
+    
+    if( isMulti )
+    {
+      if(Constants.IsServer)
+      {
+        playerSocket.startServer();
+      }
+      else
+      {
+        playerSocket.startClient();
+      }
+      // PlayerSocket.initNetworkConnection();// @Network_API#
+    }
+    
+    // should block until when the connection is established.
     //
   }
 
@@ -191,9 +205,11 @@ public class GameLogic extends Thread implements Runnable
     // send timestamp as well in case of network delay, i.e. died after the other already died
     
     if (isWinner){  // if (player1.isAlive || otherDeathTimestamp_earlier_than_currtimestamp)
-      MainControl.setCurrentPlayerWin();      
+      MainControl.setCurrentPlayerWin();  
+      mainMusic.playWin();
     } else {
       MainControl.setCurrentPlayerLose();
+      mainMusic.playLose();
     }
   }
 
@@ -270,16 +286,17 @@ public class GameLogic extends Thread implements Runnable
     // }
     if(isMulti)
     {
-      MainPanel.setPlayerLocation(player1.location.x, player1.location.y + 200, 2,
-          player1.motionStatus);
+      MainPanel.setPlayerLocation(player2.location.x, player2.location.y, 2,
+          player2.motionStatus);
       
 //      MainPanel.setPlayerLocation(player2.location.x, player2.location.y, 2,
 //          player2.motionStatus);
+      //  setPlayerLocation: set the image location of the player
+      playerSocket.sendInfo(player1.location, player1.motionStatus);//@Network_API#
     }
 
 
-    // @Network_API# setPlayerLocation: set the image location of the player
-    // sendPlayerInfo(location, motionStatus);
+
 
   }
 
@@ -292,14 +309,19 @@ public class GameLogic extends Thread implements Runnable
 
     if(player1.location.y < 0 || player1.location.y > Constants.STAGE_HEIGHT )
     {
-      player1.isAlive = false;
+      player1.healthPoint -= 10; 
       return;
     }
     
+    // @_DIE, only place that player die.
     if( player1.healthPoint < 5 )
     {
       System.out.println(" which kills players");
       player1.isAlive = false;
+      
+      // setPlayerLocation: set the image location of the player
+      // PlayerSocket.sendLose(); //@Network_API# 
+
       return;
     }
     
@@ -368,7 +390,7 @@ public class GameLogic extends Thread implements Runnable
                 eachbar.musicPlayed = true;
                 break;
             }
-            //@ GUI_API# step on a specific bar
+            //@ GUI_API step on a specific bar
             // call animation method in GUI
             break;
           case LEFT:
