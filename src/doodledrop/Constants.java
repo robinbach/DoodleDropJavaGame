@@ -2,11 +2,11 @@ package doodledrop;
 
 public class Constants
 {
-  public static final String SERVER_IP = "127.0.0.1";
+  public static final String SERVER_IP = "35.3.110.200";
   public static final int SERVER_PORT = 21369;
 
-  public static final boolean IsMultiPlayer = false;
-  public static final boolean IsServer = true;
+  public static boolean IsMultiPlayer = true;
+  public static boolean IsServer = false;
 
 
 
