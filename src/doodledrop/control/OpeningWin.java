@@ -110,6 +110,10 @@ public class OpeningWin extends JFrame {
         if (confirm == 0)
         {
           OpeningWin.this.dispose();
+          MainControl.rpLock.lock();
+          MainControl.setForceQuit();
+          MainControl.rpNotNull.signal();
+          MainControl.rpLock.unlock();
         }
       }
     }
