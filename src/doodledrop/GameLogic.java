@@ -177,19 +177,19 @@ public class GameLogic extends Thread implements Runnable
       updateNums++;
       gameUpdate();
       
-      while(player1.isAlive && isWinner == false 
-          && isMulti && updateNums - clientFrameNum > Constants.DELAY_CONTROL)
-      {
-        try
-        {
-          sleep(Constants.OFFSET_FRAME * delay);
-          //where the listener occur
-        }
-        catch( InterruptedException e )
-        {
-          e.printStackTrace();
-        }
-      }
+//      while(player1.isAlive && isWinner == false 
+//          && isMulti && updateNums - clientFrameNum > Constants.DELAY_CONTROL)
+//      {
+//        try
+//        {
+//          sleep(Constants.OFFSET_FRAME * delay);
+//          //where the listener occur
+//        }
+//        catch( InterruptedException e )
+//        {
+//          e.printStackTrace();
+//        }
+//      }
       
     }
   }
@@ -338,12 +338,15 @@ public class GameLogic extends Thread implements Runnable
     int barIndexFromTop = 0;
     score ++;
 
-    if(player1.location.y < 0 || player1.location.y > Constants.STAGE_HEIGHT )
+    if(player1.location.y < 0) 
     {
       player1.healthPoint -= 10; 
-      return;
     }
     
+    if(player1.location.y > Constants.STAGE_HEIGHT )
+    {
+      player1.healthPoint = 0; 
+    }
     // @_DIE, only place that player die.
     if( player1.healthPoint < 5 )
     {
