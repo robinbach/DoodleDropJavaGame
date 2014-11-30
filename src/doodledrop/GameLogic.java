@@ -22,6 +22,7 @@ public class GameLogic extends Thread implements Runnable
   MainPanel mainPanel;
   
   static boolean isMulti;
+  private static boolean isWinner;
 
   // --------------------------------------------------------------------------
   // constructor and the four master functions:
@@ -58,6 +59,9 @@ public class GameLogic extends Thread implements Runnable
     // @GUI_API
     // initialize/swap to gaming menu
     mainPanel = new MainPanel();
+    
+    isWinner = false;
+
 
     // initiate Bars:
     allBars = new LinkedList<GameBar>();
@@ -94,6 +98,13 @@ public class GameLogic extends Thread implements Runnable
     player2.motionStatus = motionStatus;
   }
 
+  // @Network_API
+  // call this function when updating in Networking thread
+  static public void player2Lose()
+  {
+    isWinner = true;
+  }
+  
   public void gamePlaying()
   {
     player1.isAlive = true;
@@ -114,15 +125,14 @@ public class GameLogic extends Thread implements Runnable
 
 
     // the main updating loop:
-    // TODO: should stop updating if the other player died
-    while( player1.isAlive ) //|| updateNums < 30 * (1000/delay) ) //test
+    while( player1.isAlive && isWinner == false || updateNums < 30 * (1000/delay) ) //test
     {
       gameUpdate();
       
-      /*if( updateNums < 30 * (1000/delay)) //test
+      if( updateNums < 30 * (1000/delay)) //test
       {
         player1.isAlive = true;
-      }*/
+      }
       
     }
   }
@@ -149,7 +159,6 @@ public class GameLogic extends Thread implements Runnable
     updatePlayerStatus();
 
     // getNetworkInfo(); 
-    // TODO: also needs to send aliveness of the other player: indicate game ending
     moveBars();
     movePlayers();
   }
@@ -166,16 +175,18 @@ public class GameLogic extends Thread implements Runnable
     // dispose windows
     debugMenu.dispose();
     MainPanel.gameEnding();
+    
     // set winners
     // whoever ends first is loser
     // end either current player died or the other player died
     // if died send signal to the other player to stop
     // send timestamp as well in case of network delay, i.e. died after the other already died
-    if (player1.isAlive){  // if (player1.isAlive || otherDeathTimestamp_earlier_than_currtimestamp)
-      MainControl.setCurrentPlayerWin();
-    } else {
-      MainControl.setCurrentPlayerLose();
-    }
+    
+//    if (isWinner){  // if (player1.isAlive || otherDeathTimestamp_earlier_than_currtimestamp)
+//      MainControl.setCurrentPlayerWin();
+//    } else {
+//      MainControl.setCurrentPlayerLose();
+//    }
   }
 
   // --------------------------------------------------------------------------
