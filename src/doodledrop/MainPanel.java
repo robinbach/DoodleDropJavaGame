@@ -14,7 +14,7 @@ public class MainPanel {
 
     private static JPanel MainPanel;
     
-    private static JLabel bloodbar;
+    private static JLabel bloodbar, scoreLabel;
     
     private static ImageIcon background;
 
@@ -47,11 +47,15 @@ public class MainPanel {
       label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
       MainFrame.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
       //blood bar
-      ImageIcon BloodIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource("image/bloodbar/2blood.png"));
+      ImageIcon BloodIcon = new ImageIcon(MainPanel.class.getClassLoader().getResource("image/bloodbar/3blood.png"));
       bloodbar = new JLabel(BloodIcon);
       MainPanel.add(bloodbar);
       bloodbar.setBounds(0, 0,BloodIcon.getIconWidth(), BloodIcon.getIconHeight());
       bloodbar.setLocation(background.getIconWidth(), 0);
+      scoreLabel = new JLabel("   Score: " + "0");
+      MainPanel.add(scoreLabel);
+      scoreLabel.setBounds(0, 0,BloodIcon.getIconWidth(), BloodIcon.getIconHeight());
+      scoreLabel.setLocation(background.getIconWidth(), 30);
       //mainframe settings
       MainFrame.addKeyListener(new GameKbdListener());
       MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -320,6 +324,12 @@ public class MainPanel {
         barID = inbarID;
         picString = inPicString;
       }
+    }
+    
+    
+    public static void setScoreLabel(int score)
+    {
+      scoreLabel.setText("   Score: " + Integer.toString(score));
     }
     
     /**
