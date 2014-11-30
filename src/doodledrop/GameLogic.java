@@ -69,9 +69,7 @@ public class GameLogic extends Thread implements Runnable
     mainMusic = new MainMusic();
     MainPanel.setBloodBar(3);
 
-    
     isWinner = false;
-
 
     // initiate Bars:
     allBars = new LinkedList<GameBar>();
