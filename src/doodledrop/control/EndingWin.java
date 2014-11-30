@@ -30,21 +30,37 @@ public class EndingWin extends JFrame {
   
   private static Boolean startGame;
   
-  public EndingWin() {
+  
+  public EndingWin(boolean iswin) {
     super ("Doodle Drop");
     setLayout(new GridLayout(2,1));
     imagepanel = new JPanel(new BorderLayout());
     buttonpanel = new JPanel(new GridLayout(1,2));
     rightpart = new JPanel(new GridLayout(6,1));
     
-    try{
-      titleimagelabel = new JLabel(new 
-        ImageIcon(getClass().getClassLoader().getResource("image/ending.jpg")));
-    }
-    catch (InvalidPathException e) 
+    if (iswin == true)
     {
-      System.out.println("Image path exception");
+    	try{
+    	      titleimagelabel = new JLabel(new 
+    	        ImageIcon(getClass().getClassLoader().getResource("image/endingwin.png")));
+    	    }
+    	    catch (InvalidPathException e) 
+    	    {
+    	      System.out.println("Image path exception");
+    	    }
     }
+    else
+    {
+    	try{
+    	      titleimagelabel = new JLabel(new 
+    	        ImageIcon(getClass().getClassLoader().getResource("image/endinglose.png")));
+    	    }
+    	    catch (InvalidPathException e) 
+    	    {
+    	      System.out.println("Image path exception");
+    	    }
+    }
+    
 
     imagepanel.add(titleimagelabel,BorderLayout.CENTER);
     tryagainbutton = new JButton("TRY AGAIN");
