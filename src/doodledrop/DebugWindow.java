@@ -12,7 +12,7 @@ public class DebugWindow extends JFrame
    */
   private static final long serialVersionUID = 1L;
 
-  static JLabel position, bar1;
+  static JLabel position, bar1, health, score;
 
  
 
@@ -25,6 +25,13 @@ public class DebugWindow extends JFrame
     setBounds(400, 0, 400, 120);
 
     setLayout(new FlowLayout());
+    
+    health = new JLabel();
+    add(health);
+    
+    score = new JLabel();
+    add(score);
+    
     JLabel positionLabel = new JLabel("player's location: ");
     add(positionLabel);
     position = new JLabel();

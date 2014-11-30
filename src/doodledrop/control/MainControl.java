@@ -16,7 +16,7 @@ import doodledrop.control.OpeningWin;
 public class MainControl
 {
   public static OpeningWin openingWin = new OpeningWin();
-  public static EndingWin endingWin = new EndingWin(true);;
+  public static EndingWin endingWin = new EndingWin();;
   public static GameLogic gameEngine;
   
   public static Player resigteredPlayer;
@@ -107,9 +107,11 @@ public class MainControl
   
   public static void setCurrentPlayerWin(){
     ScoreBoard.setWin(resigteredPlayer);
+    endingWin.setWinLosePic(true);
   }
   
   public static void setCurrentPlayerLose(){
     ScoreBoard.setLose(resigteredPlayer);
+    endingWin.setWinLosePic(false);
   }
 }

@@ -22,6 +22,11 @@ public class GameLogic extends Thread implements Runnable
   MainPanel mainPanel;
   
   static boolean isMulti;
+  private static boolean isWinner;
+  
+  static private int score;
+
+  
 
   // --------------------------------------------------------------------------
   // constructor and the four master functions:
@@ -34,6 +39,7 @@ public class GameLogic extends Thread implements Runnable
   public GameLogic()
   {
     isMulti = true;
+    score = 0;
   }
   
   public GameLogic(boolean isMulti_in)
@@ -50,7 +56,6 @@ public class GameLogic extends Thread implements Runnable
     gameExit();
   }
 
-
   public void gameInit()
   {
     // mainMenu.initGUI();
@@ -58,6 +63,9 @@ public class GameLogic extends Thread implements Runnable
     // @GUI_API
     // initialize/swap to gaming menu
     mainPanel = new MainPanel();
+    
+    isWinner = false;
+
 
     // initiate Bars:
     allBars = new LinkedList<GameBar>();
@@ -94,6 +102,13 @@ public class GameLogic extends Thread implements Runnable
     player2.motionStatus = motionStatus;
   }
 
+  // @Network_API
+  // call this function when updating in Networking thread
+  static public void player2Lose()
+  {
+    isWinner = true;
+  }
+  
   public void gamePlaying()
   {
     player1.isAlive = true;
@@ -114,15 +129,14 @@ public class GameLogic extends Thread implements Runnable
 
 
     // the main updating loop:
-    // TODO: should stop updating if the other player died
-    while( player1.isAlive ) //|| updateNums < 30 * (1000/delay) ) //test
+    while( (player1.isAlive  || updateNums < 30 * (1000/delay)) && isWinner == false ) //test
     {
       gameUpdate();
       
-      /*if( updateNums < 30 * (1000/delay)) //test
+      if( updateNums < 30 * (1000/delay)) //test
       {
         player1.isAlive = true;
-      }*/
+      }
       
     }
   }
@@ -149,7 +163,6 @@ public class GameLogic extends Thread implements Runnable
     updatePlayerStatus();
 
     // getNetworkInfo(); 
-    // TODO: also needs to send aliveness of the other player: indicate game ending
     moveBars();
     movePlayers();
   }
@@ -166,13 +179,15 @@ public class GameLogic extends Thread implements Runnable
     // dispose windows
     debugMenu.dispose();
     MainPanel.gameEnding();
+    
     // set winners
     // whoever ends first is loser
     // end either current player died or the other player died
     // if died send signal to the other player to stop
     // send timestamp as well in case of network delay, i.e. died after the other already died
-    if (player1.isAlive){  // if (player1.isAlive || otherDeathTimestamp_earlier_than_currtimestamp)
-      MainControl.setCurrentPlayerWin();
+    
+    if (isWinner){  // if (player1.isAlive || otherDeathTimestamp_earlier_than_currtimestamp)
+      MainControl.setCurrentPlayerWin();      
     } else {
       MainControl.setCurrentPlayerLose();
     }
@@ -211,6 +226,9 @@ public class GameLogic extends Thread implements Runnable
 
     // for testing
     DebugWindow.position.setText(player1.location.toString());
+    DebugWindow.health.setText("health: " + player1.healthPoint);
+    DebugWindow.score.setText("score: " + score);
+
 
 //    XVec2 location = player1.location;
 //    Directions motionStatus = player1.motionStatus;
@@ -264,12 +282,20 @@ public class GameLogic extends Thread implements Runnable
   private void updatePlayerStatus()
   {
     int barIndexFromTop = 0;
+    score ++;
+
     if(player1.location.y < 0 || player1.location.y > Constants.STAGE_HEIGHT )
     {
       player1.isAlive = false;
       return;
     }
     
+    if( player1.healthPoint < 5 )
+    {
+      System.out.println(" which kills players");
+      player1.isAlive = false;
+      return;
+    }
     
     for( GameBar eachbar : allBars )
     {
@@ -298,7 +324,8 @@ public class GameLogic extends Thread implements Runnable
                 break;
               case KILLLING:
                 System.out.println(" which kills players");
-                player1.isAlive = false;
+                player1.healthPoint--;
+//                player1.isAlive = false;
                 break;
               case SPRING:
                 // animation(int barIndexFromTop);
@@ -333,12 +360,6 @@ public class GameLogic extends Thread implements Runnable
           default:
             System.err.println("error");
             break;
-
-        }
-        if( eachbar.barType == Constants.barTypeEnum.KILLLING )
-        {
-          System.out.println(" which kills players");
-          player1.isAlive = false;
         }
       }
       barIndexFromTop++;
@@ -426,6 +447,11 @@ public class GameLogic extends Thread implements Runnable
     {
       player1.isAlive = false;
       System.out.println("player killed in gamelogic");
+    }
+    else if( keyCode == KeyEvent.VK_W )
+    {
+      isWinner = true;
+      System.out.println("player wined in gamelogic");
     }
   }
 
