@@ -65,7 +65,7 @@ public class ScoreBoard
   }
   
   public static Top10Winners getTop10W(){
-    String query = "select name, win, lose from players order by win DESC limit 10;";
+    String query = "select name, win, lose from players order by win DESC, (win-0.8*lose) DESC limit 20;";
     Top10Winners top10 = new Top10Winners();
     runQuery(query, top10, true);
     return top10;

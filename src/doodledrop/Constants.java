@@ -22,6 +22,8 @@ public class Constants
 
   public static final int BAR_HEIGHT = 30;
   public static final int BAR_WIDTH = 80;
+  public static final int BAR_HEAT = 20;
+
   
   public static final int SPRING_BAR_POWER = 35;
   public static final int TURNING_BAR_POWER = 1;

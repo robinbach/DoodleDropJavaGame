@@ -19,8 +19,9 @@ public class MainControl
   public static EndingWin endingWin = new EndingWin();;
   public static GameLogic gameEngine;
   
-  public static Player resigteredPlayer;
-  public static Boolean startGame = true;
+  private static Player resigteredPlayer;
+  private static Boolean startGame = true;
+  private static Boolean forceQuit = false;
   public final static Lock rpLock = new ReentrantLock();
   public final static Lock sgLock = new ReentrantLock();
   public final static Condition rpNotNull  = rpLock.newCondition(); 
@@ -32,6 +33,9 @@ public class MainControl
     rpLock.lock();
     try {
       while (openingWin.getResigteredPlayer() == null){
+        if (forceQuit){
+          return;
+        }
         rpNotNull.await();
       }
     } finally {
@@ -42,7 +46,7 @@ public class MainControl
       resigteredPlayer = openingWin.getResigteredPlayer();
     }*/
     closeOpeningWin();
-    System.out.println("#in control: registeredï¿½ï¿½" + openingWin.getResigteredPlayer());
+    System.out.println("#in control: registered " + openingWin.getResigteredPlayer());
     while (startGame){
       runGame();
       System.out.println("#in control: end of running game");
@@ -113,5 +117,10 @@ public class MainControl
   public static void setCurrentPlayerLose(){
     ScoreBoard.setLose(resigteredPlayer);
     endingWin.setWinLosePic(false);
+  }
+  
+  public static void setForceQuit(){
+    System.out.println("#in control: Force quiting¡£");
+    forceQuit = true;
   }
 }
