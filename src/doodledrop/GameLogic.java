@@ -277,6 +277,8 @@ public class GameLogic extends Thread implements Runnable
 
       if( direction != Constants.Directions.NONE )
       {
+        MainPanel.barCollision(barIndexFromTop);
+
         System.out.println("collision find with: " + eachbar.toString());
         System.out.println(", block players in " + direction.toString());
         System.out.println(" in " + direction.toString());
@@ -338,7 +340,6 @@ public class GameLogic extends Thread implements Runnable
           System.out.println(" which kills players");
           player1.isAlive = false;
         }
-        MainPanel.barCollision(barIndexFromTop);
       }
       barIndexFromTop++;
     }
