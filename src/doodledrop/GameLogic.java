@@ -79,9 +79,21 @@ public class GameLogic extends Thread implements Runnable
     player1 = new GamePlayer();
     player2 = new GamePlayer();
 
-    MainPanel.playerInitial(1, player1.location);
     if(isMulti)
-      MainPanel.playerInitial(2, player2.location);
+    {
+      if(Constants.IsServer)
+      {
+        MainPanel.playerInitial(1, player1.location);
+      }
+      else
+      {
+        MainPanel.playerInitial(2, player2.location);
+      }
+    }
+    else
+    {
+      MainPanel.playerInitial(1, player1.location);
+    }
 
 
     // initiate thread delay time
@@ -105,6 +117,9 @@ public class GameLogic extends Thread implements Runnable
       {
         playerSocket.startClient();
       }
+//      gameEngine = new GameLogic();
+      Thread networkThread = new Thread(playerSocket);
+      networkThread.start();
       // PlayerSocket.initNetworkConnection();// @Network_API#
     }
     
@@ -116,16 +131,21 @@ public class GameLogic extends Thread implements Runnable
   // call this function when updating in Networking thread
   static public void updatePlayer2Info(XVec2 location, Directions motionStatus)
   {
+    System.out.println("receiving player info and updating" + location.toString());
     player2.location = location;
     player2.motionStatus = motionStatus;
+    if(location.y == 0 && motionStatus == Directions.NONE)
+    {
+      isWinner = true;
+    }
   }
 
-  // @Network_API
-  // call this function when updating in Networking thread
-  static public void player2Lose()
-  {
-    isWinner = true;
-  }
+//  // @Network_API
+//  // call this function when updating in Networking thread
+//  static public void player2Lose()
+//  {
+//    isWinner = true;
+//  }
   
   public void gamePlaying()
   {
@@ -261,42 +281,38 @@ public class GameLogic extends Thread implements Runnable
     // LEFT, RIGHT, UP, DOWN, NONE.
     // GameingWindow.setPlayerLocationOnGUI(location.x, location.y,
     // motionStatus);
-    // or GameingWindow.setPlayerLocationOnGUI(location, motionStatus);
-
-    MainPanel.setPlayerLocation(player1.location.x, player1.location.y, 1,
-        player1.motionStatus);
+    // or GameingWindow.setPlayerLocationOnGUI(location, motionStatus);  
     MainPanel.setBloodBar(player1.healthPoint*4/Constants.PLAYER_HEALTH);
     MainPanel.setScoreLabel(score);
-
-    
-    
-
     // @GUI_API setPlayerLocation: set the image location of the player
     // Parameters:
     // @param XVec2 Location.
     // @param enum Directions motionStatus.
 
-    // try
-    // {
-    // sleep(1000);
-    // }
-    // catch( InterruptedException e )
-    // {
-    // e.printStackTrace();
-    // }
     if(isMulti)
     {
-      MainPanel.setPlayerLocation(player2.location.x, player2.location.y, 2,
-          player2.motionStatus);
-      
-//      MainPanel.setPlayerLocation(player2.location.x, player2.location.y, 2,
-//          player2.motionStatus);
-      //  setPlayerLocation: set the image location of the player
+      if(Constants.IsServer)
+      {
+        MainPanel.setPlayerLocation(player1.location.x, player1.location.y, 1,
+            player1.motionStatus);
+        MainPanel.setPlayerLocation(player2.location.x, player2.location.y, 2,
+            player2.motionStatus);
+      }
+      else
+      {
+        MainPanel.setPlayerLocation(player1.location.x, player1.location.y, 2,
+            player1.motionStatus);
+        MainPanel.setPlayerLocation(player2.location.x, player2.location.y, 1,
+            player2.motionStatus);
+      }
+      System.out.println("sending player information");
       playerSocket.sendInfo(player1.location, player1.motionStatus);//@Network_API#
     }
-
-
-
+    else
+    {
+      MainPanel.setPlayerLocation(player1.location.x, player1.location.y, 1,
+          player1.motionStatus);
+    }
 
   }
 
@@ -320,7 +336,7 @@ public class GameLogic extends Thread implements Runnable
       player1.isAlive = false;
       
       // setPlayerLocation: set the image location of the player
-      // PlayerSocket.sendLose(); //@Network_API# 
+      playerSocket.sendInfo(new XVec2(0 , 0), Constants.Directions.NONE);//@Network_API#
 
       return;
     }
@@ -493,7 +509,7 @@ public class GameLogic extends Thread implements Runnable
     }
     else if( keyCode == KeyEvent.VK_K )
     {
-      player1.isAlive = false;
+      player1.healthPoint = 0;
       System.out.println("player killed in gamelogic");
     }
     else if( keyCode == KeyEvent.VK_W )

@@ -7,7 +7,7 @@ public class GamePlayer extends MovingComponent
 
 
   boolean isAlive;
-  int isBlocked;
+  int playerId;
   XVec2 inertia;
   int healthPoint;
   // enum Directions declared in Constants

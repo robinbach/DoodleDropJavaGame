@@ -5,10 +5,15 @@ public class Constants
   public static final String SERVER_IP = "35.3.110.200";
   public static final int SERVER_PORT = 21369;
 
+<<<<<<< HEAD
   public static boolean IsMultiPlayer = true;
   public static boolean IsServer = false;
 
 
+=======
+  public static final boolean IsMultiPlayer = true;
+  public static final boolean IsServer = false;
+>>>>>>> FETCH_HEAD
 
   public static enum Directions
   {
@@ -25,7 +30,7 @@ public class Constants
   
   public static final int PLAYER_HEIGHT = 60;
   public static final int PLAYER_WIDTH = 34;
-  public static final int PLAYER_HEALTH = 100;
+  public static final int PLAYER_HEALTH = 10000;
 
   public static final int BAR_HEIGHT = 30;
   public static final int BAR_WIDTH = 80;

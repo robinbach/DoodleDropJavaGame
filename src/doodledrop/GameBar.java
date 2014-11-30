@@ -10,6 +10,8 @@ public class GameBar extends MovingComponent
   int barID;
   int heat;
   boolean musicPlayed;
+  static private Random rand = new Random(0);
+
 
 
   Constants.barTypeEnum barType;
@@ -20,8 +22,7 @@ public class GameBar extends MovingComponent
     initBar();
     heat = Constants.BAR_HEAT;
     musicPlayed = false;
-    
-    
+        
     // @ GUI_API
     // create a bar panel in GUI bar panel array
     // GUI.createBar(location, barType, barID);
@@ -31,7 +32,6 @@ public class GameBar extends MovingComponent
 
   private void initBar()
   {
-    Random rand = new Random();
     // int offset = 10;
     location.x = rand.nextInt(Constants.STAGE_WIDTH - Constants.BAR_WIDTH);
     location.y = Constants.STAGE_HEIGHT;
