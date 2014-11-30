@@ -45,6 +45,8 @@ public class SettingDialog extends JDialog{
   
   private static JFrame win;
   
+  private static Boolean enableBgm = true;
+  
   public SettingDialog(String title, JFrame _win)
   {
     super(_win,title,true);
@@ -63,6 +65,23 @@ public class SettingDialog extends JDialog{
     group1.add(doenable);
     group1.add(notenable);
 
+    doenable.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent e)
+      {
+        System.out.println("Sound is enabled.");
+        enableBgm = true;
+      }
+    }
+    );
+    
+    notenable.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent e)
+      {
+        System.out.println("Sound is disabled.");
+        enableBgm = false;
+      }
+    }
+    );
     soundpanel1.add(enableSound);
     soundpanel1.add(doenable);
     soundpanel1.add(notenable);
@@ -149,8 +168,12 @@ public class SettingDialog extends JDialog{
                         JOptionPane.YES_NO_OPTION);
         if (confirm == 0)
         {
-          
-          setVisible(false);
+          if (enableBgm){
+            MainControl.startBgm();
+          } else {
+            MainControl.stopBgm();
+          }
+          setVisible(false);          
         }
         else
         {

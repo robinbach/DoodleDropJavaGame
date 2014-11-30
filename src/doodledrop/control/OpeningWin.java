@@ -205,9 +205,6 @@ public class OpeningWin extends JFrame {
             }
             RegisterDialog.this.dispose();
           }
-          //TODO: memorize player
-          /*runGameEngine.start();
-          GameControl.runOpening.win.dispose();*/
         }
       });
       clsBtn = new JButton("Cancel");

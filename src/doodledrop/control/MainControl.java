@@ -1,5 +1,7 @@
 package doodledrop.control;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Dimension;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -8,6 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.WindowConstants;
 
 import doodledrop.GameLogic;
+import doodledrop.MainMusic;
 import doodledrop.db.Player;
 import doodledrop.db.ScoreBoard;
 import doodledrop.control.EndingWin;
@@ -19,6 +22,8 @@ public class MainControl
   public static EndingWin endingWin = new EndingWin();;
   public static GameLogic gameEngine;
   
+  private static AudioClip bgm = 
+      Applet.newAudioClip(MainMusic.class.getClassLoader().getResource("bgm/mystery.wav"));
   private static Player resigteredPlayer;
   private static Boolean startGame = true;
   private static Boolean forceQuit = false;
@@ -29,6 +34,7 @@ public class MainControl
   
   public static void main(String[] args) throws InterruptedException
   {
+    bgm.loop();
     startOpeningWin();
     rpLock.lock();
     try {
@@ -42,16 +48,12 @@ public class MainControl
       resigteredPlayer = openingWin.getResigteredPlayer();
       rpLock.unlock();
     }
-    /*while (resigteredPlayer == null){
-      resigteredPlayer = openingWin.getResigteredPlayer();
-    }*/
     closeOpeningWin();
     System.out.println("#in control: registered " + openingWin.getResigteredPlayer());
     while (startGame){
       runGame();
       System.out.println("#in control: end of running game");
       sgLock.lock();
-      //startGame = null;
       startEndingWin();
       try {
         while (endingWin.ifStartGame() == null){
@@ -61,9 +63,6 @@ public class MainControl
         startGame = endingWin.ifStartGame();
         sgLock.unlock();
       }
-      /*while (startGame == null){
-        startGame = endingWin.ifStartGame();
-      }*/
       closeEndingWin();
       System.out.println("#in control: player choose to " + (startGame ? "" : "not") + " play again.");      
     }
@@ -122,5 +121,13 @@ public class MainControl
   public static void setForceQuit(){
     System.out.println("#in control: Force quiting¡£");
     forceQuit = true;
+  }
+  
+  public static void stopBgm(){
+    bgm.stop();
+  }
+  
+  public static void startBgm(){
+    bgm.loop();
   }
 }
