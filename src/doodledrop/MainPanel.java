@@ -1,7 +1,6 @@
 package doodledrop;
 
-import doodledrop.Constants;
-import doodledrop.Constants.barTypeEnum;
+import doodledrop.Constants.*;
 
 import java.util.Vector;
 
