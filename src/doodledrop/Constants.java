@@ -5,7 +5,7 @@ public class Constants
   public static final String SERVER_IP = "35.3.110.200";
   public static final int SERVER_PORT = 21369;
 
-  public static boolean IsMultiPlayer = true;
+  public static boolean IsMultiPlayer = false;
   public static boolean IsServer = false;
 
 

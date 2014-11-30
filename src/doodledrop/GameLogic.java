@@ -336,7 +336,8 @@ public class GameLogic extends Thread implements Runnable
       player1.isAlive = false;
       
       // setPlayerLocation: set the image location of the player
-      playerSocket.sendInfo(new XVec2(0 , 0), Constants.Directions.NONE);//@Network_API#
+      if(isMulti)
+        playerSocket.sendInfo(new XVec2(0 , 0), Constants.Directions.NONE);//@Network_API#
 
       return;
     }
