@@ -351,9 +351,15 @@ public class GameLogic extends Thread implements Runnable
                 MainPanel.barCollision(barIndexFromTop);
                 break;
               case TURNINGRIGHT:
+                if(!eachbar.musicPlayed)
+                  mainMusic.playNormal();
+                eachbar.musicPlayed = true;
                 player1.inertia.x -= Constants.TURNING_BAR_POWER;
                 break;
               case TURNINGLEFT:
+                if(!eachbar.musicPlayed)
+                  mainMusic.playNormal();
+                eachbar.musicPlayed = true;
                 player1.inertia.x += Constants.TURNING_BAR_POWER;
                 break;
               default:
