@@ -511,12 +511,12 @@ public class GameLogic extends Thread implements Runnable
 
       player1.velocity.x = -Constants.PLAYER_HORIZONTAL_SPEED;
     }
-    else if( keyCode == KeyEvent.VK_UP )
-    {
-      System.out.println("upward moving");
-
-      player1.velocity.y = Constants.PLAYER_JUMP_SPEED;
-    }
+//    else if( keyCode == KeyEvent.VK_UP )
+//    {
+//      System.out.println("upward moving");
+//
+//      player1.velocity.y = Constants.PLAYER_JUMP_SPEED;
+//    }
   }
 
 
