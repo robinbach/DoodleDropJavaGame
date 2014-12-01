@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.Vector;
 
 import doodledrop.Constants.Directions;
+import doodledrop.control.MainControl;
+import doodledrop.db.IpManager;
 
 public class PlayerSocket implements Runnable
 {
@@ -28,11 +30,10 @@ public class PlayerSocket implements Runnable
 		ServerSocket serverSocket;
 		try
 		{
-			serverSocket = new ServerSocket(portNum);
+			  serverSocket = new ServerSocket(portNum);
 		    System.out.println("waiting for client to connect...");
 		    socket = serverSocket.accept();
         System.out.println("ready for client to connect");
-
 		    outData = new DataOutputStream(socket.getOutputStream());
 		    inData = new DataInputStream(socket.getInputStream());
 		}
@@ -47,14 +48,17 @@ public class PlayerSocket implements Runnable
 	{
 	    try
 	    {
+	      System.out.println("try connecting to server on ip: " + ipAddr);
 	      socket = new Socket(ipAddr, portNum);
         System.out.println("ready for server to connect");
 	      outData = new DataOutputStream(socket.getOutputStream());
 	      inData = new DataInputStream(socket.getInputStream());
+	      IpManager.setConnected(MainControl.ipInstance);
 	    }
 	    catch( IOException exception )
 	    {
-	      System.out.println("unable to connect the server");
+	      System.out.println("unable to connect to the server");
+	      System.out.println(exception.getMessage());
 	      System.exit(3);
 	    }
 	}

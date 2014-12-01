@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class Player extends QueryResult {
   public String name;
-  public int id, win, lose;
+  public Integer id, win, lose;
   public void getResult(ResultSet rs) throws SQLException{
     while(rs.next()){
       id  = rs.getInt("id");

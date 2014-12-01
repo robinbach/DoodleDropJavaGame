@@ -1,6 +1,7 @@
 package doodledrop.control;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -21,8 +22,12 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import doodledrop.Constants;
+import doodledrop.db.IpManager;
+import doodledrop.db.IpManager.IpInstance;
 import doodledrop.db.Player;
 import doodledrop.db.ScoreBoard;
+import doodledrop.db.ServerNotAvailableException;
 import doodledrop.db.UserExistException;
 import doodledrop.db.UserNotExistException;
 
@@ -44,6 +49,7 @@ public class OpeningWin extends JFrame {
   private static ButtonListener Buttons;
   
   private static Player registeredPlayer;
+  private static IpInstance ipInstance;
   
   public OpeningWin() {
     super ("Doodle Drop");
@@ -90,6 +96,7 @@ public class OpeningWin extends JFrame {
         MainControl.rpLock.lock();
         RegisterDialog registerDialog = new RegisterDialog(OpeningWin.this);
         registeredPlayer = registerDialog.getResigteredPlayer();
+        ipInstance = registerDialog.getIpInstance();
         MainControl.rpNotNull.signal();
         MainControl.rpLock.unlock();
       }
@@ -125,13 +132,20 @@ public class OpeningWin extends JFrame {
     private JButton newBtn, oldBtn, okBtn, clsBtn;
     private JPanel top, middle, bottom;
     private JPanel welcomePanel, choosePanel, newPlayer, oldPlayer, pnPanel;
+    private JPanel playernumPanel, isserverPanel;    
+    private JLabel playernum, youwanttobe;
+    private JRadioButton oneplayer, twoplayers, server, client;
     
-    private boolean isNew = false;
+    private boolean isNew = false;  //is new player
     private Player registeredPlayer = null;
+    private IpInstance ipInstance = null;
+    private Boolean isMulti = false;
+    private Boolean isServer = false;
+    
     
     public RegisterDialog(JFrame openingWin){
       super(openingWin,"Please Register",true);
-      setLayout(new GridLayout(3,1));
+      this.setLayout(new BoxLayout(getContentPane(),BoxLayout.PAGE_AXIS));
       top = new JPanel(new GridLayout(2,1));
       middle = new JPanel();
       middle.setLayout(new BoxLayout(middle,BoxLayout.PAGE_AXIS));
@@ -174,6 +188,66 @@ public class OpeningWin extends JFrame {
       pnPanel.add(playerName);
       pnPanel.setVisible(false);
       
+      playernumPanel = new JPanel(new FlowLayout());
+      playernum = new JLabel("Player: ");
+      oneplayer = new JRadioButton("One Player", true);
+      twoplayers = new JRadioButton("Two Players");
+      ButtonGroup group3 = new ButtonGroup();
+      group3.add(oneplayer);
+      group3.add(twoplayers);
+      playernumPanel.add(playernum);
+      playernumPanel.add(oneplayer);
+      playernumPanel.add(twoplayers);    
+      
+      isserverPanel = new JPanel(new FlowLayout());
+      youwanttobe = new JLabel("You want to be: ");
+      server = new JRadioButton("Server");
+      client = new JRadioButton("Client");
+      ButtonGroup group4 = new ButtonGroup();
+      group4.add(server);
+      group4.add(client);
+      server.setEnabled(false);
+      client.setEnabled(false);
+      isserverPanel.add(youwanttobe);
+      isserverPanel.add(client);
+      isserverPanel.add(server);
+      
+      oneplayer.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent e)
+        {
+          System.out.println("one players mode is selected");
+          isMulti = false;
+        }
+      });
+      
+      twoplayers.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent e)
+        {
+          System.out.println("two players mode is selected");
+          isMulti = true;
+          server.setEnabled(true);
+          client.setEnabled(true);
+        }
+      });
+      
+      server.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent e)
+        {
+          System.out.println("server mode is selected");
+          isMulti = true;
+          isServer = true;
+        }
+      });
+      
+      client.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent e)
+        {
+          System.out.println("server mode is selected");
+          isMulti = true;
+          isServer = false;
+        }
+      });
+      
       okBtn = new JButton("OK");
       okBtn.setEnabled(false);
       okBtn.addActionListener(new ActionListener(){
@@ -203,6 +277,38 @@ public class OpeningWin extends JFrame {
               }
               System.out.println("old player: "+getResigteredPlayer());
             }
+            Constants.IsMultiPlayer = isMulti;
+            Constants.IsServer = isServer;
+            if (isMulti && isServer){
+              //MainControl.rpLock.lock();
+              try
+              {
+                String gip = IpManager.getServerIp();
+                IpManager.deleteAllIps();
+                ipInstance = IpManager.storeIP(gip);
+                
+              }
+              catch( Exception e1 )
+              {
+                JOptionPane.showMessageDialog(RegisterDialog.this, 
+                    "Can't get global ip address, "
+                    + "please check if you are connected to the internet.", "Error!", JOptionPane.ERROR_MESSAGE);
+              }
+              System.out.println("server get ip: " + ipInstance.toString());
+            } else if (isMulti && !isServer){
+              try
+              {
+                ipInstance = new IpInstance();
+                IpManager.getIP(ipInstance);
+                
+              }
+              catch( ServerNotAvailableException e1 )
+              {
+                JOptionPane.showMessageDialog(RegisterDialog.this, 
+                    e1.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+              }
+              System.out.println("client get ip: " + ipInstance.toString());
+            }
             RegisterDialog.this.dispose();
           }
         }
@@ -219,12 +325,15 @@ public class OpeningWin extends JFrame {
       middle.add(newPlayer);
       middle.add(oldPlayer);
       middle.add(pnPanel);
+      middle.add(playernumPanel);
+      middle.add(isserverPanel);
       bottom.add(okBtn);
       bottom.add(clsBtn);
       
       pack();
       setVisible(true);
-      setResizable(false);
+      //setResizable(false);
+      setSize(new Dimension(20,20));
       setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
     
@@ -236,6 +345,7 @@ public class OpeningWin extends JFrame {
       newBtn.setEnabled(false);
       oldBtn.setEnabled(true);
       okBtn.setEnabled(true);
+      pack();
     }
     
     public void setOldPlayer(){
@@ -246,14 +356,23 @@ public class OpeningWin extends JFrame {
       oldBtn.setEnabled(false);
       newBtn.setEnabled(true);
       okBtn.setEnabled(true);
+      pack();
     }
     
     public Player getResigteredPlayer(){
       return this.registeredPlayer;
-    }   
+    }
+    
+    public IpInstance getIpInstance(){
+      return this.ipInstance;
+    }
   }
   
   public Player getResigteredPlayer(){
     return this.registeredPlayer;
+  }
+  
+  public IpInstance getIpInstance(){
+    return this.ipInstance;
   }
 }

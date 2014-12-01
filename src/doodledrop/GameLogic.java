@@ -105,14 +105,12 @@ public class GameLogic extends Thread implements Runnable
 
     // initialize the frame counter, for debug.
     updateNums = 0;
-
-    
-    // initialize the network connection with another player
-    // established a thread for updating info of player2.
-    playerSocket = new PlayerSocket(Constants.SERVER_IP,Constants.SERVER_PORT);
     
     if( isMulti )
     {
+      // initialize the network connection with another player
+      // established a thread for updating info of player2.
+      playerSocket = new PlayerSocket(MainControl.ipInstance.ipaddress,Constants.SERVER_PORT); //Constants.SERVER_IP
       if(Constants.IsServer)
       {
         playerSocket.startServer();
@@ -121,14 +119,10 @@ public class GameLogic extends Thread implements Runnable
       {
         playerSocket.startClient();
       }
-//      gameEngine = new GameLogic();
       Thread networkThread = new Thread(playerSocket);
       networkThread.start();
-      // PlayerSocket.initNetworkConnection();// @Network_API#
-    }
-    
+    }    
     // should block until when the connection is established.
-    //
   }
 
   // @Network_API
@@ -172,7 +166,8 @@ public class GameLogic extends Thread implements Runnable
 
 
     // the main updating loop:
-    while( player1.isAlive && isWinner == false ) //test
+    while( (!isMulti && player1.isAlive) || //single player
+        (isMulti && player1.isAlive && isWinner == false) ) //multiple player
     {
       updateNums++;
       gameUpdate();

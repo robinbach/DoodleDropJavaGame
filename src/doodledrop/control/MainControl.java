@@ -3,6 +3,7 @@ package doodledrop.control;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -17,8 +18,11 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.WindowConstants;
 
+import doodledrop.Constants;
 import doodledrop.GameLogic;
 import doodledrop.MainMusic;
+import doodledrop.db.IpManager;
+import doodledrop.db.IpManager.IpInstance;
 import doodledrop.db.Player;
 import doodledrop.db.ScoreBoard;
 import doodledrop.control.EndingWin;
@@ -35,6 +39,7 @@ public class MainControl
   private static Boolean playerWin;
   private static Boolean startGame = true;
   private static Boolean forceQuit = false;
+  public static IpInstance ipInstance;
   public final static Lock rpLock = new ReentrantLock();
   public final static Lock sgLock = new ReentrantLock();
   public final static Condition rpNotNull  = rpLock.newCondition(); 
@@ -46,7 +51,8 @@ public class MainControl
     startOpeningWin();
     rpLock.lock();
     try {
-      while (openingWin.getResigteredPlayer() == null){
+      while ((openingWin.getResigteredPlayer() == null)
+          ||(Constants.IsMultiPlayer && openingWin.getIpInstance().ipaddress == null)){
         if (forceQuit){
           BGM.stop();
           return;
@@ -55,6 +61,7 @@ public class MainControl
       }
     } finally {
       resigteredPlayer = openingWin.getResigteredPlayer();
+      ipInstance = openingWin.getIpInstance();
       rpLock.unlock();
     }
     closeOpeningWin();
@@ -64,14 +71,14 @@ public class MainControl
       System.out.println("#in control: end of running game");
       sgLock.lock();
       startEndingWin();
-      storeCurrentPlayerWin(playerWin);
+      storeCurrentPlayerWin();
       try {
         while (endingWin.ifStartGame() == null){
           sgNotNull.await();
         }
       } finally {
         startGame = endingWin.ifStartGame();
-        sgLock.unlock();        
+        sgLock.unlock();
       }
       closeEndingWin();
       System.out.println("#in control: player choose to " + (startGame ? "" : "not") + " play again.");      
@@ -132,8 +139,8 @@ public class MainControl
     }
   }
   
-  public static void storeCurrentPlayerWin(boolean isWin){
-    if (isWin){
+  private static void storeCurrentPlayerWin(){
+    if (playerWin){
       ScoreBoard.setWin(resigteredPlayer);
     } else {
       ScoreBoard.setLose(resigteredPlayer);

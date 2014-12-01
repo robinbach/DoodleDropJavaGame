@@ -37,30 +37,17 @@ public class SettingDialog extends JDialog{
   private static JLabel volume;
   private static JSlider volumeslider;
   
-  private static JLabel playernum;
-  private static JRadioButton oneplayer;
-  private static JRadioButton twoplayers;
-  
-  private static JLabel youwanttobe;
-  private static JRadioButton server;
-  private static JRadioButton client;
-  
   private static JButton okbutton;
   private static JButton cancelbutton;
   
   private static JPanel soundpanel1;
   private static JPanel soundpanel2;
   private static JPanel modepanel;
-  private static JPanel playerpanel1;
-  private static JPanel playerpanel2;
   private static JPanel buttonpanel;
   
   private static JFrame win;
   
   private static Boolean enableBgm = true;
-  private static Boolean isMulti = false;
-  private static Boolean isServer = false;
-  
   private static int bgmVolumn = 100;
   
   public SettingDialog(String title, JFrame _win)
@@ -73,8 +60,6 @@ public class SettingDialog extends JDialog{
     soundpanel1 = new JPanel(new FlowLayout());
     soundpanel2 = new JPanel(new FlowLayout());
     modepanel = new JPanel(new FlowLayout());
-    playerpanel1 = new JPanel(new FlowLayout());
-    playerpanel2 = new JPanel(new FlowLayout());
     buttonpanel = new JPanel(new FlowLayout());
     
     enableSound = new JLabel("Sound: ");
@@ -144,33 +129,6 @@ public class SettingDialog extends JDialog{
     group2.add(normal);
     group2.add(hard);
     
-    playernum = new JLabel("Player: ");
-    oneplayer = new JRadioButton("One Player");
-    twoplayers = new JRadioButton("Two Players");
-    
-    ButtonGroup group3 = new ButtonGroup();
-    group3.add(oneplayer);
-    group3.add(twoplayers);
-    
-    youwanttobe = new JLabel("You want to be: ");
-    server = new JRadioButton("Server");
-    client = new JRadioButton("Client");
-    
-    ButtonGroup group4 = new ButtonGroup();
-    group4.add(server);
-    group4.add(client);
-    
-    server.setEnabled(false);
-    client.setEnabled(false);
-    
-    playerpanel1.add(playernum);
-    playerpanel1.add(oneplayer);
-    playerpanel1.add(twoplayers);
-    
-    playerpanel2.add(youwanttobe);
-    playerpanel2.add(client);
-    playerpanel2.add(server);
-    
     easy.addActionListener(new ActionListener(){
     	public void actionPerformed(ActionEvent e)
     	{
@@ -202,45 +160,7 @@ public class SettingDialog extends JDialog{
     }
     );
     
-    oneplayer.addActionListener(new ActionListener(){
-    	public void actionPerformed(ActionEvent e)
-    	{
-    		System.out.println("one players mode is selected");
-    		isMulti = false;
-    	}
-    }
-    );
     
-    twoplayers.addActionListener(new ActionListener(){
-    	public void actionPerformed(ActionEvent e)
-    	{
-    		System.out.println("two players mode is selected");
-    		isMulti = true;
-    		server.setEnabled(true);
-    		client.setEnabled(true);
-    	}
-    }
-    );
-    
-    server.addActionListener(new ActionListener(){
-    	public void actionPerformed(ActionEvent e)
-    	{
-    		System.out.println("server mode is selected");
-    		isMulti = true;
-    		isServer = true;
-    	}
-    }
-    );
-    
-    client.addActionListener(new ActionListener(){
-    	public void actionPerformed(ActionEvent e)
-    	{
-    		System.out.println("server mode is selected");
-    		isMulti = true;
-    		isServer = false;
-    	}
-    }
-    );
     
     modepanel.add(mode);
     modepanel.add(easy);
@@ -259,8 +179,6 @@ public class SettingDialog extends JDialog{
     add(soundpanel1);
     add(soundpanel2);
     add(modepanel);
-    add(playerpanel1);
-    add(playerpanel2);
     add(buttonpanel);
     
     //add(new JLabel("         !!!more setting stuff"));
@@ -280,21 +198,6 @@ public class SettingDialog extends JDialog{
         if (confirm == 0)
         {
           MainControl.BGM.setEnable(enableBgm);
-          
-          if (isMulti){
-        	  Constants.IsMultiPlayer = true;
-          }
-          else{
-        	  Constants.IsMultiPlayer = false;
-          }
-          
-          if (isServer){
-        	  Constants.IsServer = true;
-          }
-          else{
-        	  Constants.IsServer = false;
-          }
-          
           MainControl.BGM.setVolumn((double)bgmVolumn/100);
           setVisible(false);
         }
