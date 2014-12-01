@@ -2,6 +2,7 @@ package doodledrop;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Vector;
 
 import doodledrop.Constants.Directions;
@@ -69,12 +70,13 @@ public class GameLogic extends Thread implements Runnable
     mainMusic = new MainMusic();
     MainPanel.setBloodBar(3);
 
-    
     isWinner = false;
-
+    
 
     // initiate Bars:
     allBars = new LinkedList<GameBar>();
+    GameBar.barIDCounter = 0;
+    GameBar.rand = new Random(1);
 
     // initiate Players:
     player1 = new GamePlayer();
@@ -333,12 +335,15 @@ public class GameLogic extends Thread implements Runnable
     int barIndexFromTop = 0;
     score ++;
 
-    if(player1.location.y < 0 || player1.location.y > Constants.STAGE_HEIGHT )
+    if(player1.location.y < 0) 
     {
       player1.healthPoint -= 10; 
-      return;
     }
     
+    if(player1.location.y > Constants.STAGE_HEIGHT )
+    {
+      player1.healthPoint = 0; 
+    }
     // @_DIE, only place that player die.
     if( player1.healthPoint < 5 )
     {
