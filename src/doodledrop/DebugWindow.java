@@ -53,7 +53,7 @@ public class DebugWindow extends JFrame
     instructLabel.addKeyListener(new GameKbdListener());
     add(instructLabel);
 
-    setVisible(true);
+    setVisible(false);
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 //    addKeyListener(new GameKbdListener());

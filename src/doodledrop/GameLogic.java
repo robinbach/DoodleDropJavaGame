@@ -311,7 +311,7 @@ public class GameLogic extends Thread implements Runnable
     // GameingWindow.setPlayerLocationOnGUI(location.x, location.y,
     // motionStatus);
     // or GameingWindow.setPlayerLocationOnGUI(location, motionStatus);  
-    MainPanel.setBloodBar(player1.healthPoint*4/Constants.PLAYER_HEALTH);
+    MainPanel.setBloodBar(player1.healthPoint*3/Constants.PLAYER_HEALTH);
     MainPanel.setScoreLabel(score);
     // @GUI_API setPlayerLocation: set the image location of the player
     // Parameters:
