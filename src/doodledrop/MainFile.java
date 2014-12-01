@@ -4,12 +4,12 @@ public class MainFile
 {
   public static GameLogic gameEngine;
 
-  public static void main(String[] args)
-  {
-    // for testing
-    runGame();
-
-  }
+//  public static void main(String[] args)
+//  {
+//    // for testing
+//    runGame();
+//
+//  }
 
   // @GUI.API
   // when the "Start/Restart Game" button clicked,
