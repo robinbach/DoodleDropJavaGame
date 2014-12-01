@@ -86,5 +86,9 @@ public class GameKbdListener extends KeyAdapter
 
       }
     }
+    else if( event.getKeyCode() == KeyEvent.VK_P )
+    {
+      System.out.println("Player pause");
+    }
   }
 }

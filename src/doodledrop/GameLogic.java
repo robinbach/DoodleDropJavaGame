@@ -24,6 +24,7 @@ public class GameLogic extends Thread implements Runnable
   MainMusic mainMusic;
   PlayerSocket playerSocket;
   
+  public static boolean paused;
   static boolean isMulti;
   private static boolean isWinner;
   
@@ -44,6 +45,7 @@ public class GameLogic extends Thread implements Runnable
   {
     isMulti = Constants.IsMultiPlayer;
     score = 0;
+    paused = false;
   }
   
   public GameLogic(boolean isMulti_in)
@@ -171,8 +173,23 @@ public class GameLogic extends Thread implements Runnable
     while( (!isMulti && player1.isAlive) || //single player
         (isMulti && player1.isAlive && isWinner == false) ) //multiple player
     {
+      while(paused)
+      {
+        try
+        {
+          sleep(Constants.GAME_PAUSE_TIME);
+          //where the listener occur
+        }
+        catch( InterruptedException e )
+        {
+          e.printStackTrace();
+        }
+      }
+      
       updateNums++;
       gameUpdate();
+      
+
       
       while(player1.isAlive && isWinner == false 
           && isMulti && updateNums - clientFrameNum > Constants.DELAY_CONTROL)
@@ -532,6 +549,18 @@ public class GameLogic extends Thread implements Runnable
     {
       isWinner = true;
       System.out.println("player wined in gamelogic");
+    }
+    else if( keyCode == KeyEvent.VK_P )
+    {
+      if(!GameLogic.paused)
+      {
+        paused = true;
+      }
+      else
+      {
+        GameLogic.paused = false;
+      }
+
     }
   }
 
